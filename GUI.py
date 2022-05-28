@@ -1,5 +1,5 @@
 from tkinter import *
-from tkinter.ttk import *
+#from tkinter.ttk import *
 
 
 Window = Tk()
@@ -117,7 +117,7 @@ MainMenu.add_cascade(label = "반납", menu = fileMenu)
 
 
 '''
-
+Default()
 
 SearchBar()
 BookSearchType()
@@ -130,6 +130,6 @@ SearchList()
 CheckButton()
 
 '''
-
+SearchBar()
 
 Window.mainloop()
