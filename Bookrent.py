@@ -1,6 +1,7 @@
 #반납
 def ReturnBook():
     global RentDf
+    a=1
     RentBookIsbn = '9788937460449'
     if (RentBookIsbn == RentDf['BOOK_ISBN']).any():
         Index = RentDf[RentDf['BOOK_ISBN'].str.contains(RentBookIsbn)].index            #삭제하고자 하는 도서 데이터의 인덱스 구하기
