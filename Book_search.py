@@ -2,7 +2,7 @@
 
 from tkinter import *
 from tkinter.ttk import *
-#from PIL import ImageTk     #png 업로드 라이브러리
+from tkinter import messagebox
 
 
 Window = Tk()
@@ -38,6 +38,7 @@ def SearchEnter():      #검색 엔터 버튼 함수
 
 
 
+
 Window.title("도서 관리 프로그램")      #프로그램 이름
 Window.geometry("800x500")             #창 크기
 Window.resizable(width = FALSE, height = FALSE)     #창 고정
@@ -50,6 +51,10 @@ MainMenu.add_cascade(label = "도서", menu = fileMenu)
 MainMenu.add_cascade(label = "회원", menu = fileMenu)
 MainMenu.add_cascade(label = "대여", menu = fileMenu)
 MainMenu.add_cascade(label = "반납", menu = fileMenu)
+
+
+#검색어와 일치하는 결과가 없는 경우
+messagebox.showerror('중복된 도서', '중복된 도서입니다. \n (오류 : ISBN 중복)')
 
 
 
