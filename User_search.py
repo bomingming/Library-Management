@@ -1,9 +1,8 @@
-#도서 검색 GUI
+#회원 검색 GUI
 
 from tkinter import *
 from tkinter.ttk import *
 from tkinter import messagebox
-
 
 Window = Tk()
 
@@ -21,7 +20,7 @@ def SearchList():                                                           #검
 
 def SearchCombo():                                         #검색 기준 함수
     Combo = Combobox(Window, width=10, state='readonly')
-    Combo['values']=("도서 명", "저자", "출판사")           #검색 기준
+    Combo['values']=("회원 이름", "전화번호")           #검색 기준
     Combo.current(0)                                       #디폴트값 : 첫번째 값
     Combo.pack()
     Combo.place(x=130,y=80)
@@ -35,7 +34,6 @@ def CheckButton():      #수정 및 확인 버튼 함수
 def SearchEnter():      #검색 엔터 버튼 함수
     EnterButton = Button(Window, text="⤶", width = 2)
     EnterButton.place(x=586, y=78)
-
 
 
 
@@ -53,8 +51,10 @@ MainMenu.add_cascade(label = "대여", menu = fileMenu)
 MainMenu.add_cascade(label = "반납", menu = fileMenu)
 
 
+
 #검색어와 일치하는 결과가 없는 경우
-messagebox.showerror('검색 결과 없음', '등록되지 않은 도서입니다.')
+messagebox.showerror('검색 결과 없음', '등록되지 않은 회원입니다.')
+
 
 
 
@@ -63,7 +63,6 @@ SearchList()    #검색 목록
 SearchCombo()   #검색 기준
 CheckButton()   #수정 및 확인
 SearchEnter()   #검색 엔터 버튼 함수
-
 
 
 Window.mainloop()
