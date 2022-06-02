@@ -1,6 +1,11 @@
 from tkinter import *
 from tkinter.ttk import *
 
+def key(event):
+    a=ListBox.curselection()  # 더블클릭한 줄의 인덱스 출력
+    b=ListBox.get(a)          # 리스트 박스의 인덱스 a의 값 출력
+    print(b)
+
 Window=Tk()
 Window.title('도서 관리 프로그램')
 Window.geometry("800x500")       
@@ -23,10 +28,11 @@ Combo.current(0)                               #디폴트값 : 첫번째 값
 Combo.pack()
 Combo.place(x=130,y=80)
 #-m----Listbox: c2, r2----
-ListBox= Listbox(Window, width = 70, height = 17)
+ListBox= Listbox(Window, selectmode='browse', width = 70, height = 17)
 ListBox.insert(0,'List element1')
 ListBox.insert(1,'List element2')
 ListBox.place(x=130, y=110)
+ListBox.bind("<Double-Button-1>", key)  # 더블클릭시 key 커멘드 실행
 
 #등록 버튼
 RegisterBotton=Button(Window,text='등록',command=Window.destroy)
