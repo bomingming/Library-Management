@@ -121,8 +121,14 @@ MainMenu.add_cascade(label = "대여", menu = fileMenu)
 MainMenu.add_cascade(label = "반납", menu = fileMenu)
 
 
-#
-#messagebox.showerror('', '')
+#대여자를 선택하지 않고 대여 시도 시
+messagebox.showerror('대여 오류', '대여자를 선택해주세요.')
+
+#대여자 선택 후 대여 시도 시
+messagebox.askquestion('대여', '대여하시겠습니까?\n회원 정보: \n책: ')
+
+#대여 완료 시
+messagebox.showinfo('대여 완료', '대여 완료되었습니다.\n대여기간: ')
 
 
 
