@@ -117,7 +117,7 @@ MainMenu.add_cascade(label = "반납", menu = fileMenu)
 
 
 '''
-
+Default()
 
 SearchBar()
 BookSearchType()
@@ -130,6 +130,7 @@ SearchList()
 CheckButton()
 
 '''
+
 
 #RegisEnter()
 Window.mainloop()
