@@ -2,12 +2,12 @@ from tkinter import *
 from tkinter.ttk import *
 import BookSearch
 
-def key(event):                     # 리스트 박스 더블클릭 커멘드
-    a=OutputListBox.curselection()  # 더블클릭한 줄의 인덱스 출력
-    b=OutputListBox.get(a)          # 리스트 박스의 인덱스 a의 값 출력
+def key(event):                         # 리스트 박스 더블클릭 커멘드
+    a=OutputListBox.curselection()      # 더블클릭한 줄의 인덱스 출력
+    b=OutputListBox.get(a)              # 리스트 박스의 인덱스 a의 값 출력
 
-def SearchResult():                 # 검색기준 선택, 검색이름 입력후 검색 클릭시 커멘드
-    InStandard=Standard.get()       # 콤보박스의 입력값
+def SearchResult():                     # 검색기준 선택, 검색이름 입력후 검색 클릭시 커멘드
+    InStandard=Standard.get()           # 콤보박스의 입력값
     InSearch=SearchName.get()           # 검색창에 검색한 이름
     ResultSearch=(BookSearch.Search(InStandard,InSearch))
     for i in ResultSearch.index:
