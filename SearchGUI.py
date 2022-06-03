@@ -9,17 +9,17 @@ def key(event):                     # 리스트 박스 더블클릭 커멘드
 
 def SearchResult():                 # 검색기준 선택, 검색이름 입력후 검색 클릭시 커멘드
     InStandard=Standard.get()       # 콤보박스의 입력값
-    InSearch=Search.get()           # 검색창에 검색한 이름
-    Search(InStandard,InSearch)
-
+    InSearch=SearchName.get()           # 검색창에 검색한 이름
+    ResultSearch=(BookSearch.Search(InStandard,InSearch))
+    OutputListBox.insert(END,ResultSearch)
 
 Window=Tk()
 Window.title('도서 관리 프로그램')
 Window.geometry("800x500")       
-Window.resizable(width = FALSE, height = FALSE)     #창 고정
+Window.resizable(width = FALSE, height = FALSE)     # 창 고정
 #-m----Entry: c2, r1------
-Search = Entry(Window, width=55)        # 검색창 생성
-Search.place(x=230, y=80)               # 검색창 위치 지정
+SearchName = Entry(Window, width=55)                    # 검색창 생성
+SearchName.place(x=230, y=80)                           # 검색창 위치 지정
 #-m----Menubar: c0, r0----
 MainMenu = Menu(Window)
 Window.config(menu = MainMenu)

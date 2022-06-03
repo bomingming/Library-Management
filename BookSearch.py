@@ -3,7 +3,6 @@ from datetime import datetime
 
 f=open('BookList.csv','r',encoding='utf-8')
 BookDf=pd.read_csv(r'.\BookList.csv')# data에 읽은 값 저장
-# header=next(data) #csv파일의 1행 제거
 
 # 도서 검색
 def Search(InStandard,InSearch): 
@@ -16,4 +15,5 @@ def Search(InStandard,InSearch):
 
     if BookDf[SearchIndex].str.contains(InSearch).any():
         return(BookDf.loc[BookDf[SearchIndex].str.contains(InSearch)])
-            #수정한 정보를 데이터 프레임에 추가
+    elif InSearch == '':
+        return BookDf
