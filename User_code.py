@@ -1,7 +1,7 @@
 import pandas as pd
 import csv
 from datetime import datetime 
-from Rent_code import RentDf as RDf
+#from Rent_code import RentDf as RDf
 
 NowDay = datetime.today().strftime('%Y-%m-%d')         #당일 날짜 표시
 

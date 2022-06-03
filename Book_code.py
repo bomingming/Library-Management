@@ -1,9 +1,9 @@
 import pandas as pd
 import csv
 from datetime import datetime
-from Rent_code import RentDf as RDf
+#from Rent_code import RentDf as RDf
 
-## 9788937460449
+
 BookField=['BOOK_TITLE','BOOK_ISBN', 'BOOK_AUTHOR', 'BOOK_PUB','BOOK_PRICE', 'BOOK_LINK', 'BOOK_INFOR', 'BOOK_RENT', 'BOOK_PIC']    #필드 명 리스트
 
 BookDf=pd.DataFrame({'BOOK_TITLE':['데미안','삼국유사','수레바퀴 아래서','언제나 밤인 세계'],

@@ -4,7 +4,8 @@ from tkinter import *
 from tkinter.ttk import *
 from tkinter import messagebox
 
-
+'''
+'''
 Window = Tk()
 
 
@@ -93,7 +94,7 @@ def RentBook():
         NewWindow.mainloop()
 
 
-
+'''
     global RentDf
     RentBookIsbn = '9791170520634'      #대여하고자 하는 도서 ISBN
     RentUserPhone = '010-8523-7413'     #대여하고자 하는 회원 전화번호
@@ -104,7 +105,7 @@ def RentBook():
         'RENT_DATE':[RentDay], 'RENT_REDATE':[ReturnDay]})
         RentDf = pd.concat([RentDf, AddRentDf])                                                         #기존 데이터 프레임에 합치기
         RentDf.to_csv('RentList.csv',index=False,encoding='utf-8')                                      #csv에 데이터 추가
-
+'''
 
 
 Window.title("도서 관리 프로그램")      #프로그램 이름
@@ -133,6 +134,7 @@ messagebox.showinfo('대여 완료', '대여 완료되었습니다.\n대여기�
 
 
 RentBook()
+
 
 
 RentDf.to_csv('RentList.csv',index=False,encoding='utf-8') 
