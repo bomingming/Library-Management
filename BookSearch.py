@@ -13,6 +13,6 @@ def Search(InStandard,InSearch):
         SearchIndex="BOOK_PUB"                 # 출판사 데이터 다루기
 
     if BookDf[SearchIndex].str.contains(InSearch).any():
-        return BookDf.loc[BookDf[SearchIndex].str.contains(InSearch), 0:5]
+        return BookDf.loc[BookDf[SearchIndex].str.contains(InSearch)]
     elif InSearch == '':
         return BookDf
