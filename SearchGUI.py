@@ -10,7 +10,11 @@ def SearchResult():                 # 검색기준 선택, 검색이름 입력�
     InStandard=Standard.get()       # 콤보박스의 입력값
     InSearch=SearchName.get()           # 검색창에 검색한 이름
     ResultSearch=(BookSearch.Search(InStandard,InSearch))
-    OutputListBox.insert(END,ResultSearch)
+    for i in ResultSearch.index:
+        PrintR=[]
+        for j in ['BOOK_TITLE','BOOK_ISBN','BOOK_AUTHOR','BOOK_PUB']:
+            PrintR.append(ResultSearch.loc[i,j])
+        OutputListBox.insert(END,PrintR)
 
 Window=Tk()
 Window.title('도서 관리 프로그램')
