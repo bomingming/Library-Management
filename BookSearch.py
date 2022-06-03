@@ -1,5 +1,4 @@
 import pandas as pd
-from datetime import datetime
 
 f=open('BookList.csv','r',encoding='utf-8')
 BookDf=pd.read_csv(r'.\BookList.csv')# data에 읽은 값 저장
@@ -14,6 +13,6 @@ def Search(InStandard,InSearch):
         SearchIndex="BOOK_PUB"                 # 출판사 데이터 다루기
 
     if BookDf[SearchIndex].str.contains(InSearch).any():
-        return(BookDf.loc[BookDf[SearchIndex].str.contains(InSearch)])
+        return BookDf.loc[BookDf[SearchIndex].str.contains(InSearch), 0:5]
     elif InSearch == '':
         return BookDf
