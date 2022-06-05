@@ -40,7 +40,7 @@ def RETURN():
 
     RERE.config(menu=menubar)
     
-    RERE.mainloop()
+RERE.mainloop()
 
 
 
