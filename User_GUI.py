@@ -3,6 +3,7 @@ from tkinter import messagebox
 import math
 from datetime import datetime, timedelta
 import pandas as pd
+from tkinter.filedialog import *
 
 #유저
 def UserInfowindow(PhoneNumber):
@@ -23,7 +24,10 @@ def UserInfowindow(PhoneNumber):
     for i in SomeDf.values:                                                 # 데이터프레임의 값을 각각 저장
         name, birth, phone, sex, mail, out, in1, rent, pic = i
     
-    IsbnDf = RentDf.loc[RentDf['USER_PHONE'].str.contains(PN), ['BOOK_ISBN']]
+    IsbnDf = RentDf.loc[RentDf['USER_PHONE'].str.contains(PN), ['BOOK_ISBN']]   # 대여목록출력 위해 isbn찾고 도서명,저자,출판사뽑기
+    print(IsbnDf) #확인용
+
+
     
 
 # 텍스트
@@ -43,7 +47,7 @@ def UserInfowindow(PhoneNumber):
     SexRadioButton2 = Radiobutton(UIWindow, text = '여성', variable = var, value = 2)
     SexRadioButton2.place(x = 500, y = 115)
     if sex == True:
-        SexRadioButton1.select()        
+        SexRadioButton1.select()
     else:
         SexRadioButton2.select()
 
@@ -68,27 +72,39 @@ def UserInfowindow(PhoneNumber):
     OutLabel = Label(UIWindow, text = '탈퇴', font = ('돋움체', 10))     # 탈퇴
     OutLabel.place(x = 410, y = 255)
     OutEnter = Entry(UIWindow, width = 25)                                # 탈퇴 텍스트
+    OutEnter.place(x = 450, y = 255)
     try:
         if math.isnan(out) == True:                 # True = nan => 가입중 / False = 탈퇴일
             OutEnter.insert(0,'가입중')
     except:
         OutEnter.insert(0,out)
         
-    OutEnter.place(x = 450, y = 255)
+    # 대여목록 가져오는 코드
+    ListDf = RentDf.loc[RentDf['USER_PHONE'].str.contains(PN), ['BOOK_ISBN']]
 
-##    RentLabel = Label(UIWindow, text = '대여여부', font = ('돋움체', 10))   # 대여여부
-##    RentLabel.place(x = 380, y = 290)
-##    RentEnter = Text(UIWindow, width = 25, height = 5)                        # 대여목록
-##    #RentEnter.insert(0.0,)                                                     # [rent.csv에서 isbn으로 책 제목,저자 출력]
-##    RentEnter.place(x = 450, y = 290)
+    RentLabel = Label(UIWindow, text = '대여여부', font = ('돋움체', 10))   # 대여여부                                         [대여목록 출력해야함 > 맨위 IsbnDf 부분]
+    RentLabel.place(x = 380, y = 290)
+    RentEnter = Text(UIWindow, width = 25, height = 5)                        # 대여목록
+    RentEnter.insert(0.0,'')                                                     #                                              [rent.csv에서 isbn으로 책 제목,저자 출력]
+    RentEnter.place(x = 450, y = 290)
 
 # 버튼
+    def SelectPic():                                                           # 이미지 파일열기 함수
+        filename = askopenfilename(parent = UIWindow, filetypes = (('GIF 파일','*gif'),('모든파일','*.*')))                       # [취소시 사진사라지는거]
+        photo = PhotoImage(file = filename)
+        ImageButton.configure(image = photo)
+        ImageButton.image = photo
+        UserDf.loc[UserDf['USER_PHONE'].str.contains(PN), ['USER_PIC']] = filename
+
     try:
         if math.isnan(pic):
-            ImageButton = Button(UIWindow, image = '')                          # 회원 이미지 추가버튼
-    except:
-        photo = PhotoImage(file = '.\pic\\'+pic)
-        ImageButton = Button(UIWindow, image = photo)
+            ImageButton = Button(UIWindow, image = '', command = SelectPic)                          # 회원 이미지 추가버튼
+    except(TypeError):
+        try:
+            photo = PhotoImage(file = pic)
+            ImageButton = Button(UIWindow, image = photo, command = SelectPic)
+        except:
+            ImageButton = Button(UIWindow, text = '저장된 이미지가\n 삭제되었거나 없습니다.', command = SelectPic)
     ImageButton.place(x = 130, y = 80, width = 170, height = 200)
 
 
@@ -108,9 +124,17 @@ def UserInfowindow(PhoneNumber):
     def EditUser():                                                                 # 수정버튼 누를시 실행 함수
         answer = messagebox.askquestion('수정', '수정하시겠습니까?')
         if answer == 'yes':
-            UserDf.loc[UserDf['USER_PHONE'].str.contains(PN), ['USER_NAME','USER_BIRTH','USER_PHONE','USER_MAIL']] = (NameEnter.get(),BirthEnter.get(),PhoneEnter.get(),MailEnter.get())
-            UserDf.to_csv('UserList.csv', index=False, encoding = 'utf-8')
-            messagebox.showinfo('수정완료', '수정되었습니다.')
+            if (PhoneEnter.get() != PN) and (PhoneEnter.get() == UserDf['USER_PHONE']).any():                             # 전화번호 중복확인
+                messagebox.showerror('중복', '중복된 전화번호입니다.')
+            else:
+                if var.get() == 1:
+                    sex = True
+                else:
+                    sex = False
+                UserDf.loc[UserDf['USER_PHONE'].str.contains(PN), ['USER_NAME','USER_BIRTH','USER_PHONE','USER_SEX','USER_MAIL']] = (NameEnter.get(),BirthEnter.get(),PhoneEnter.get(),sex,MailEnter.get())
+                UserDf.to_csv('UserList.csv', index=False, encoding = 'utf-8')
+                messagebox.showinfo('수정완료', '수정되었습니다.')
+                print(pic)
     
 
     EditButton = Button(UIWindow, text = '수정', command = EditUser)      # 수정 버튼
@@ -124,7 +148,7 @@ def UserInfowindow(PhoneNumber):
                     if answer == 'yes':
                         UserDf.loc[UserDf['USER_PHONE'].str.contains(PN),['USER_OUT']] = (datetime.today().strftime('%Y-%m-%d'))    # 확인시 데이터프레임에 탈퇴 날짜 저장
                         UserDf.to_csv('UserList.csv', index=False, encoding = 'utf-8')
-                        messagebox.showinfo('탈퇴 완료', '탈퇴 되었습니다.')                       # [탈퇴시 정보창 수정? or 다시 창 띄울시 정보바뀜 멘트?]
+                        messagebox.showinfo('탈퇴 완료', '탈퇴 되었습니다.\n 재실행시 탈퇴정보가 바뀝니다.')
                     else:
                         messagebox.showinfo('탈퇴 취소', '탈퇴를 취소하였습니다.')
                 else:
