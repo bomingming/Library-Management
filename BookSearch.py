@@ -16,3 +16,5 @@ def Search(InStandard,InSearch):
         return BookDf.loc[BookDf[SearchIndex].str.contains(InSearch)]
     elif InSearch == '':
         return BookDf
+    else:
+        return "결과값 없음"
