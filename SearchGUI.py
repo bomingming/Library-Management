@@ -5,15 +5,16 @@ import BookSearch
 def key(event):                         # 리스트 박스 더블클릭 커멘드
     a=OutputListBox.curselection()      # 더블클릭한 줄의 인덱스 출력
     b=OutputListBox.get(a)              # 리스트 박스의 인덱스 a의 값 출력
+    print(b[1])
 
 def SearchResult():                     # 검색기준 선택, 검색이름 입력후 검색 클릭시 커멘드
     InStandard=Standard.get()           # 콤보박스의 입력값
     InSearch=SearchName.get()           # 검색창에 검색한 이름
     ResultSearch=(BookSearch.Search(InStandard,InSearch))
     for i in ResultSearch.index:
-        PrintR=[]
+        PrintR=''
         for j in ['BOOK_TITLE','BOOK_ISBN','BOOK_AUTHOR','BOOK_PUB']:
-            PrintR.append(ResultSearch.loc[i,j])
+            PrintR+('{:^15}'.format(ResultSearch.loc[i,j]))
         OutputListBox.insert(END,PrintR)
 
 Window=Tk()
