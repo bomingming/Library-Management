@@ -21,6 +21,25 @@ RentDf = pd.DataFrame({'BOOK_ISBN':[], 'USER_PHONE':[], 'RENT_DATE':[], 'RENT_RE
 #대여 함수
 def RentBook():
 
+    def SearchBar():                          #검색창 함수
+        Search = Entry(Window, width=52)      #검색창 생성
+        Search.place(x=230, y=80)             #검색창 위치 지정
+
+
+    def SearchList():                                                           #검색 목록 함수
+        SearchList = Listbox(Window, selectmode='single', width=70, height=14)  #single : 단일 선택, 방향키 이동 후 스페이스바로 선택
+        SearchList.insert(0, "1")                                               #(이벤트 처리 필요) 임의의 목록 값
+        SearchList.place(x=130, y=130)
+
+
+    def SearchCombo():                                         #검색 기준 함수
+        Combo = Combobox(Window, width=10, state='readonly')
+        Combo['values']=("도서 명", "저자", "출판사")           #검색 기준
+        Combo.current(0)                                       #디폴트값 : 첫번째 값
+        Combo.pack()
+        Combo.place(x=130,y=80)
+
+
     def BookSelect():           #대여하고자 하는 도서 선택 시
 
         NewWindow = Tk()
@@ -29,57 +48,36 @@ def RentBook():
         NewWindow.geometry("700x450")
         NewWindow.resizable(width = FALSE, height = FALSE)
 
-        #세부 정보 출력
-        TitleLabel = Label(NewWindow, text = "도서 명", font=("돋움체",10))     #도서 명 출력
-        TitleLabel.place(x=390, y=80)
-        TitleEnter = Entry(NewWindow, width = 25)
-        TitleEnter.insert(0, "가")  
-        TitleEnter.configure(state='readonly')            
+        TitleEnter = Entry(NewWindow, width = 25)                     #도서 명 입력창
         TitleEnter.place(x=450, y=80)
-
-        AuthorLabel = Label(NewWindow, text = "저자", font=("돋움체",10))       #저자 출력
-        AuthorLabel.place(x=410, y=115)
-        AuthorEnter = Entry(NewWindow, width = 25)
-        AuthorEnter.insert(1, "가")  
-        AuthorEnter.configure(state='readonly') 
+        AuthorEnter = Entry(NewWindow, width = 25)                    #저자 입력창
         AuthorEnter.place(x=450, y=115)
-
-        PubLabel = Label(NewWindow, text = "출판사", font=("돋움체",10))        #출판사 출력
-        PubLabel.place(x=400, y=150)
-        PubEnter = Entry(NewWindow, width = 25)
-        PubEnter.insert(2, "가")  
-        PubEnter.configure(state='readonly')         
+        PubEnter = Entry(NewWindow, width = 25)                       #출판사 입력창
         PubEnter.place(x=450, y=150)
-
-        IsbnLabel = Label(NewWindow, text = "ISBN", font=("돋움체",10))         #ISBN 출력
-        IsbnLabel.place(x=410, y=185)
-        IsbnEnter = Entry(NewWindow, width = 25)
-        IsbnEnter.insert(3, "가")  
-        IsbnEnter.configure(state='readonly')
+        IsbnEnter = Entry(NewWindow, width = 25)                      #ISBN 입력창
         IsbnEnter.place(x=450, y=185)
-
-        PriceLabel = Label(NewWindow, text = "가격", font=("돋움체",10))        #가격 출력
-        PriceLabel.place(x=410, y=220)
-        PriceEnter = Entry(NewWindow, width = 25)
-        PriceEnter.insert(4, "가")  
-        PriceEnter.configure(state='readonly')
+        PriceEnter = Entry(NewWindow, width = 25)      #가격 입력창
         PriceEnter.place(x=450, y=220)
-
-        LinkLabel = Label(NewWindow, text = "링크", font=("돋움체",10))         #링크 출력
-        LinkLabel.place(x=410, y=255)
-        LinkEnter = Entry(NewWindow, width = 25)
-        LinkEnter.insert(5, "가")  
-        LinkEnter.configure(state='readonly')
+        LinkEnter = Entry(NewWindow, width = 25)       #링크 입력창
         LinkEnter.place(x=450, y=255)
-
-        InforLabel = Label(NewWindow, text = "도서 설명", font=("돋움체",10))   #도서 설명 출력
-        InforLabel.place(x=375, y=290)
-        InforEnter = Text(NewWindow, width = 25, height = 5)
-        InforEnter.insert(END, "얍얍")  
-        InforEnter.configure(state='disabled')
+        InforEnter = Text(NewWindow, width = 25, height = 5)       #도서 설명 입력창
         InforEnter.place(x=450, y=290)
 
-        
+        TitleLabel = Label(NewWindow, text = "도서 명", font=("돋움체",10))
+        TitleLabel.place(x=390, y=80)
+        AuthorLabel = Label(NewWindow, text = "저자", font=("돋움체",10))
+        AuthorLabel.place(x=410, y=115)
+        PubLabel = Label(NewWindow, text = "출판사", font=("돋움체",10))
+        PubLabel.place(x=400, y=150)
+        IsbnLabel = Label(NewWindow, text = "ISBN", font=("돋움체",10))
+        IsbnLabel.place(x=410, y=185)
+        PriceLabel = Label(NewWindow, text = "가격", font=("돋움체",10))
+        PriceLabel.place(x=410, y=220)
+        LinkLabel = Label(NewWindow, text = "링크", font=("돋움체",10))
+        LinkLabel.place(x=410, y=255)
+        InforLabel = Label(NewWindow, text = "도서 설명", font=("돋움체",10))
+        InforLabel.place(x=375, y=290)
+
         BookImage = Button(NewWindow, image = '')                              #도서 이미지 버튼
         BookImage.place(x = 130, y = 80, width = 170, height = 200)
 
@@ -94,7 +92,6 @@ def RentBook():
 
 
         NewWindow.mainloop()
-    BookSelect()
 
 
 '''
@@ -124,7 +121,6 @@ MainMenu.add_cascade(label = "회원", menu = fileMenu)
 MainMenu.add_cascade(label = "대여", menu = fileMenu)
 MainMenu.add_cascade(label = "반납", menu = fileMenu)
 
-'''
 
 #대여자를 선택하지 않고 대여 시도 시
 messagebox.showerror('대여 오류', '대여자를 선택해주세요.')
@@ -134,8 +130,11 @@ messagebox.askquestion('대여', '대여하시겠습니까?\n회원 정보: \n�
 
 #대여 완료 시
 messagebox.showinfo('대여 완료', '대여 완료되었습니다.\n대여기간: ')
-'''
+
 
 
 RentBook()
-Window.mainloop()
+
+
+
+RentDf.to_csv('RentList.csv',index=False,encoding='utf-8') 

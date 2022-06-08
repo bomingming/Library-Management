@@ -1,19 +1,19 @@
 from tkinter import *
 from tkinter.ttk import *
-import BookSearch
+import RentSearch
 
-def key(event):                         # 트리뷰 더블클릭 커멘드
+def key():                         # 트리뷰 더블클릭 커멘드
     SelectBook = OutpuTreeview.focus()  #트리뷰에서 선택한 도서
     RealSelect = OutpuTreeview.item(SelectBook).get('values')
     print(RealSelect[1])    #선택한 도서의 ISBN(int값임)
 
-def SearchResult():                     # 검색기준 선택, 검색이름 입력후 검색 클릭시 커멘드
+def SearchResult():                    # 검색기준 선택, 검색이름 입력후 검색 클릭시 커멘드
     InStandard=Standard.get()           # 콤보박스의 입력값
     InSearch=SearchName.get()           # 검색창에 검색한 이름
-    ResultSearch=(BookSearch.Search(InStandard,InSearch))
+    ResultSearch=(RentSearch.Search(InStandard,InSearch))
     for i in ResultSearch.index:
         PrintR=[]
-        for j in ['BOOK_TITLE','BOOK_ISBN','BOOK_AUTHOR','BOOK_PUB']:
+        for j in ['BOOK_TITLE','BOOK_ISBN','BOOK_AUTHOR','BOOK_PUB','BOOK_RENT']:
             PrintR.append(ResultSearch.loc[i,j])
         OutpuTreeview.insert('','end',text=i,values=PrintR,iid=str(i))
 
@@ -44,7 +44,7 @@ def SearchWindow():
     Standard.place(x=130,y=80)
     #-m----Listbox: c2, r2----
     global OutpuTreeview
-    OutpuTreeview= Treeview(Window,columns=['제목','ISBN','저자','출판사'])
+    OutpuTreeview= Treeview(Window,columns=['제목','ISBN','저자','출판사','대여여부'])
     OutpuTreeview.column('#0',width=40,anchor='e')
     OutpuTreeview.heading('#0',text='번호',anchor='center')
     OutpuTreeview.column('#1',width=140,anchor='e')
@@ -55,6 +55,8 @@ def SearchWindow():
     OutpuTreeview.heading('#3',text='저자',anchor='center')
     OutpuTreeview.column('#4',width=110,anchor='e')
     OutpuTreeview.heading('#4',text='출판사',anchor='center')
+    OutpuTreeview.column('#5',width=110,anchor='e')
+    OutpuTreeview.heading('#5',text='대여여부',anchor='center')
     OutpuTreeview.place(x=130, y=110)
     OutpuTreeview.bind("<Double-Button-1>", key)  # 더블클릭시 key 커멘드 실행
 
