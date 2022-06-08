@@ -2,6 +2,7 @@ from tkinter import *
 from tkinter.ttk import *
 import BookSearch
 import BookInformationPrint
+import RegisterButton
 
 def key(event):                         # 트리뷰 더블클릭 커멘드
     SelectBook = OutpuTreeview.focus()  #트리뷰에서 선택한 도서
@@ -61,7 +62,7 @@ def SearchWindow():
     OutpuTreeview.bind("<Double-Button-1>", key)  # 더블클릭시 key 커멘드 실행
 
     #등록 버튼
-    RegisterBotton=Button(Window,text='등록',command=Window.destroy)
+    RegisterBotton=Button(Window,text='등록',command=RegisterButton.BookInfowindow())
     RegisterBotton.place(x=230,y=50)
 
     #검색 버튼
