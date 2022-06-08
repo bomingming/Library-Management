@@ -1,6 +1,6 @@
 from tkinter import *
 from tkinter.ttk import *
-
+import pandas as pd
 
 Window = Tk()
 
@@ -99,55 +99,70 @@ def RegisEnter():       #등록 입력창
 
 
 #도서 세부 정보 함수
-def BookInfowindow():
+def BookInfowindow(isbnnum):
     BIWindow = Tk()
 
     BIWindow.title('도서 세부 정보')
     BIWindow.geometry('700x450')
     BIWindow.resizable(width = False, height = False)
 
+    BookDf = pd.read_csv('.\BookList.csv')
+
+    BookDf = BookDf.astype({'BOOK_ISBN' : 'str'})                               # str.contains 사용위해 str형으로 변경
+
+    ValuesDf = BookDf.loc[BookDf['BOOK_ISBN'].str.contains(isbnnum)]            # isbnnum있는지 확인후 있으면 해당행 ValuesDf에 저장
+    for i in ValuesDf.values:                                                   # ValuesDf의 값들을 각변수에 저장
+        title,isbn,author,pub,price,link,infor,rent,pic = i
+
     # 텍스트
 
     TitleLabel = Label(BIWindow, text = '도서 명', font=('돋움체', 10))    # 도서명
     TitleLabel.place(x = 390, y = 80)
     TitleEnter = Entry(BIWindow, width = 25)                             # 도서명 텍스트
+    TitleEnter.insert(0,title)
     TitleEnter.place(x = 450, y = 80)
 
     AuthorLabel = Label(BIWindow, text = '저자', font=('돋움체', 10))    # 저자
     AuthorLabel.place(x = 410, y = 115)
     AuthorEnter = Entry(BIWindow, width = 25)                             # 저자 텍스트
+    AuthorEnter.insert(0,author)
     AuthorEnter.place(x = 450, y = 115)
 
-
-    PublishLabel = Label(BIWindow, text = '출판사', font = ('돋움체', 10))    # 출판사
-    PublishLabel.place(x = 395, y = 150)
-    PublishEnter = Entry(BIWindow, width = 25)                              # 출판사 텍스트
-    PublishEnter.place(x = 450, y = 150)
+    PubLabel = Label(BIWindow, text = '출판사', font = ('돋움체', 10))    # 출판사
+    PubLabel.place(x = 395, y = 150)
+    PubEnter = Entry(BIWindow, width = 25)                              # 출판사 텍스트
+    PubEnter.insert(0,pub)
+    PubEnter.place(x = 450, y = 150)
 
     IsbnLabel = Label(BIWindow, text = 'ISBN', font = ('돋움체', 10))      # ISBN
     IsbnLabel.place(x = 410, y = 185)
     IsbnEnter = Entry(BIWindow, width = 25)                                # ISBN 텍스트
+    IsbnEnter.insert(0,isbn)
     IsbnEnter.place(x = 450, y = 185)
 
     PriceLabel = Label(BIWindow, text = '가격', font = ('돋움체', 10))       # 가격  
     PriceLabel.place(x = 410, y = 220)
     PriceEnter = Entry(BIWindow, width = 25)                                # 가격 텍스트
+    PriceEnter.insert(0,price)
     PriceEnter.place(x = 450, y = 220)
 
     LinkLabel = Label(BIWindow, text = '링크', font = ('돋움체', 10))       # 링크
     LinkLabel.place(x = 410, y = 255)
-    LinkEntry = Entry(BIWindow, width = 25)                                 # 링크 텍스트
-    LinkEntry.place(x = 450, y = 255)
+    LinkEnter = Entry(BIWindow, width = 25)                                 # 링크 텍스트
+    LinkEnter.insert(0,link)
+    LinkEnter.place(x = 450, y = 255)
 
     RentLabel = Label(BIWindow, text = '대여여부', font = ('돋움체', 10))      # 대여여부
     RentLabel.place(x = 380, y = 290)
     RentEnter = Entry(BIWindow, width = 25)                                     # 대여여부 텍스트
+    RentEnter.insert(0,rent)
     RentEnter.place(x = 450, y = 290)
 
-    BookInfomationLabel = Label(BIWindow, text = '도서설명', font = ('돋움체', 10))   # 도서설명
-    BookInfomationLabel.place(x = 380, y = 325)
-    BookInfomationEnter = Text(BIWindow, width = 25, height = 5)                        # 도서 설명 텍스트
-    BookInfomationEnter.place(x = 450, y = 325)
+    InforLabel = Label(BIWindow, text = '도서설명', font = ('돋움체', 10))   # 도서설명
+    InforLabel.place(x = 380, y = 325)
+    InforEnter = Text(BIWindow, width = 25, height = 5)                        # 도서 설명 텍스트
+    InforEnter.insert(0.0,infor)
+    InforEnter.place(x = 450, y = 325)
     
 
     # 버튼
@@ -206,8 +221,8 @@ SearchList()
 CheckButton()
 
 '''
-
-BookInfowindow()
+isbnnum = '9788937460449.0'
+BookInfowindow(isbnnum)
 
 #RegisEnter()
 Window.mainloop()
