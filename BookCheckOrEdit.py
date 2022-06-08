@@ -1,11 +1,12 @@
 from tkinter import *
 from tkinter.ttk import *
+from tkinter import messagebox
 import pandas as pd
 
-BookDf = pd.read_csv('.\BookList.csv')
+BookDf = pd.read_csv('BookList.csv')
 
 #도서 세부 정보 함수
-def BookInfowindow(SelectBook):
+def CheckOrEdit(SelectBook):
 
     BIWindow = Tk()
     BIWindow.title('도서 세부 정보')
@@ -14,6 +15,7 @@ def BookInfowindow(SelectBook):
 
     for i in BookDf.index:
         if BookDf.loc[i,'BOOK_ISBN']==SelectBook:
+            index=i
             PrintBook=BookDf.loc[i]
     # 텍스트
 
@@ -66,4 +68,40 @@ def BookInfowindow(SelectBook):
 
     BookInfomationEnter.place(x = 450, y = 325)
 
+    # 버튼
+    ImageButton = Button(BIWindow, image = '')                       # 도서 이미지 추가버튼
+    ImageButton.place(x = 130, y = 80, width = 170, height = 200)
+    
+    def Edit():  #도서 등록 버튼 누를 시
+        global BookDf
+        if (BookDf['BOOK_ISBN']==IsbnEnter.get()).any():
+            messagebox.showerror('중복된 도서', '중복된 도서입니다. \n (오류 : ISBN 중복)') #등록 오류 메시지(중복)
+        elif '' in [TitleEnter.get(),IsbnEnter.get(),AuthorEnter.get(), 
+            AuthorEnter.get(), PriceEnter.get(), LinkEnter.get(),
+            BookInfomationEnter.get(1.0, 50.50)]:
+            messagebox.showerror('등록 오류', '올바른 정보를 입력하세요.')  #등록 오류 메시지(누락)
+
+        else:
+            BookDf.loc[index,0]=TitleEnter.get()
+            BookDf.loc[index,1]=AuthorEnter.get()
+            BookDf.loc[index,2]=PublishEnter.get()
+            BookDf.loc[index,3]=IsbnEnter.get()
+            BookDf.loc[index,4]=PriceEnter.get()
+            BookDf.loc[index,5]=LinkEnter.get()
+            BookDf.loc[index,6]=BookInfomationEnter.get(1.0, 50.50)
+
+            BookDf.to_csv('BookList.csv',index=False,encoding='utf-8')  #csv파일에 저장
+
+            messagebox.showinfo('수정 완료', '수정이 완료되었습니다.')  #등록 완료 메시지
+            BIWindow.destroy
+
+    OkButton = Button(BIWindow, text = '확인', command=BIWindow.destroy)    # 확인 버튼
+    OkButton.place(x = 130, y = 290, width = 50)
+
+    OkButton = Button(BIWindow, text = '수정', command=Edit)                # 수정 버튼
+    OkButton.place(x = 190, y = 290, width = 50)
+
+    OutButton = Button(BIWindow, text = '취소',command=BIWindow.destroy)    # 취소 버튼
+    OutButton.place(x = 250, y = 290, width = 50)
+    
     BIWindow.mainloop()

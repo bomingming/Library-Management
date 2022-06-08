@@ -1,13 +1,25 @@
 from tkinter import *
 from tkinter.ttk import *
 import BookSearch
+import BookInformationPrint
+import BookRegisterButton
+import BookCheckOrEdit
 
-def key(event):                         # 트리뷰 더블클릭 커멘드
+def DoubleClick(event):                         # 트리뷰 더블클릭 커멘드
     SelectBook = OutpuTreeview.focus()  #트리뷰에서 선택한 도서
-    RealSelect = OutpuTreeview.item(SelectBook).get('values')
-    print(RealSelect[1])    #선택한 도서의 ISBN(int값임)
+    SelectBook = OutpuTreeview.item(SelectBook).get('values')
+    SelectBook = SelectBook[1]
+    BookInformationPrint.BookInfowindow(SelectBook)
+
+def ButtonClick():
+    SelectBook = OutpuTreeview.focus()  #트리뷰에서 선택한 도서
+    SelectBook = OutpuTreeview.item(SelectBook).get('values')
+    SelectBook = SelectBook[1]
+    BookCheckOrEdit.CheckOrEdit(SelectBook)
 
 def SearchResult():                     # 검색기준 선택, 검색이름 입력후 검색 클릭시 커멘드
+    for i in OutpuTreeview.get_children():
+        OutpuTreeview.delete(str(i))
     InStandard=Standard.get()           # 콤보박스의 입력값
     InSearch=SearchName.get()           # 검색창에 검색한 이름
     ResultSearch=(BookSearch.Search(InStandard,InSearch))
@@ -16,6 +28,7 @@ def SearchResult():                     # 검색기준 선택, 검색이름 입�
         for j in ['BOOK_TITLE','BOOK_ISBN','BOOK_AUTHOR','BOOK_PUB']:
             PrintR.append(ResultSearch.loc[i,j])
         OutpuTreeview.insert('','end',text=i,values=PrintR,iid=str(i))
+    
 
 def SearchWindow():
     Window=Tk()
@@ -56,15 +69,19 @@ def SearchWindow():
     OutpuTreeview.column('#4',width=110,anchor='e')
     OutpuTreeview.heading('#4',text='출판사',anchor='center')
     OutpuTreeview.place(x=130, y=110)
-    OutpuTreeview.bind("<Double-Button-1>", key)  # 더블클릭시 key 커멘드 실행
+    OutpuTreeview.bind("<Double-Button-1>", DoubleClick)  # 더블클릭시 key 커멘드 실행
 
     #등록 버튼
-    RegisterBotton=Button(Window,text='등록',command=Window.destroy)
+    RegisterBotton=Button(Window,text='등록',command=BookRegisterButton.BookInfowindow)
     RegisterBotton.place(x=230,y=50)
 
     #검색 버튼
     SearchBotton=Button(Window,text='검색',command=SearchResult)
     SearchBotton.place(x=630,y=80)
+
+    #검색 및 수정 버튼
+    RegisterBotton=Button(Window,text='검색 및 수정',command=ButtonClick)
+    RegisterBotton.place(x=585,y=340)
 
     Window.mainloop()
 
