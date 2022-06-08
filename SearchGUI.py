@@ -1,11 +1,13 @@
 from tkinter import *
 from tkinter.ttk import *
 import BookSearch
+import BookInformationPrint
 
 def key(event):                         # 트리뷰 더블클릭 커멘드
     SelectBook = OutpuTreeview.focus()  #트리뷰에서 선택한 도서
-    RealSelect = OutpuTreeview.item(SelectBook).get('values')
-    print(RealSelect[1])    #선택한 도서의 ISBN(int값임)
+    SelectBook = OutpuTreeview.item(SelectBook).get('values')
+    SelectBook = SelectBook[1]
+    BookInformationPrint.BookInfowindow(SelectBook)
 
 def SearchResult():                     # 검색기준 선택, 검색이름 입력후 검색 클릭시 커멘드
     InStandard=Standard.get()           # 콤보박스의 입력값

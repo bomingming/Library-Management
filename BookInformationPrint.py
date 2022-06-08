@@ -12,8 +12,9 @@ def BookInfowindow(SelectBook):
     BIWindow.geometry('700x450')
     BIWindow.resizable(width = False, height = False)
 
-    SelectBook=SelectBook    
-    PrintBook=BookDf.loc[1]#BookDf.loc[BookDf["BOOK_ISBN"].str.contains(SelectBook)]
+    for i in BookDf.index:
+        if BookDf.loc[i,'BOOK_ISBN']==SelectBook:
+            PrintBook=BookDf.loc[i]
     # 텍스트
 
     TitleLabel = Label(BIWindow, text = '도서 명', font=('돋움체', 10))    # 도서명
@@ -60,7 +61,7 @@ def BookInfowindow(SelectBook):
 
     BookInfomationLabel = Label(BIWindow, text = '도서설명', font = ('돋움체', 10))   # 도서설명
     BookInfomationLabel.place(x = 380, y = 325)
-    BookInfomationEnter = Text(BIWindow, width = 25, height = 5)                        # 도서 설명 텍스트
+    BookInfomationEnter = Text(BIWindow, width = 25, height = 5)                    # 도서 설명 텍스트
     BookInfomationEnter.insert(END,PrintBook[6])
 
     BookInfomationEnter.place(x = 450, y = 325)
