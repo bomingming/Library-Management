@@ -20,6 +20,9 @@ def SearchResult():                     # 검색기준 선택, 검색이름 입�
             PrintR.append(ResultSearch.loc[i,j])
         OutpuTreeview.insert('','end',text=i,values=PrintR,iid=str(i))
 
+def BookInformationnWindow():
+    RegisterButton.BookInfowindow()
+
 def SearchWindow():
     Window=Tk()
     Window.title('도서 관리 프로그램')
@@ -62,7 +65,7 @@ def SearchWindow():
     OutpuTreeview.bind("<Double-Button-1>", key)  # 더블클릭시 key 커멘드 실행
 
     #등록 버튼
-    RegisterBotton=Button(Window,text='등록',command=RegisterButton.BookInfowindow())
+    RegisterBotton=Button(Window,text='등록',command=BookInformationnWindow)
     RegisterBotton.place(x=230,y=50)
 
     #검색 버튼

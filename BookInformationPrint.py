@@ -67,5 +67,3 @@ def BookInfowindow(SelectBook):
     BookInfomationEnter.place(x = 450, y = 325)
 
     BIWindow.mainloop()
-
-BookInfowindow(9788937460449)

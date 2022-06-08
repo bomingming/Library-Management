@@ -5,6 +5,7 @@ BookDf=pd.read_csv(r'.\BookList.csv')# data에 읽은 값 저장
 
 # 도서 검색
 def Search(InStandard,InSearch): 
+    
     if InStandard=="도서 명":                  # 도서 명 선택 시
         SearchIndex="BOOK_TITLE"               # 도서 데이터 다루기
     elif InStandard=="저자":                   # 저자 선택 시
@@ -16,5 +17,3 @@ def Search(InStandard,InSearch):
         return BookDf.loc[BookDf[SearchIndex].str.contains(InSearch)]
     elif InSearch == '':
         return BookDf
-    else:
-        return "결과값 없음"
