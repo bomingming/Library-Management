@@ -25,7 +25,7 @@ def UserInfowindow(PhoneNumber):
         name, birth, phone, sex, mail, out, in1, rent, pic = i
     
     IsbnDf = RentDf.loc[RentDf['USER_PHONE'].str.contains(PN), ['BOOK_ISBN']]   # 대여목록출력 위해 isbn찾고 도서명,저자,출판사뽑기
-    print(IsbnDf) #확인용
+    print(IsbnDf) #확인용                                                          [대여목록출력필요]
 
 
     
