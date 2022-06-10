@@ -2,6 +2,13 @@ from tkinter import *
 from tkinter.ttk import *
 from tkinter import messagebox
 import pandas as pd
+from datetime import datetime, timedelta
+from tkinter.filedialog import *
+import math
+
+
+NowDay = datetime.today().strftime('%Y-%m-%d')         #당일 날짜 표시
+
 
 Window = Tk()
 
@@ -60,7 +67,18 @@ def BookInfowindow():
     BookInfomationEnter = Text(BIWindow, width = 25, height = 5)                        # 도서 설명 텍스트
 
     BookInfomationEnter.place(x = 450, y = 325)
+
+
+    def SelectPic():             # 이미지 파일열기 함수
+        filename = askopenfilename(parent = BIWindow, filetypes = (('GIF 파일','*gif'),('모든파일','*.*')))                       # [취소시 사진사라지는거]
+        photo = PhotoImage(file = filename)
+        ImageButton.configure(image = photo)
+        ImageButton.image = photo
+
+    ImageButton = Button(BIWindow, text = '저장된 이미지가\n삭제되었거나 없습니다.', command = SelectPic)
+    ImageButton.place(x = 130, y = 80, width = 170, height = 200)
     
+
     def AddBook():  #도서 등록 버튼 누를 시
         global BookDf
         if (BookDf['BOOK_ISBN']==IsbnEnter.get()).any():
@@ -87,9 +105,6 @@ def BookInfowindow():
             messagebox.showinfo('등록 완료', '등록이 완료되었습니다.')  #등록 완료 메시지
 
     # 버튼
-    ImageButton = Button(BIWindow, image = '')                       # 도서 이미지 추가버튼
-    ImageButton.place(x = 130, y = 80, width = 170, height = 200)
-
     OkButton = Button(BIWindow, text = '등록', command=AddBook)      # 등록 버튼
     OkButton.place(x = 155, y = 290, width = 50)
 
