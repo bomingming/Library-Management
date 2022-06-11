@@ -9,12 +9,8 @@ import math
 
 NowDay = datetime.today().strftime('%Y-%m-%d')         #당일 날짜 표시
 
-
 Window = Tk()
-
-
 UserDf = pd.read_csv(r'.\UserList.csv')
-
 
 #회원 세부 정보 함수
 def UserInforwindow():
@@ -64,7 +60,6 @@ def UserInforwindow():
     ImageButton = Button(UIWindow, text = '저장된 이미지가\n삭제되었거나 없습니다.', command = SelectPic)
     ImageButton.place(x = 130, y = 80, width = 170, height = 200)
 
-
     def AddUser():  #회원 등록 누를 시
         global UserDf
         if (UserDf['USER_PHONE']==PhoneEnter.get()).any():
@@ -76,23 +71,19 @@ def UserInforwindow():
             AddUserDf = pd.DataFrame({'USER_NAME':[NameEnter.get()],        
          'USER_BIRTH':[BirthEnter.get()],
          'USER_PHONE':[PhoneEnter.get()],
-         'USER_SEX':[UserSex],               #True : 남성 / False : 여성
+         'USER_SEX':[bool(var)],               #True : 남성 / False : 여성
          'USER_MAIL':[MailEnter.get()],
          'USER_OUT':[None],             #탈퇴일 디폴트 값 : None
          'USER_IN':[NowDay],        #등록일 디폴트 값 : 오늘 날짜
          'USER_RENT':[False],           #대여 디폴트 값 : False
          'USER_PIC':[None]})            #사진 디폴트 값 : None
             UserDf = pd.concat([UserDf, AddUserDf])         #등록 정보를 기존 데이터프레임에 합치기
-
             UserDf.to_csv('UserList.csv',index=False,encoding='utf-8')  #csv파일에 저장
-
             messagebox.showinfo('등록 완료', '등록이 완료되었습니다.')  #등록 완료 메시지
-
 
     #버튼
     OkButton = Button(UIWindow, text = '등록', command=AddUser)      # 등록 버튼
     OkButton.place(x = 155, y = 290, width = 50)
-
     OutButton = Button(UIWindow, text = '취소')                       # 취소 버튼
     OutButton.place(x = 230, y = 290, width = 50)
 
@@ -100,5 +91,3 @@ def UserInforwindow():
 
 
     UIWindow.mainloop()
-
-UserInforwindow()

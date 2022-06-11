@@ -9,7 +9,7 @@ from tkinter.filedialog import *
 def UserInfowindow(PhoneNumber):
 
     UserDf = pd.read_csv(r'.\UserList.csv')
-    RentDf = pd.read_csv('.\RentList.csv')
+    #RentDf = pd.read_csv('.\RentList.csv')
     BookDf = pd.read_csv('.\BookList.csv')
     
     UIWindow = Tk()
@@ -24,8 +24,8 @@ def UserInfowindow(PhoneNumber):
     for i in SomeDf.values:                                                 # 데이터프레임의 값을 각각 저장
         name, birth, phone, sex, mail, out, in1, rent, pic = i
     
-    IsbnDf = RentDf.loc[RentDf['USER_PHONE'].str.contains(PN), ['BOOK_ISBN']]   # 대여목록출력 위해 isbn찾고 도서명,저자,출판사뽑기
-    print(IsbnDf) #확인용                                                          [대여목록출력필요]
+    #IsbnDf = RentDf.loc[RentDf['USER_PHONE'].str.contains(PN), ['BOOK_ISBN']]   # 대여목록출력 위해 isbn찾고 도서명,저자,출판사뽑기
+    #print(IsbnDf) #확인용                                                          [대여목록출력필요]
 
 
     
@@ -160,22 +160,3 @@ def UserInfowindow(PhoneNumber):
     OutButton.place(x = 250, y = 290, width = 50)
 
     UIWindow.mainloop()
-
-
-
-
-'''
-UserInfowindow()
-EditInfo()
-OverlapUserError()
-FormError()
-RentError()
-OutAsk()
-BookInfowindow()
-OverlapBookError()
-RentBookError()
-DeleteBookInfo()
-'''
-phone = '010-1234-5678'
-
-UserInfowindow(phone)
