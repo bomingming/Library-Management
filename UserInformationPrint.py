@@ -25,7 +25,6 @@ def UserInfowindow(PhoneNumber):
         name, birth, phone, sex, mail, out, in1, rent, pic = i
     
     IsbnDf = RentDf.loc[RentDf['USER_PHONE'].str.contains(PN), ['BOOK_ISBN']]   # 대여목록출력 위해 isbn찾고 도서명,저자,출판사뽑기
-    print(IsbnDf) #확인용                                                          [대여목록출력필요]
 
 # 텍스트
 
@@ -104,7 +103,7 @@ def UserInfowindow(PhoneNumber):
             ImageButton = Button(UIWindow, text = '저장된 이미지가\n 삭제되었거나 없습니다.', command = SelectPic)
     ImageButton.place(x = 130, y = 80, width = 170, height = 200)
 
-    OkButton = Button(UIWindow, text = '확인', command = UIWindow.destroy())                            # 확인 버튼
+    OkButton = Button(UIWindow, text = '확인', command = UIWindow.destroy)                            # 확인 버튼
     OkButton.place(x = 130, y = 290, width = 50)
 
     E_Name = NameEnter.get()

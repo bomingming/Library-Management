@@ -7,13 +7,13 @@ import UserRegisterButton
 def DoubleClick(event):                         # 트리뷰 더블클릭 커멘드
     SelectBook = OutpuTreeview.focus()  #트리뷰에서 선택한 회원
     SelectBook = OutpuTreeview.item(SelectBook).get('values')
-    SelectBook = SelectBook[3]
+    SelectBook = SelectBook[2]
     UserInformationPrint.UserInfowindow(SelectBook)
 
 def ButtonClick():
     SelectBook = OutpuTreeview.focus()  #트리뷰에서 선택한 회원
     SelectBook = OutpuTreeview.item(SelectBook).get('values')
-    SelectBook = SelectBook[3]
+    SelectBook = SelectBook[2]
     UserInformationPrint.UserInfowindow(SelectBook)
 
 def SearchResult():                     # 검색기준 선택, 검색이름 입력후 검색 클릭시 커멘드
@@ -25,7 +25,12 @@ def SearchResult():                     # 검색기준 선택, 검색이름 입�
     for i in ResultSearch.index:
         PrintR=[]
         for j in ['USER_NAME','USER_BIRTH','USER_PHONE','USER_SEX','USER_OUT']:
-            PrintR.append(ResultSearch.loc[i,j])
+            if ResultSearch.loc[i,j]==False:
+                PrintR.append('여성')
+            elif ResultSearch.loc[i,j]==True:
+                PrintR.append('남성')
+            else:
+                PrintR.append(ResultSearch.loc[i,j])
         OutpuTreeview.insert('','end',text=i,values=PrintR,iid=str(i))
     
 
@@ -56,7 +61,7 @@ def SearchWindow():
     Standard.place(x=130,y=80)
     #-m----Listbox: c2, r2----
     global OutpuTreeview
-    OutpuTreeview= Treeview(Window,columns=['회원 명','생일','전화번호','탈퇴일'])
+    OutpuTreeview= Treeview(Window,columns=['회원 명','생일','전화번호','성별','탈퇴일'])
     OutpuTreeview.column('#0',width=40,anchor='e')
     OutpuTreeview.heading('#0',text='회원 번호',anchor='center')
     OutpuTreeview.column('#1',width=140,anchor='e')
@@ -66,7 +71,7 @@ def SearchWindow():
     OutpuTreeview.column('#3',width=90,anchor='e')
     OutpuTreeview.heading('#3',text='전화번호',anchor='center')
     OutpuTreeview.column('#4',width=90,anchor='e')
-    OutpuTreeview.heading('#4',text='성멸',anchor='center')
+    OutpuTreeview.heading('#4',text='성별',anchor='center')
     OutpuTreeview.column('#5',width=90,anchor='e')
     OutpuTreeview.heading('#5',text='탈퇴일',anchor='center')
     OutpuTreeview.place(x=130, y=110)

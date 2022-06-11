@@ -6,10 +6,7 @@ from datetime import datetime, timedelta
 from tkinter.filedialog import *
 import math
 
-
 NowDay = datetime.today().strftime('%Y-%m-%d')         #당일 날짜 표시
-
-Window = Tk()
 UserDf = pd.read_csv(r'.\UserList.csv')
 
 #회원 세부 정보 함수
