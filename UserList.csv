@@ -1,0 +1,6 @@
+USER_NAME,USER_BIRTH,USER_PHONE,USER_SEX,USER_MAIL,USER_OUT,USER_IN,USER_RENT,USER_PIC
+오영수,19980518,010-1234-5678,True,younsu18@naver.com,2022-06-06,2022-06-03,False,C:/Users/pc/Desktop/백업/pic/img.gif
+오정수,20000821,010-1478-5236,True,int50821@google.com,,2022-06-03,False,
+유민호,20100101,010-8523-7413,False,minho01@google.com,2022-06-11,2022-06-03,False,
+박영순,19990714,010-9876-5432,False,sik0714@naver.com,,2022-06-03,False,
+구병갑,19901211,010-9632-3542,True,gab12@google.com,,2022-06-03,False,
