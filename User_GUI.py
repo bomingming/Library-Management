@@ -27,6 +27,9 @@ def UserInfowindow(PhoneNumber):
     IsbnDf = RentDf.loc[RentDf['USER_PHONE'].str.contains(PN), ['BOOK_ISBN']]   # 대여목록출력 위해 isbn찾고 도서명,저자,출판사뽑기
     print(IsbnDf) #확인용                                                          [대여목록출력필요]
 
+
+    
+
 # 텍스트
 
     NameLabel = Label(UIWindow, text = '이름', font=('돋움체', 10))    # 이름
@@ -104,7 +107,13 @@ def UserInfowindow(PhoneNumber):
             ImageButton = Button(UIWindow, text = '저장된 이미지가\n 삭제되었거나 없습니다.', command = SelectPic)
     ImageButton.place(x = 130, y = 80, width = 170, height = 200)
 
-    OkButton = Button(UIWindow, text = '확인', command = UIWindow.destroy())                            # 확인 버튼
+
+    def OkUser():
+        answer = messagebox.askquestion('확인', '창을 닫으시겠습니까?')
+        if answer == 'yes':
+            UIWindow.destroy()
+
+    OkButton = Button(UIWindow, text = '확인', command = OkUser)                            # 확인 버튼
     OkButton.place(x = 130, y = 290, width = 50)
 
     E_Name = NameEnter.get()
@@ -151,3 +160,22 @@ def UserInfowindow(PhoneNumber):
     OutButton.place(x = 250, y = 290, width = 50)
 
     UIWindow.mainloop()
+
+
+
+
+'''
+UserInfowindow()
+EditInfo()
+OverlapUserError()
+FormError()
+RentError()
+OutAsk()
+BookInfowindow()
+OverlapBookError()
+RentBookError()
+DeleteBookInfo()
+'''
+phone = '010-1234-5678'
+
+UserInfowindow(phone)
