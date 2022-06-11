@@ -139,7 +139,8 @@ def UserInfowindow(PhoneNumber):
                     if answer == 'yes':
                         UserDf.loc[UserDf['USER_PHONE'].str.contains(PN),['USER_OUT']] = (datetime.today().strftime('%Y-%m-%d'))    # 확인시 데이터프레임에 탈퇴 날짜 저장
                         UserDf.to_csv('UserList.csv', index=False, encoding = 'utf-8')
-                        messagebox.showinfo('탈퇴 완료', '탈퇴 되었습니다.\n 재실행시 탈퇴정보가 바뀝니다.')
+                        messagebox.showinfo('탈퇴 완료', '탈퇴 되었습니다.\n 탈퇴정보가 바뀝니다.')
+                        UIWindow.destroy()
                     else:
                         messagebox.showinfo('탈퇴 취소', '탈퇴를 취소하였습니다.')
                 else:
