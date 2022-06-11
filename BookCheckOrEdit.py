@@ -16,7 +16,8 @@ def CheckOrEdit(SelectBook):
     for i in BookDf.index:
         if BookDf.loc[i,'BOOK_ISBN']==SelectBook:
             index=i
-            PrintBook=BookDf.loc[i]
+            PrintBook=BookDf.loc[index]
+    print(PrintBook)
     # 텍스트
 
     TitleLabel = Label(BIWindow, text = '도서 명', font=('돋움체', 10))    # 도서명

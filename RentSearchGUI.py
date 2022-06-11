@@ -3,34 +3,24 @@ from tkinter.ttk import *
 import UserSearchGUI
 import BookSearchGUI
 import RentSearchGUI
-import BookSearch
-import BookInformationPrint
-import BookRegisterButton
+import RentSearch
 
-def DoubleClick(event):                         # 트리뷰 더블클릭 커멘드
+def key():                         # 트리뷰 더블클릭 커멘드
     SelectBook = OutpuTreeview.focus()  #트리뷰에서 선택한 도서
-    SelectBook = OutpuTreeview.item(SelectBook).get('values')
-    SelectBook = SelectBook[1]
-    BookInformationPrint.BookInfowindow(SelectBook)
+    RealSelect = OutpuTreeview.item(SelectBook).get('values')
+    print(RealSelect[1])    #선택한 도서의 ISBN(int값임)
 
-def ButtonClick():
-    SelectBook = OutpuTreeview.focus()  #트리뷰에서 선택한 도서
-    SelectBook = OutpuTreeview.item(SelectBook).get('values')
-    SelectBook = SelectBook[1]
-    BookInformationPrint.BookInfowindow(SelectBook)
-
-def SearchResult():                     # 검색기준 선택, 검색이름 입력후 검색 클릭시 커멘드
+def SearchResult():                    # 검색기준 선택, 검색이름 입력후 검색 클릭시 커멘드
     for i in OutpuTreeview.get_children():
         OutpuTreeview.delete(str(i))
     InStandard=Standard.get()           # 콤보박스의 입력값
     InSearch=SearchName.get()           # 검색창에 검색한 이름
-    ResultSearch=(BookSearch.Search(InStandard,InSearch))
+    ResultSearch=(RentSearch.Search(InStandard,InSearch))
     for i in ResultSearch.index:
         PrintR=[]
-        for j in ['BOOK_TITLE','BOOK_ISBN','BOOK_AUTHOR','BOOK_PUB']:
+        for j in ['BOOK_TITLE','BOOK_ISBN','BOOK_AUTHOR','BOOK_PUB','BOOK_RENT']:
             PrintR.append(ResultSearch.loc[i,j])
         OutpuTreeview.insert('','end',text=i,values=PrintR,iid=str(i))
-    
 
 def SearchWindow():
     Window=Tk()
@@ -39,7 +29,7 @@ def SearchWindow():
     Window.resizable(width = FALSE, height = FALSE)         # 창 고정
     #-m----Entry: c2, r1------
     global SearchName
-    SearchName = Entry(Window, width=55)                    # 검색창 생성
+    SearchName = Entry(Window, width=62)                    # 검색창 생성
     SearchName.place(x=230, y=80)                           # 검색창 위치 지정
     #-m----Menubar: c0, r0----
     MainMenu = Menu(Window)
@@ -59,30 +49,36 @@ def SearchWindow():
     Standard.place(x=130,y=80)
     #-m----Listbox: c2, r2----
     global OutpuTreeview
-    OutpuTreeview= Treeview(Window,columns=['제목','ISBN','저자','출판사'])
+    OutpuTreeview= Treeview(Window,columns=['제목','ISBN','저자','출판사','대여여부'])
     OutpuTreeview.column('#0',width=40,anchor='e')
     OutpuTreeview.heading('#0',text='번호',anchor='center')
     OutpuTreeview.column('#1',width=140,anchor='e')
     OutpuTreeview.heading('#1',text='제목',anchor='center')
-    OutpuTreeview.column('#2',width=139,anchor='e')
+    OutpuTreeview.column('#2',width=120,anchor='e')
     OutpuTreeview.heading('#2',text='ISBN',anchor='center')
     OutpuTreeview.column('#3',width=90,anchor='e')
     OutpuTreeview.heading('#3',text='저자',anchor='center')
     OutpuTreeview.column('#4',width=80,anchor='e')
     OutpuTreeview.heading('#4',text='출판사',anchor='center')
+    OutpuTreeview.column('#5',width=70,anchor='e')
+    OutpuTreeview.heading('#5',text='대여여부',anchor='center')
     OutpuTreeview.place(x=130, y=110)
-    OutpuTreeview.bind("<Double-Button-1>", DoubleClick)  # 더블클릭시 key 커멘드 실행
+    OutpuTreeview.bind("<Double-Button-1>", key)  # 더블클릭시 key 커멘드 실행
 
     #등록 버튼
-    RegisterBotton=Button(Window,text='등록',command=BookRegisterButton.BookInfowindow)
+    RegisterBotton=Button(Window,text='등록',command=Window.destroy)
     RegisterBotton.place(x=230,y=50)
 
     #검색 버튼
-    SearchBotton=Button(Window,text="⤶",command=SearchResult, width=2)
-    SearchBotton.place(x=620,y=80)
+    SearchBotton=Button(Window,text='⤶',command=SearchResult,width=2)
+    SearchBotton.place(x=670,y=80)
 
-    #검색 및 수정 버튼
-    RegisterBotton=Button(Window,text='검색 및 수정',command=ButtonClick)
-    RegisterBotton.place(x=535,y=340)
+    #대여 버튼
+    SearchBotton=Button(Window,text='대여',command=SearchResult)
+    SearchBotton.place(x=480,y=340)
+
+    #반납 버튼
+    SearchBotton=Button(Window,text='반납',command=SearchResult)
+    SearchBotton.place(x=587,y=340)
 
     Window.mainloop()

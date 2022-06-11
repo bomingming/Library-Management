@@ -80,7 +80,7 @@ def UserInfowindow(PhoneNumber):
 
     RentLabel = Label(UIWindow, text = '대여여부', font = ('돋움체', 10))   # 대여여부                                         [대여목록 출력해야함 > 맨위 IsbnDf 부분]
     RentLabel.place(x = 380, y = 290)
-    RentEnter = Text(UIWindow, width = 25, height = 5)                        # 대여목록
+    RentEnter = Text(UIWindow, width = 25, height = 1)                        # 대여목록
     RentEnter.insert(0.0,'')                                                     #                                              [rent.csv에서 isbn으로 책 제목,저자 출력]
     RentEnter.place(x = 450, y = 290)
 

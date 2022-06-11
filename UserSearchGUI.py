@@ -1,5 +1,8 @@
 from tkinter import *
 from tkinter.ttk import *
+import UserSearchGUI
+import BookSearchGUI
+import RentSearchGUI
 import UserSearch
 import UserInformationPrint
 import UserRegisterButton
@@ -39,6 +42,7 @@ def SearchWindow():
     Window.title('회원 관리 프로그램')
     Window.geometry("800x500")
     Window.resizable(width = FALSE, height = FALSE)         # 창 고정
+
     #-m----Entry: c2, r1------
     global SearchName
     SearchName = Entry(Window, width=55)                    # 검색창 생성
@@ -47,10 +51,10 @@ def SearchWindow():
     MainMenu = Menu(Window)
     Window.config(menu = MainMenu)
     fileMenu = Menu(MainMenu)
-    MainMenu.add_cascade(label = "도서", menu = fileMenu)
-    MainMenu.add_cascade(label = "회원", menu = fileMenu)
-    MainMenu.add_cascade(label = "대여", menu = fileMenu)
-    MainMenu.add_cascade(label = "반납", menu = fileMenu)
+    MainMenu.add_cascade(label = "도서", menu = fileMenu,command=BookSearchGUI.SearchWindow)
+    MainMenu.add_cascade(label = "회원", menu = fileMenu,command=UserSearchGUI.SearchWindow)
+    MainMenu.add_cascade(label = "대여", menu = fileMenu,command=RentSearchGUI.SearchWindow)
+    MainMenu.add_cascade(label = "대여", menu = fileMenu,command=BookSearchGUI.SearchWindow)
     #-m---- Combobox: c1, r1------
     global Standard
     Standard = Combobox(Window, width=10,state='readonly')
@@ -62,15 +66,15 @@ def SearchWindow():
     #-m----Listbox: c2, r2----
     global OutpuTreeview
     OutpuTreeview= Treeview(Window,columns=['회원 명','생일','전화번호','성별','탈퇴일'])
-    OutpuTreeview.column('#0',width=40,anchor='e')
+    OutpuTreeview.column('#0',width=70,anchor='e')
     OutpuTreeview.heading('#0',text='회원 번호',anchor='center')
-    OutpuTreeview.column('#1',width=140,anchor='e')
+    OutpuTreeview.column('#1',width=80,anchor='e')
     OutpuTreeview.heading('#1',text='회원 명',anchor='center')
-    OutpuTreeview.column('#2',width=160,anchor='e')
+    OutpuTreeview.column('#2',width=90,anchor='e')
     OutpuTreeview.heading('#2',text='생일',anchor='center')
-    OutpuTreeview.column('#3',width=90,anchor='e')
+    OutpuTreeview.column('#3',width=110,anchor='e')
     OutpuTreeview.heading('#3',text='전화번호',anchor='center')
-    OutpuTreeview.column('#4',width=90,anchor='e')
+    OutpuTreeview.column('#4',width=50,anchor='e')
     OutpuTreeview.heading('#4',text='성별',anchor='center')
     OutpuTreeview.column('#5',width=90,anchor='e')
     OutpuTreeview.heading('#5',text='탈퇴일',anchor='center')
@@ -82,13 +86,11 @@ def SearchWindow():
     RegisterBotton.place(x=230,y=50)
 
     #검색 버튼
-    SearchBotton=Button(Window,text='검색',command=SearchResult)
-    SearchBotton.place(x=630,y=80)
+    SearchBotton=Button(Window,text="⤶",command=SearchResult,width=2)
+    SearchBotton.place(x=621,y=80)
 
     #검색 및 수정 버튼
     RegisterBotton=Button(Window,text='확인 및 수정',command=ButtonClick)
-    RegisterBotton.place(x=585,y=340)
+    RegisterBotton.place(x=535,y=340)
 
     Window.mainloop()
-
-SearchWindow()
