@@ -6,20 +6,20 @@ import RentSearchGUI
 
 
 def CrickBook():
-    BookSearchGUI.SearchWindow()
     Window.destroy()
+    BookSearchGUI.SearchWindow()
 
 def CrickUser():
-    UserSearchGUI.SearchWindow()
     Window.destroy()
+    UserSearchGUI.SearchWindow()
 
 def RentUser():
-    RentSearchGUI.SearchWindow()
     Window.destroy()
+    RentSearchGUI.SearchWindow()
 
 def ReturnUser():
-    BookSearchGUI.SearchWindow()
     Window.destroy()
+    BookSearchGUI.SearchWindow()
 
 Window = Tk()
 
