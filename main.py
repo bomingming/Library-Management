@@ -34,7 +34,7 @@ fileMenu = Menubutton(MainMenu)         #하위메뉴 출력되지 않도록 수
 MainMenu.add_cascade(label = "도서", menu = fileMenu,command=CrickBook)
 MainMenu.add_cascade(label = "회원", menu = fileMenu,command=CrickUser)
 MainMenu.add_cascade(label = "대여", menu = fileMenu,command=RentUser)
-MainMenu.add_cascade(label = "대여", menu = fileMenu,command=ReturnUser)
+MainMenu.add_cascade(label = "반납", menu = fileMenu,command=ReturnUser)
 
 #디폴트 화면
 Background = PhotoImage(file="pic\Library.gif")     

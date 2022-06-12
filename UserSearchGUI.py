@@ -50,7 +50,7 @@ def SearchWindow():
     #-m----Menubar: c0, r0----
     MainMenu = Menu(Window)
     Window.config(menu = MainMenu)
-    fileMenu = Menu(MainMenu)
+    fileMenu = Menubutton(MainMenu)
     MainMenu.add_cascade(label = "도서", menu = fileMenu,command=BookSearchGUI.SearchWindow)
     MainMenu.add_cascade(label = "회원", menu = fileMenu,command=UserSearchGUI.SearchWindow)
     MainMenu.add_cascade(label = "대여", menu = fileMenu,command=RentSearchGUI.SearchWindow)
