@@ -1,7 +1,7 @@
 import pandas as pd
 
-f=open('BookList.csv','r',encoding='utf-8')
-BookDf=pd.read_csv(r'.\BookList.csv')# data에 읽은 값 저장
+f=open('TestBookList.csv','r',encoding='utf-8')
+BookDf=pd.read_csv(r'.\TestBookList.csv')# data에 읽은 값 저장
 
 # 도서 검색
 def Search(InStandard,InSearch): 

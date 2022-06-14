@@ -2,10 +2,10 @@ from tkinter import *
 from tkinter.ttk import *
 import UserSearchGUI
 import BookSearchGUI
-import RentSearchGUI
-import BookSearch
+import ReturnSearchGUI
 import BookInformationPrint
 import BookRegisterButton
+import pandas as pd
 
 def DoubleClick(event):                         # 트리뷰 더블클릭 커멘드
     SelectBook = OutpuTreeview.focus()  #트리뷰에서 선택한 도서
@@ -24,19 +24,53 @@ def SearchResult():                     # 검색기준 선택, 검색이름 입�
         OutpuTreeview.delete(str(i))
     InStandard=Standard.get()           # 콤보박스의 입력값
     InSearch=SearchName.get()           # 검색창에 검색한 이름
-    ResultSearch=(BookSearch.Search(InStandard,InSearch))
+    ResultSearch=(Search(InStandard,InSearch))
     for i in ResultSearch.index:
         PrintR=[]
         for j in ['BOOK_TITLE','BOOK_ISBN','BOOK_AUTHOR','BOOK_PUB']:
             PrintR.append(ResultSearch.loc[i,j])
         OutpuTreeview.insert('','end',text=i,values=PrintR,iid=str(i))
+
+
+# 도서 검색
+def Search(InStandard,InSearch): 
+    BookDf=pd.read_csv(r'.\BookList.csv')# data에 읽은 값 저장
     
+    if InStandard=="도서 명":                  # 도서 명 선택 시
+        SearchIndex="BOOK_TITLE"               # 도서 데이터 다루기
+    elif InStandard=="저자":                   # 저자 선택 시
+        SearchIndex="BOOK_AUTHOR"              # 저자 데이터 다루기
+    elif InStandard=="출판사":                 # 출판사 선택 시
+        SearchIndex="BOOK_PUB"                 # 출판사 데이터 다루기
+
+    if BookDf[SearchIndex].str.contains(InSearch).any():
+        return BookDf.loc[BookDf[SearchIndex].str.contains(InSearch)]
+    elif InSearch == '':
+        return BookDf
+
 
 def SearchWindow():
     Window=Tk()
     Window.title('도서 관리 프로그램')
     Window.geometry("800x500")
     Window.resizable(width = FALSE, height = FALSE)         # 창 고정
+
+    def CrickBook():
+        Window.destroy()
+        BookSearchGUI.SearchWindow()
+
+    def CrickUser():
+        Window.destroy()
+        UserSearchGUI.SearchWindow()
+
+    def RentUser():
+        Window.destroy()
+        ReturnSearchGUI.SearchWindow()
+
+    def ReturnUser():
+        Window.destroy()
+        BookSearchGUI.SearchWindow()
+
     #-m----Entry: c2, r1------
     global SearchName
     SearchName = Entry(Window, width=55)                    # 검색창 생성
@@ -45,10 +79,10 @@ def SearchWindow():
     MainMenu = Menu(Window)
     Window.config(menu = MainMenu)
     fileMenu = Menubutton(MainMenu)
-    MainMenu.add_cascade(label = "도서", menu = fileMenu,command=BookSearchGUI.SearchWindow)
-    MainMenu.add_cascade(label = "회원", menu = fileMenu,command=UserSearchGUI.SearchWindow)
-    MainMenu.add_cascade(label = "대여", menu = fileMenu,command=RentSearchGUI.SearchWindow)
-    MainMenu.add_cascade(label = "대여", menu = fileMenu,command=BookSearchGUI.SearchWindow)
+    MainMenu.add_cascade(label = "도서", menu = fileMenu,command=CrickBook)
+    MainMenu.add_cascade(label = "회원", menu = fileMenu,command=CrickUser)
+    MainMenu.add_cascade(label = "대여", menu = fileMenu,command=RentUser)
+    MainMenu.add_cascade(label = "반납", menu = fileMenu,command=ReturnUser)
     #-m---- Combobox: c1, r1------
     global Standard
     Standard = Combobox(Window, width=10,state='readonly')
@@ -86,3 +120,4 @@ def SearchWindow():
     RegisterBotton.place(x=535,y=340)
 
     Window.mainloop()
+

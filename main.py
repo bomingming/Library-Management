@@ -2,7 +2,7 @@ from tkinter import *
 from tkinter.ttk import *
 import UserSearchGUI
 import BookSearchGUI
-import RentSearchGUI
+import ReturnSearchGUI
 
 #sd
 def CrickBook():
@@ -15,7 +15,7 @@ def CrickUser():
 
 def RentUser():
     Window.destroy()
-    RentSearchGUI.SearchWindow()
+    ReturnSearchGUI.SearchWindow()
 
 def ReturnUser():
     Window.destroy()
