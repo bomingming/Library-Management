@@ -93,9 +93,7 @@ def SearchWindow():
     OutpuTreeview.heading('#3',text='저자',anchor='center')
     OutpuTreeview.column('#4',width=80,anchor='e')
     OutpuTreeview.heading('#4',text='출판사',anchor='center')
-    OutpuTreeview.column('#5',width=70,anchor='e')
-    OutpuTreeview.heading('#5',text='대여여부',anchor='center')
-    OutpuTreeview.place(x=130, y=110)
+    
     OutpuTreeview.bind("<Double-Button-1>", key)  # 더블클릭시 key 커멘드 실행
 
     #등록 버튼

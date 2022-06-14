@@ -45,16 +45,13 @@ def BookInfowindow():
     LinkEnter = Entry(Window, width = 25)                                 # 링크 텍스트
     LinkEnter.place(x = 450, y = 255)
 
-    RentLabel = Label(Window, text = '대여여부', font = ('돋움체', 10))      # 대여여부
-    RentLabel.place(x = 380, y = 290)
-    RentEnter = Entry(Window, width = 25)                                     # 대여여부 텍스트
-    RentEnter.place(x = 450, y = 290)
+    #도서 대여는 작성안하고 넘어감
 
     BookInfomationLabel = Label(Window, text = '도서설명', font = ('돋움체', 10))   # 도서설명
-    BookInfomationLabel.place(x = 380, y = 325)
+    BookInfomationLabel.place(x = 380, y = 290)
     BookInfomationEnter = Text(Window, width = 25, height = 5)                        # 도서 설명 텍스트
 
-    BookInfomationEnter.place(x = 450, y = 325)
+    BookInfomationEnter.place(x = 450, y = 290)
 
     # 버튼
     ImageButton = Button(Window, image = '')                       # 도서 이미지 추가버튼
@@ -70,6 +67,7 @@ def BookInfowindow():
             messagebox.showerror('등록 오류', '올바른 정보를 입력하세요.')  #등록 오류 메시지(누락)
             
         #ISBN 문자열(숫자 외)등록 시 오류 처리
+        
         if ((IsbnEnter.get().isdigit())!='True') | ((PriceEnter.get().isdigit())!='True'):
              messagebox.showerror('등록 오류', '올바른 정보를 입력하세요.') #등록 오류 메시지(잘못된 입력)
 
@@ -81,7 +79,6 @@ def BookInfowindow():
                 'BOOK_PRICE':[PriceEnter.get()],
                 'BOOK_LINK':[LinkEnter.get()],
                 'BOOK_INFOR':[BookInfomationEnter.get(1.0, 50.50)],     #임의로 설정한 저장값
-                'BOOK_RENT':[False],
                 'BOOK_PIC':[None]})
             BookDf = pd.concat([BookDf, AddDf])         #등록 정보를 기존 데이터프레임에 합치기
 
