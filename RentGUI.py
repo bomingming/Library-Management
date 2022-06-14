@@ -1,15 +1,17 @@
 from tkinter import *
 from tkinter.ttk import *
-import UserSearchGUI
+import pandas as pd
+from datetime import datetime, timedelta
+from tkinter import messagebox
 import BookSearchGUI
+import UserSearchGUI
 import ReturnSearchGUI
 import BookInformationPrint
-import BookRegisterButton
-import pandas as pd
+import BookRentInfor
 
 
 def DoubleClick(event):                         # 트리뷰 더블클릭 커멘드
-    SelectBook = OutpuTreeview.focus()  #트리뷰에서 선택한 도서
+    SelectBook = OutpuTreeview.focus()          #트리뷰에서 선택한 도서
     SelectBook = OutpuTreeview.item(SelectBook).get('values')
     SelectBook = SelectBook[1]
     BookInformationPrint.BookInfowindow(SelectBook)
@@ -18,7 +20,7 @@ def ButtonClick():
     SelectBook = OutpuTreeview.focus()  #트리뷰에서 선택한 도서
     SelectBook = OutpuTreeview.item(SelectBook).get('values')
     SelectBook = SelectBook[1]
-    BookInformationPrint.BookInfowindow(SelectBook)
+    BookRentInfor.BookInfowindow(SelectBook)
 
 def SearchResult():                     # 검색기준 선택, 검색이름 입력후 검색 클릭시 커멘드
     for i in OutpuTreeview.get_children():
@@ -48,7 +50,6 @@ def Search(InStandard,InSearch):
         return BookDf.loc[BookDf[SearchIndex].str.contains(InSearch)]
     elif InSearch == '':
         return BookDf
-
 
 def SearchWindow():
     Window=Tk()
@@ -108,17 +109,12 @@ def SearchWindow():
     OutpuTreeview.place(x=130, y=110)
     OutpuTreeview.bind("<Double-Button-1>", DoubleClick)  # 더블클릭시 key 커멘드 실행
 
-    #등록 버튼
-    RegisterBotton=Button(Window,text='등록',command=BookRegisterButton.BookInfowindow)
-    RegisterBotton.place(x=230,y=50)
-
     #검색 버튼
     SearchBotton=Button(Window,text="⤶",command=SearchResult, width=2)
-    SearchBotton.place(x=620,y=80)
+    SearchBotton.place(x=620,y=79)
 
     #검색 및 수정 버튼
-    RegisterBotton=Button(Window,text='검색 및 수정',command=ButtonClick)
+    RegisterBotton=Button(Window,text='선택',command=ButtonClick)
     RegisterBotton.place(x=535,y=340)
 
     Window.mainloop()
-

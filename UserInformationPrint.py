@@ -12,11 +12,11 @@ def UserInfowindow(PhoneNumber):
     RentDf = pd.read_csv('.\RentList.csv')
     BookDf = pd.read_csv('.\BookList.csv')
     
-    UIWindow = Tk()
+    Window = Tk()
 
-    UIWindow.title('회원 세부 정보')
-    UIWindow.geometry('700x450')
-    UIWindow.resizable(width = False, height = False)
+    Window.title('회원 세부 정보')
+    Window.geometry('700x450')
+    Window.resizable(width = False, height = False)
 
     PN = PhoneNumber
 
@@ -28,46 +28,46 @@ def UserInfowindow(PhoneNumber):
 
 # 텍스트
 
-    NameLabel = Label(UIWindow, text = '이름', font=('돋움체', 10))    # 이름
+    NameLabel = Label(Window, text = '이름', font=('돋움체', 10))    # 이름
     NameLabel.place(x = 410, y = 80)
-    NameEnter = Entry(UIWindow, width = 25)                             # 이름 텍스트
+    NameEnter = Entry(Window, width = 25)                             # 이름 텍스트
     NameEnter.insert(0,name)                                              # 데이터프레임 이름 삽입
     NameEnter.place(x = 450, y = 80)
 
-    SexLabel = Label(UIWindow, text = '성별', font = ('돋움체', 10))     # 성별
+    SexLabel = Label(Window, text = '성별', font = ('돋움체', 10))     # 성별
     SexLabel.place(x = 410, y = 115)
 
     var = IntVar()                                                                      # 성별 라디오버튼
-    SexRadioButton1 = Radiobutton(UIWindow, text = '남성', variable = var, value = 1)
+    SexRadioButton1 = Radiobutton(Window, text = '남성', variable = var, value = 1)
     SexRadioButton1.place(x= 450, y = 115)
-    SexRadioButton2 = Radiobutton(UIWindow, text = '여성', variable = var, value = 2)
+    SexRadioButton2 = Radiobutton(Window, text = '여성', variable = var, value = 2)
     SexRadioButton2.place(x = 500, y = 115)
     if sex == True:
         SexRadioButton1.select()
     else:
         SexRadioButton2.select()
 
-    BirthLabel = Label(UIWindow, text = '생년월일', font = ('돋움체', 10))    # 생년월일
+    BirthLabel = Label(Window, text = '생년월일', font = ('돋움체', 10))    # 생년월일
     BirthLabel.place(x = 380, y = 150)
-    BirthEnter = Entry(UIWindow, width = 25)                            # 생년월일 텍스트
+    BirthEnter = Entry(Window, width = 25)                            # 생년월일 텍스트
     BirthEnter.insert(0,birth)                                               # 텍스트창에 생년월일 삽입
     BirthEnter.place(x = 450, y = 150)
 
-    PhoneLabel = Label(UIWindow, text = '전화번호', font = ('돋움체', 10))  # 전화번호
+    PhoneLabel = Label(Window, text = '전화번호', font = ('돋움체', 10))  # 전화번호
     PhoneLabel.place(x = 380, y = 185)
-    PhoneEnter = Entry(UIWindow, width = 25)                                # 전화번호 텍스트
+    PhoneEnter = Entry(Window, width = 25)                                # 전화번호 텍스트
     PhoneEnter.insert(0,phone)                                              # 텍스트창에 전화번호 삽입
     PhoneEnter.place(x = 450, y = 185)
 
-    MailLabel = Label(UIWindow, text = '이메일', font = ('돋움체', 10))   # 이메일
+    MailLabel = Label(Window, text = '이메일', font = ('돋움체', 10))   # 이메일
     MailLabel.place(x = 395, y = 220)
-    MailEnter = Entry(UIWindow, width = 25)                                # 이메일 텍스트
+    MailEnter = Entry(Window, width = 25)                                # 이메일 텍스트
     MailEnter.insert(0,mail)                                                # 텍스트창에 이메일 삽입
     MailEnter.place(x = 450, y = 220)
 
-    OutLabel = Label(UIWindow, text = '탈퇴', font = ('돋움체', 10))     # 탈퇴
+    OutLabel = Label(Window, text = '탈퇴', font = ('돋움체', 10))     # 탈퇴
     OutLabel.place(x = 410, y = 255)
-    OutEnter = Entry(UIWindow, width = 25)                                # 탈퇴 텍스트
+    OutEnter = Entry(Window, width = 25)                                # 탈퇴 텍스트
     OutEnter.place(x = 450, y = 255)
     try:
         if math.isnan(out) == True:                 # True = nan => 가입중 / False = 탈퇴일
@@ -78,15 +78,15 @@ def UserInfowindow(PhoneNumber):
     # 대여목록 가져오는 코드
     ListDf = RentDf.loc[RentDf['USER_PHONE'].str.contains(PN), ['BOOK_ISBN']]
 
-    RentLabel = Label(UIWindow, text = '대여여부', font = ('돋움체', 10))   # 대여여부                                         [대여목록 출력해야함 > 맨위 IsbnDf 부분]
+    RentLabel = Label(Window, text = '대여여부', font = ('돋움체', 10))   # 대여여부                                         [대여목록 출력해야함 > 맨위 IsbnDf 부분]
     RentLabel.place(x = 380, y = 290)
-    RentEnter = Text(UIWindow, width = 25, height = 1)                        # 대여목록
+    RentEnter = Text(Window, width = 25, height = 1)                        # 대여목록
     RentEnter.insert(0.0,'')                                                     #                                              [rent.csv에서 isbn으로 책 제목,저자 출력]
     RentEnter.place(x = 450, y = 290)
 
 # 버튼
     def SelectPic():                                                           # 이미지 파일열기 함수
-        filename = askopenfilename(parent = UIWindow, filetypes = (('GIF 파일','*gif'),('모든파일','*.*')))                       # [취소시 사진사라지는거]
+        filename = askopenfilename(parent = Window, filetypes = (('GIF 파일','*gif'),('모든파일','*.*')))                       # [취소시 사진사라지는거]
         photo = PhotoImage(file = filename)
         ImageButton.configure(image = photo)
         ImageButton.image = photo
@@ -94,16 +94,16 @@ def UserInfowindow(PhoneNumber):
 
     try:
         if math.isnan(pic):
-            ImageButton = Button(UIWindow, image = '', command = SelectPic)                          # 회원 이미지 추가버튼
+            ImageButton = Button(Window, image = '', command = SelectPic)                          # 회원 이미지 추가버튼
     except(TypeError):
         try:
             photo = PhotoImage(file = pic)
-            ImageButton = Button(UIWindow, image = photo, command = SelectPic)
+            ImageButton = Button(Window, image = photo, command = SelectPic)
         except:
-            ImageButton = Button(UIWindow, text = '저장된 이미지가\n 삭제되었거나 없습니다.', command = SelectPic)
+            ImageButton = Button(Window, text = '저장된 이미지가\n 삭제되었거나 없습니다.', command = SelectPic)
     ImageButton.place(x = 130, y = 80, width = 170, height = 200)
 
-    OkButton = Button(UIWindow, text = '확인', command = UIWindow.destroy)                            # 확인 버튼
+    OkButton = Button(Window, text = '확인', command = Window.destroy)                            # 확인 버튼
     OkButton.place(x = 130, y = 290, width = 50)
 
     E_Name = NameEnter.get()
@@ -127,7 +127,7 @@ def UserInfowindow(PhoneNumber):
                 print(pic)
     
 
-    EditButton = Button(UIWindow, text = '수정', command = EditUser)      # 수정 버튼
+    EditButton = Button(Window, text = '수정', command = EditUser)      # 수정 버튼
     EditButton.place(x = 190, y = 290, width = 50)
 
     def OutUser():                                                                  # 탈퇴버튼 누를시 실행 함수
@@ -139,7 +139,7 @@ def UserInfowindow(PhoneNumber):
                         UserDf.loc[UserDf['USER_PHONE'].str.contains(PN),['USER_OUT']] = (datetime.today().strftime('%Y-%m-%d'))    # 확인시 데이터프레임에 탈퇴 날짜 저장
                         UserDf.to_csv('UserList.csv', index=False, encoding = 'utf-8')
                         messagebox.showinfo('탈퇴 완료', '탈퇴 되었습니다.\n 탈퇴정보가 바뀝니다.')
-                        UIWindow.destroy()
+                        Window.destroy()
                     else:
                         messagebox.showinfo('탈퇴 취소', '탈퇴를 취소하였습니다.')
                 else:
@@ -147,7 +147,7 @@ def UserInfowindow(PhoneNumber):
         except:
             messagebox.showerror('오류', '이미 탈퇴한 회원입니다.')
 
-    OutButton = Button(UIWindow, text = '탈퇴', command = OutUser)        # 탈퇴 버튼
+    OutButton = Button(Window, text = '탈퇴', command = OutUser)        # 탈퇴 버튼
     OutButton.place(x = 250, y = 290, width = 50)
 
-    UIWindow.mainloop()
+    Window.mainloop()
