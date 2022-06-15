@@ -114,7 +114,7 @@ def SearchWindow():
 
     #검색 버튼
     SearchBotton=Button(Window,text="⤶",command=SearchResult, width=2)
-    SearchBotton.place(x=620,y=80)
+    SearchBotton.place(x=620,y=79)
 
     #검색 및 수정 버튼
     RegisterBotton=Button(Window,text='검색 및 수정',command=ButtonClick)
