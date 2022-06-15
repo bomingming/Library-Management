@@ -66,14 +66,14 @@ def BookInfowindow():
     def AddBook():  #도서 등록 버튼 누를 시
         global BookDf
         if (BookDf['BOOK_ISBN']==IsbnEnter.get()).any():
-            messagebox.showerror('중복된 도서', '중복된 도서입니다. \n (오류 : ISBN 중복)') #등록 오류 메시지(중복)
+            messagebox.showerror('중복된 도서', '중복된 도서입니다. \n (오류 : ISBN 중복)', master=Window) #등록 오류 메시지(중복)
         if '' in [TitleEnter.get(),IsbnEnter.get(),AuthorEnter.get(), PublishEnter.get(),
             PriceEnter.get(), LinkEnter.get(), BookInfomationEnter.get(1.0, 50.50)]:
-            messagebox.showerror('등록 오류', '올바른 정보를 입력하세요.')  #등록 오류 메시지(누락)
+            messagebox.showerror('등록 오류', '올바른 정보를 입력하세요.', master=Window)  #등록 오류 메시지(누락)
             
         #ISBN 문자열(숫자 외)등록 시 오류 처리        
         elif ((IsbnEnter.get().isdigit())!=True) | ((PriceEnter.get().isdigit())!=True):
-            messagebox.showerror('등록 오류', '올바른 정보를 입력하세요.') #등록 오류 메시지(잘못된 입력)
+            messagebox.showerror('등록 오류', '올바른 정보를 입력하세요.', master=Window) #등록 오류 메시지(잘못된 입력)
 
         else:
             AddDf = pd.DataFrame({'BOOK_TITLE':[TitleEnter.get()],

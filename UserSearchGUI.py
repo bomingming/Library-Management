@@ -2,7 +2,7 @@ from tkinter import *
 from tkinter.ttk import *
 import UserSearchGUI
 import BookSearchGUI
-import ReturnSearchGUI
+import RentGUI
 import UserInformationPrint
 import UserRegisterButton
 import pandas as pd
@@ -69,7 +69,7 @@ def SearchWindow():
 
     def RentUser():
         Window.destroy()
-        ReturnSearchGUI.SearchWindow()
+        RentGUI.SearchWindow()
 
     def ReturnUser():
         Window.destroy()

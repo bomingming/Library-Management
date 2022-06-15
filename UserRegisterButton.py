@@ -60,9 +60,9 @@ def UserInforwindow():
     def AddUser():  #회원 등록 누를 시
         global UserDf
         if (UserDf['USER_PHONE']==PhoneEnter.get()).any():
-            messagebox.showerror('중복된 회원', '중복된 회원입니다. \n (오류 : ISBN 중복)')
+            messagebox.showerror('중복된 회원', '중복된 회원입니다. \n (오류 : ISBN 중복)', master=Window)
         elif '' in [NameEnter.get(), BirthEnter.get(), PhoneEnter.get(), MailEnter.get()]:
-            messagebox.showerror('등록 오류', '올바른 정보를 입력하세요.')
+            messagebox.showerror('등록 오류', '올바른 정보를 입력하세요.', master=Window)
 
         else:
             AddUserDf = pd.DataFrame({'USER_NAME':[NameEnter.get()],        
