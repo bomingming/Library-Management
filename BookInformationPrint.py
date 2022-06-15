@@ -59,6 +59,7 @@ def BookInfowindow(SelectBook):
     RentEnter = Entry(Window, width = 25)                                     # 대여여부 텍스트
     RentEnter.place(x = 450, y = 290)
     RentEnter.insert(0,OutputBook[7])
+    RentEnter.configure(state='readonly')                                   #대여여부 수정 못하게
 
     BookInfomationLabel = Label(Window, text = '도서설명', font = ('돋움체', 10))   # 도서설명
     BookInfomationLabel.place(x = 380, y = 325)

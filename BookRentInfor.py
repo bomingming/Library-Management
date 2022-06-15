@@ -54,11 +54,6 @@ def BookInfowindow(SelectBook):
     LinkEnter.place(x = 450, y = 255)
     LinkEnter.insert(0,OutputBook[5])
 
-    RentLabel = Label(Window, text = '대여여부', font = ('돋움체', 10))      # 대여여부
-    RentLabel.place(x = 380, y = 290)
-    RentEnter = Entry(Window, width = 25, state = 'readonly')                # 대여여부 텍스트
-    RentEnter.place(x = 450, y = 290)
-    RentEnter.insert(0,OutputBook[7])
 
     BookInfomationLabel = Label(Window, text = '도서설명', font = ('돋움체', 10))   # 도서설명
     BookInfomationLabel.place(x = 380, y = 325)
