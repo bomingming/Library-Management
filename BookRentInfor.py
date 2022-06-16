@@ -2,6 +2,8 @@ from tkinter import *
 from tkinter.ttk import *
 import pandas as pd
 from tkinter import messagebox
+from tkinter.filedialog import *
+import RentUserSearch
 
 #도서 세부 정보 함수
 def BookInfowindow(SelectBook):
@@ -69,9 +71,17 @@ def BookInfowindow(SelectBook):
 
     BookInfomationEnter.place(x = 450, y = 325)
 
+    def SelectPic():             # 이미지 파일열기 함수
+        filename = askopenfilename(parent = Window, filetypes = (('GIF 파일','*gif'),('모든파일','*.*')))                       # [취소시 사진사라지는거]
+        photo = PhotoImage(file = filename)
+        ImageButton.configure(image = photo)
+        ImageButton.image = photo
+
+    ImageButton = Button(Window, text = '저장된 이미지가\n삭제되었거나 없습니다.', command = SelectPic)
+    ImageButton.place(x = 130, y = 80, width = 170, height = 200)
 
 
-    def Edit():  #도서 등록 버튼 누를 시
+    def Rent():  #대여 버튼
         global BookDf
         if (BookDf['BOOK_ISBN']==IsbnEnter.get()).any():
             messagebox.showerror('중복된 도서', '중복된 도서입니다. \n (오류 : ISBN 중복)') #등록 오류 메시지(중복)
@@ -89,10 +99,16 @@ def BookInfowindow(SelectBook):
             messagebox.showinfo('수정 완료', '수정이 완료되었습니다.')  #등록 완료 메시지
             Window.destroy
 
-    OkButton = Button(Window, text = '대여', command=Window.destroy)    # 확인 버튼
+    def Borrower():     #대여자 버튼
+        global RentDf
+        RentUserSearch.SearchWindow(SelectBook)
+        #Window.destroy()    #대여 후 대여자 목록 창 제거
+
+
+    OkButton = Button(Window, text = '대여', command=Rent)    # 대여 버튼
     OkButton.place(x = 130, y = 290, width = 50)
 
-    OkButton = Button(Window, text = '대여자', command=Edit)                # 수정 버튼
+    OkButton = Button(Window, text = '대여자', command=Borrower)            # 대여자 버튼
     OkButton.place(x = 190, y = 290, width = 50)
 
     OutButton = Button(Window, text = '취소',command=Window.destroy)    # 취소 버튼
