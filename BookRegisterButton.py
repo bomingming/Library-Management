@@ -54,7 +54,7 @@ def BookInfowindow():
 
 
     def SelectPic():             # 이미지 파일열기 함수
-        filename = askopenfilename(parent = Window, filetypes = (('GIF 파일','*gif'),('모든파일','*.*')))                       # [취소시 사진사라지는거]
+        filename = askopenfilename(parent = Window, filetypes = (('GIF 파일','*gif'),('모든파일','*.*')))         # [취소시 사진사라지는거]
         photo = PhotoImage(file = filename)
         ImageButton.configure(image = photo)
         ImageButton.image = photo

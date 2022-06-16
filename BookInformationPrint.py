@@ -106,8 +106,13 @@ def BookInfowindow(SelectBook):
     def EditBook():
         answer = messagebox.askquestion('수정', '수정하시겠습니까?', master = BIWindow)
         if answer == 'yes':
-            if(IsbnEnter.get() != isbnnum) and (IsbnEnter.get() == BookDf['BOOK_ISBN']).any():              #[중복체크 수정할 필요있음]
+            #ISBN 문자열(숫자 외)등록 시 오류 처리        
+            if ((IsbnEnter.get().isdigit())!=True) | ((PriceEnter.get().isdigit())!=True):
+                messagebox.showerror('등록 오류', 'ISBN에 숫자를 입력해 주세요.', master=BIWindow)
+            
+            elif(IsbnEnter.get() != isbnnum) and (IsbnEnter.get() == BookDf['BOOK_ISBN']).any():              #[중복체크 수정할 필요있음]
                 messagebox.showerror('중복', '중복된 ISBN 입니다.', master = BIWindow)
+                
             else:
                 BookDf.loc[BookDf['BOOK_ISBN'].str.contains(isbnnum),['BOOK_TITLE','BOOK_ISBN','BOOK_AUTHOR','BOOK_PUB','BOOK_PRICE','BOOK_LINK','BOOK_INFOR']] = (TitleEnter.get(),IsbnEnter.get(),AuthorEnter.get(),PubEnter.get(),PriceEnter.get(),LinkEnter.get(),InforEnter.get(0.0,'end-1c'))
                 BookDf.to_csv('BookList.csv', index = False, encoding = 'utf-8')
