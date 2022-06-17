@@ -4,8 +4,12 @@ import UserSearchGUI
 import BookSearchGUI
 import RentGUI
 import UserInformationPrint
-import UserRegisterButton
 import pandas as pd
+from tkinter import messagebox
+from datetime import datetime, timedelta
+
+NowDay = datetime.today().strftime('%Y-%m-%d')                          #오늘
+ReturnDay = (datetime.today()+timedelta(days=14)).strftime('%Y-%m-%d')  #반납예정일
 
 def DoubleClick(event):                         # 트리뷰 더블클릭 커멘드
     SelectBook = OutpuTreeview.focus()  #트리뷰에서 선택한 회원
@@ -13,11 +17,21 @@ def DoubleClick(event):                         # 트리뷰 더블클릭 커멘�
     SelectBook = SelectBook[2]
     UserInformationPrint.UserInfowindow(SelectBook)
 
-def ButtonClick():
-    SelectBook = OutpuTreeview.focus()  #트리뷰에서 선택한 회원
-    SelectBook = OutpuTreeview.item(SelectBook).get('values')
-    SelectBook = SelectBook[2]
-    UserInformationPrint.UserInfowindow(SelectBook)
+def ButtonClick(SelectBook):
+    RentDf = pd.read_csv('.\RentList.csv')
+
+    SelectUser = OutpuTreeview.focus()  #트리뷰에서 선택한 회원
+    SelectUser = OutpuTreeview.item(SelectUser).get('values')
+    AddDf = pd.DataFrame({'BOOK_ISBN':[SelectBook],   #값 추가 필요
+            'USER_PHONE':[SelectUser[2]],
+            'RENT_DATE':[NowDay],
+            'RENT_REDATE':[ReturnDay]})
+    RentDf = pd.concat([RentDf, AddDf])         #등록 정보를 기존 데이터프레임에 합치기
+
+    RentDf.to_csv('RentList.csv',index=False,encoding='utf-8')  #csv파일에 저장
+
+    messagebox.showinfo('대여 완료', '대여하시겠습니까?\n회원 정보 : ',)  #대여 의사 묻기
+
 
 def SearchResult():                     # 검색기준 선택, 검색이름 입력후 검색 클릭시 커멘드
     for i in OutpuTreeview.get_children():
@@ -32,8 +46,6 @@ def SearchResult():                     # 검색기준 선택, 검색이름 입�
                 PrintR.append('여성')
             elif ResultSearch.loc[i,j]==True:
                 PrintR.append('남성')
-            elif pd.isna(ResultSearch.loc[i,j]) == True:
-                PrintR.append('')
             else:
                 PrintR.append(ResultSearch.loc[i,j])
         OutpuTreeview.insert('','end',text=i,values=PrintR,iid=str(i))
@@ -55,7 +67,7 @@ def Search(InStandard,InSearch):
         return UserDf
 
 
-def SearchWindow():
+def SearchWindow(SelectBook):
     Window=Tk()
     Window.title('회원 관리 프로그램')
     Window.geometry("800x500")
@@ -115,16 +127,12 @@ def SearchWindow():
     OutpuTreeview.place(x=130, y=110)
     OutpuTreeview.bind("<Double-Button-1>", DoubleClick)  # 더블클릭시 key 커멘드 실행
 
-    #등록 버튼
-    RegisterBotton=Button(Window,text='등록',command=UserRegisterButton.UserInforwindow)
-    RegisterBotton.place(x=230,y=50)
-
     #검색 버튼
     SearchBotton=Button(Window,text="⤶",command=SearchResult,width=2)
     SearchBotton.place(x=621,y=80)
 
-    #검색 및 수정 버튼
-    RegisterBotton=Button(Window,text='확인 및 수정',command=ButtonClick)
+    #선택 버튼
+    RegisterBotton=Button(Window,text='선택',command=lambda : ButtonClick(SelectBook))
     RegisterBotton.place(x=535,y=340)
 
     Window.mainloop()

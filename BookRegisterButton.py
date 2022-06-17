@@ -2,6 +2,7 @@ from tkinter import *
 from tkinter.ttk import *
 from tkinter import messagebox
 import pandas as pd
+from tkinter.filedialog import *
 
 BookDf = pd.read_csv('BookList.csv')
 
@@ -45,31 +46,34 @@ def BookInfowindow():
     LinkEnter = Entry(Window, width = 25)                                 # 링크 텍스트
     LinkEnter.place(x = 450, y = 255)
 
-    #도서 대여는 작성안하고 넘어감
-
     BookInfomationLabel = Label(Window, text = '도서설명', font = ('돋움체', 10))   # 도서설명
     BookInfomationLabel.place(x = 380, y = 290)
     BookInfomationEnter = Text(Window, width = 25, height = 5)                        # 도서 설명 텍스트
 
     BookInfomationEnter.place(x = 450, y = 290)
 
-    # 버튼
-    ImageButton = Button(Window, image = '')                       # 도서 이미지 추가버튼
+
+    def SelectPic():             # 이미지 파일열기 함수
+        filename = askopenfilename(parent = Window, filetypes = (('GIF 파일','*gif'),('모든파일','*.*')))         # [취소시 사진사라지는거]
+        photo = PhotoImage(file = filename)
+        ImageButton.configure(image = photo)
+        ImageButton.image = photo
+
+    ImageButton = Button(Window, text = '저장된 이미지가\n삭제되었거나 없습니다.', command = SelectPic)
     ImageButton.place(x = 130, y = 80, width = 170, height = 200)
     
+
     def AddBook():  #도서 등록 버튼 누를 시
         global BookDf
         if (BookDf['BOOK_ISBN']==IsbnEnter.get()).any():
-            messagebox.showerror('중복된 도서', '중복된 도서입니다. \n (오류 : ISBN 중복)') #등록 오류 메시지(중복)
-        if '' in [TitleEnter.get(),IsbnEnter.get(),AuthorEnter.get(), 
-            AuthorEnter.get(), PriceEnter.get(), LinkEnter.get(),
-            BookInfomationEnter.get(1.0, 50.50)]:
-            messagebox.showerror('등록 오류', '올바른 정보를 입력하세요.')  #등록 오류 메시지(누락)
+            messagebox.showerror('중복된 도서', '중복된 도서입니다. \n (오류 : ISBN 중복)', master=Window) #등록 오류 메시지(중복)
+        if '' in [TitleEnter.get(),IsbnEnter.get(),AuthorEnter.get(), PublishEnter.get(),
+            PriceEnter.get(), LinkEnter.get(), BookInfomationEnter.get(1.0, 50.50)]:
+            messagebox.showerror('등록 오류', '올바른 정보를 입력하세요.', master=Window)  #등록 오류 메시지(누락)
             
-        #ISBN 문자열(숫자 외)등록 시 오류 처리
-        
-        if ((IsbnEnter.get().isdigit())!='True') | ((PriceEnter.get().isdigit())!='True'):
-             messagebox.showerror('등록 오류', '올바른 정보를 입력하세요.') #등록 오류 메시지(잘못된 입력)
+        #ISBN 문자열(숫자 외)등록 시 오류 처리        
+        elif ((IsbnEnter.get().isdigit())!=True) | ((PriceEnter.get().isdigit())!=True):
+            messagebox.showerror('등록 오류', '올바른 정보를 입력하세요.', master=Window) #등록 오류 메시지(잘못된 입력)
 
         else:
             AddDf = pd.DataFrame({'BOOK_TITLE':[TitleEnter.get()],
@@ -85,6 +89,7 @@ def BookInfowindow():
             BookDf.to_csv('BookList.csv',index=False,encoding='utf-8')  #csv파일에 저장
 
             messagebox.showinfo('등록 완료', '등록이 완료되었습니다.')  #등록 완료 메시지
+            Window.destroy()    #도서 등록 후 도서 등록 창 제거
 
     OkButton = Button(Window, text = '등록', command=AddBook)      # 등록 버튼
     OkButton.place(x = 155, y = 290, width = 50)

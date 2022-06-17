@@ -32,21 +32,51 @@ def UserInforwindow():
     SexRadioButton2 = Radiobutton(Window, text = '여성', variable = var, value = 2)
     SexRadioButton2.place(x = 500, y = 115)
 
-    BirthLabel = Label(Window, text = '생년월일', font = ('돋움체', 10))    # 생년월일
+    year = [str(i) for i in range(1950, 2051)]
+    month = [str(i).zfill(2) for i in range(1, 13)]
+    day = [str(i).zfill(2) for i in range(1, 32)]
+
+    BirthLabel = Label(Window, text = '생년월일', font = ('돋움체', 10))                 # 생년월일
     BirthLabel.place(x = 380, y = 150)
-    BirthEnter = Entry(Window, width = 25)                            # 생년월일 텍스트
-    BirthEnter.place(x = 450, y = 150)
+    YearCombo = Combobox(Window, width = 4, height = 15, values = year)
+    YearCombo.configure(state = 'readonly')
+    YearLabel = Label(Window, text = '년', font = ('돋움체', 10))
+    MonthCombo = Combobox(Window, width = 2, height = 10, values = month)
+    MonthCombo.configure(state = 'readonly')
+    MonthLabel = Label(Window, text = '월', font = ('돋움체', 10))
+    DayCombo = Combobox(Window, width = 2, height = 10, values = day)   
+    DayCombo.configure(state = 'readonly')
+    DayLabel = Label(Window, text = '일', font = ('돋움체', 10))
+
+    YearCombo.place(x = 450, y = 150)
+    YearLabel.place(x = 505, y = 150)
+    MonthCombo.place(x = 525, y = 150)
+    MonthLabel.place(x = 565, y = 150)
+    DayCombo.place(x = 585, y = 150)
+    DayLabel.place(x = 625, y= 150)
 
     PhoneLabel = Label(Window, text = '전화번호', font = ('돋움체', 10))  # 전화번호
     PhoneLabel.place(x = 380, y = 185)
-    PhoneEnter = Entry(Window, width = 25)                                # 전화번호 텍스트
-    PhoneEnter.place(x = 450, y = 185)
+    PhoneEnter1 = Entry(Window, width = 5)
+    DashLabel1 = Label(Window, text = '-')
+    PhoneEnter2 = Entry(Window, width = 6)
+    DashLabel2 = Label(Window, text = '-')
+    PhoneEnter3 = Entry(Window, width = 6)
+    PhoneEnter1.place(x = 450, y = 185)
+    DashLabel1.place(x = 495, y = 185)
+    PhoneEnter2.place(x = 510, y = 185)
+    DashLabel2.place(x = 564, y = 185)
+    PhoneEnter3.place(x = 580, y = 185)
 
     MailLabel = Label(Window, text = '이메일', font = ('돋움체', 10))   # 이메일
     MailLabel.place(x = 395, y = 220)
-    MailEnter = Entry(Window, width = 25)                                # 이메일 텍스트
+    MailLabel2 = Label(Window, text = '@')
+    MailLabel2.place(x = 535, y = 220)
+    MailEnter = Entry(Window, width = 11)                                # 이메일 텍스트
+    MailCombo = Combobox(Window, width = 8, height = 5, values = ['naver.com','gmail.com','daum.net'])
+    MailCombo.configure(state = 'readonly')
     MailEnter.place(x = 450, y = 220)
-
+    MailCombo.place(x = 550, y = 220)
 
     def SelectPic():             # 이미지 파일열기 함수
         filename = askopenfilename(parent = Window, filetypes = (('GIF 파일','*gif'),('모든파일','*.*')))                       # [취소시 사진사라지는거]
@@ -59,17 +89,18 @@ def UserInforwindow():
 
     def AddUser():  #회원 등록 누를 시
         global UserDf
-        if (UserDf['USER_PHONE']==PhoneEnter.get()).any():
-            messagebox.showerror('중복된 회원', '중복된 회원입니다. \n (오류 : ISBN 중복)')
-        elif '' in [NameEnter.get(), BirthEnter.get(), PhoneEnter.get(), MailEnter.get()]:
-            messagebox.showerror('등록 오류', '올바른 정보를 입력하세요.')
+        phone = PhoneEnter1.get() + '-'+PhoneEnter2.get() + '-' + PhoneEnter3.get()
+        if (UserDf['USER_PHONE']==phone).any():
+            messagebox.showerror('중복된 회원', '중복된 회원입니다. \n (오류 : ISBN 중복)', master=Window)
+        elif '' in [NameEnter.get(), YearCombo.get(), MonthCombo.get(), DayCombo.get(), PhoneEnter1.get(), PhoneEnter2.get(), PhoneEnter3.get(), MailEnter.get(), MailCombo.get()]:
+            messagebox.showerror('등록 오류', '올바른 정보를 입력하세요.', master=Window)
 
         else:
             AddUserDf = pd.DataFrame({'USER_NAME':[NameEnter.get()],        
-         'USER_BIRTH':[BirthEnter.get()],
-         'USER_PHONE':[PhoneEnter.get()],
+         'USER_BIRTH':[YearCombo.get()+MonthCombo.get()+DayCombo.get()],
+         'USER_PHONE':[phone],
          'USER_SEX':[bool(var)],               #True : 남성 / False : 여성
-         'USER_MAIL':[MailEnter.get()],
+         'USER_MAIL':[MailEnter.get()+'@'+MailCombo.get()],
          'USER_OUT':[None],             #탈퇴일 디폴트 값 : None
          'USER_IN':[NowDay],        #등록일 디폴트 값 : 오늘 날짜
          'USER_RENT':[False],           #대여 디폴트 값 : False.

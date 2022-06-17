@@ -8,6 +8,7 @@ import UserSearchGUI
 import ReturnSearchGUI
 import BookInformationPrint
 import BookRentInfor
+import RentUserSearch
 
 
 def DoubleClick(event):                         # 트리뷰 더블클릭 커멘드
@@ -19,8 +20,10 @@ def DoubleClick(event):                         # 트리뷰 더블클릭 커멘�
 def ButtonClick():
     SelectBook = OutpuTreeview.focus()  #트리뷰에서 선택한 도서
     SelectBook = OutpuTreeview.item(SelectBook).get('values')
-    SelectBook = SelectBook[1]
-    BookRentInfor.BookInfowindow(SelectBook)
+    #SelectBook = SelectBook[1]
+    BookRentInfor.BookInfowindow(SelectBook[1])
+    #SelectBookISBN = SelectBook[1]
+    
 
 def SearchResult():                     # 검색기준 선택, 검색이름 입력후 검색 클릭시 커멘드
     for i in OutpuTreeview.get_children():
@@ -113,7 +116,7 @@ def SearchWindow():
     SearchBotton=Button(Window,text="⤶",command=SearchResult, width=2)
     SearchBotton.place(x=620,y=79)
 
-    #검색 및 수정 버튼
+    #선택
     RegisterBotton=Button(Window,text='선택',command=ButtonClick)
     RegisterBotton.place(x=535,y=340)
 
