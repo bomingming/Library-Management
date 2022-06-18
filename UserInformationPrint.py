@@ -18,7 +18,7 @@ def UserInfowindow(PhoneNumber):
 
     UIWindow.title('회원 세부 정보')
     UIWindow.geometry('700x450')
-##    UIWindow.resizable(width = False, height = False)
+    UIWindow.resizable(width = False, height = False)
 
     PN = PhoneNumber
 
@@ -40,10 +40,10 @@ def UserInfowindow(PhoneNumber):
     SexLabel = Label(UIWindow, text = '성별', font = ('돋움체', 10))     # 성별
     SexLabel.place(x = 410, y = 115)
 
-    sexvar = IntVar()                                                                      # 성별 라디오버튼
-    SexRadioButton1 = Radiobutton(UIWindow, text = '남성', variable = sexvar, value = 0)
+    sexvar = StringVar()                                                                      # 성별 라디오버튼
+    SexRadioButton1 = Radiobutton(UIWindow, text = '남성', variable = sexvar, value = '남성')
     SexRadioButton1.place(x= 450, y = 115)
-    SexRadioButton2 = Radiobutton(UIWindow, text = '여성', variable = sexvar, value = 1)
+    SexRadioButton2 = Radiobutton(UIWindow, text = '여성', variable = sexvar, value = '여성')
     SexRadioButton2.place(x = 500, y = 115)
     if sex == True:
         SexRadioButton1.select()
@@ -116,6 +116,7 @@ def UserInfowindow(PhoneNumber):
             OutEnter.insert(0,'가입중')
     except:
         OutEnter.insert(0,out)
+    OutEnter.configure(state = 'readonly')
         
 
 #대여목록
@@ -177,7 +178,9 @@ def UserInfowindow(PhoneNumber):
         phone = PhoneEnter1.get()+'-'+PhoneEnter2.get()+'-'+PhoneEnter3.get()
         answer = messagebox.askquestion('수정', '수정하시겠습니까?', master = UIWindow)
         if answer == 'yes':
-            if (phone != PN) and (phone == UserDf['USER_PHONE']).any():                             # 전화번호 중복확인
+            if (len(PhoneEnter1.get()) != 3 or len(PhoneEnter2.get()) != 4 or len(PhoneEnter3.get()) != 4):
+                messagebox.showerror('입력오류', '전화번호 입력이 잘 못 되었습니다.')
+            elif (phone != PN) and (phone == UserDf['USER_PHONE']).any():                             # 전화번호 중복확인
                 messagebox.showerror('중복', '중복된 전화번호입니다.', master = UIWindow)
             else:
                 if (Year%4 != 0 and Month == 2 and Day > 28):
@@ -193,7 +196,6 @@ def UserInfowindow(PhoneNumber):
                     mail = MailEnter.get()+'@'+MailCombo.get()
                     
                     birth = YearCombo.get()+MonthCombo.get()+DayCombo.get()
-                    print(phone)
 
                     UserDf.loc[UserDf['USER_PHONE'].str.contains(PN), ['USER_NAME','USER_BIRTH','USER_PHONE','USER_SEX','USER_MAIL']] = (NameEnter.get(),birth,phone,sex,mail)
                     UserDf.to_csv('UserList.csv', index=False, encoding = 'utf-8')
