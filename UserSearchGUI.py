@@ -2,7 +2,7 @@ from tkinter import *
 from tkinter.ttk import *
 import UserSearchGUI
 import BookSearchGUI
-import RentGUI
+import ReturnSearchGUI
 import UserInformationPrint
 import UserRegisterButton
 import pandas as pd
@@ -32,8 +32,6 @@ def SearchResult():                     # 검색기준 선택, 검색이름 입�
                 PrintR.append('여성')
             elif ResultSearch.loc[i,j]==True:
                 PrintR.append('남성')
-            elif pd.isna(ResultSearch.loc[i,j]) == True:
-                PrintR.append('')
             else:
                 PrintR.append(ResultSearch.loc[i,j])
         OutpuTreeview.insert('','end',text=i,values=PrintR,iid=str(i))
@@ -71,7 +69,7 @@ def SearchWindow():
 
     def RentUser():
         Window.destroy()
-        RentGUI.SearchWindow()
+        ReturnSearchGUI.SearchWindow()
 
     def ReturnUser():
         Window.destroy()
