@@ -19,18 +19,27 @@ def DoubleClick(event):                         # 트리뷰 더블클릭 커멘�
 
 def ButtonClick(SelectBook):
     RentDf = pd.read_csv('.\RentList.csv')
+    BookDf = pd.read_csv('.\BookList.csv')
 
     SelectUser = OutpuTreeview.focus()  #트리뷰에서 선택한 회원
     SelectUser = OutpuTreeview.item(SelectUser).get('values')
-    AddDf = pd.DataFrame({'BOOK_ISBN':[SelectBook],   #값 추가 필요
-            'USER_PHONE':[SelectUser[2]],
-            'RENT_DATE':[NowDay],
-            'RENT_REDATE':[ReturnDay]})
-    RentDf = pd.concat([RentDf, AddDf])         #등록 정보를 기존 데이터프레임에 합치기
 
-    RentDf.to_csv('RentList.csv',index=False,encoding='utf-8')  #csv파일에 저장
+    RentBookIndex = BookDf[BookDf['BOOK_ISBN'] == SelectBook].index[0]
 
-    messagebox.showinfo('대여 완료', '대여하시겠습니까?\n회원 정보 : ',)  #대여 의사 묻기
+    answer = messagebox.askquestion('대여 완료', '대여하시겠습니까?\n회원 정보 : '+SelectUser[0]+
+    '\n책 정보 : '+BookDf.loc[RentBookIndex,'BOOK_TITLE'])  #대여 의사 묻기
+    if answer == 'yes':
+        AddDf = pd.DataFrame({'BOOK_ISBN':[SelectBook],   
+        'USER_PHONE':[SelectUser[2]],
+        'RENT_DATE':[NowDay],
+        'RENT_REDATE':[ReturnDay]})
+        RentDf = pd.concat([RentDf, AddDf])         #등록 정보를 기존 데이터프레임에 합치기
+
+        RentDf.to_csv('RentList.csv',index=False,encoding='utf-8')  #csv파일에 저장
+
+        messagebox.showinfo('대여완료', '대여가 완료되었습니다.')
+
+    
 
 
 def SearchResult():                     # 검색기준 선택, 검색이름 입력후 검색 클릭시 커멘드
@@ -49,7 +58,7 @@ def SearchResult():                     # 검색기준 선택, 검색이름 입�
             else:
                 PrintR.append(ResultSearch.loc[i,j])
         OutpuTreeview.insert('','end',text=i,values=PrintR,iid=str(i))
-    
+
 
 
 # 회원 검색
