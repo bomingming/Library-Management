@@ -80,38 +80,15 @@ def BookInfowindow(SelectBook):
     ImageButton = Button(Window, text = '저장된 이미지가\n삭제되었거나 없습니다.', command = SelectPic)
     ImageButton.place(x = 130, y = 80, width = 170, height = 200)
 
-
-    def Rent():  #대여 버튼 (수정 필요)
-        global BookDf
-        if (BookDf['BOOK_ISBN']==IsbnEnter.get()).any():
-            messagebox.showerror('중복된 도서', '중복된 도서입니다. \n (오류 : ISBN 중복)') #등록 오류 메시지(중복)
-        elif '' in [TitleEnter.get(),IsbnEnter.get(),AuthorEnter.get(), 
-            AuthorEnter.get(), PriceEnter.get(), LinkEnter.get(),
-            BookInfomationEnter.get(1.0, 50.50)]:
-            messagebox.showerror('등록 오류', '올바른 정보를 입력하세요.')  #등록 오류 메시지(누락)
-
-        else:
-            BookDf.loc[BookDf[IsbnEnter.get()]]=[TitleEnter.get(),AuthorEnter.get(),PublishEnter.get(),
-            IsbnEnter.get(),PriceEnter.get(),LinkEnter.get(),BookInfomationEnter.get(1.0, 50.50)]
-
-            BookDf.to_csv('BookList.csv',index=False,encoding='utf-8')  #csv파일에 저장
-
-            messagebox.showinfo('수정 완료', '수정이 완료되었습니다.')  #등록 완료 메시지
-            Window.destroy
-
     def Borrower():     #대여자 버튼
         global RentDf
-        RentUserSearch.SearchWindow(SelectBook)
-        #Window.destroy()    #대여 후 대여자 목록 창 제거
+        RentUserSearch.SearchWindow(SelectBook, Window)
+        
 
-
-    OkButton = Button(Window, text = '대여', command=Rent)    # 대여 버튼
-    OkButton.place(x = 130, y = 290, width = 50)
-
-    OkButton = Button(Window, text = '대여자', command=Borrower)            # 대여자 버튼
-    OkButton.place(x = 190, y = 290, width = 50)
+    OkButton = Button(Window, text = '대여자', command=Borrower)   # 대여자 버튼
+    OkButton.place(x = 160, y = 290, width = 50)
 
     OutButton = Button(Window, text = '취소',command=Window.destroy)    # 취소 버튼
-    OutButton.place(x = 250, y = 290, width = 50)
+    OutButton.place(x = 220, y = 290, width = 50)
 
     Window.mainloop()
