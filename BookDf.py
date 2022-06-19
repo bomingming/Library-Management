@@ -7,7 +7,7 @@ BookDf=pd.DataFrame({'BOOK_TITLE':['데미안','삼국유사','수레바퀴 아�
          'BOOK_PRICE':['8000','15000','8000','16800'],
          'BOOK_LINK':['https://A', 'https://B', 'https://C', 'https://D'],
          'BOOK_INFOR':['도서 정보1','도서 정보2','도서 정보3','도서 정보4'],
-         'BOOK_RENT':['미대여','미대여','대여 중','대여 중'],
+         'BOOK_RENT':['미대여','미대여','미대여','미대여'],
          'BOOK_PIC':[None, None, None, None]})
 
 #도서 csv 생성
