@@ -81,7 +81,7 @@ def BookInfowindow(SelectBook):
     ImageButton.place(x = 130, y = 80, width = 170, height = 200)
 
 
-    def Rent():  #대여 버튼
+    def Rent():  #대여 버튼 (수정 필요)
         global BookDf
         if (BookDf['BOOK_ISBN']==IsbnEnter.get()).any():
             messagebox.showerror('중복된 도서', '중복된 도서입니다. \n (오류 : ISBN 중복)') #등록 오류 메시지(중복)
