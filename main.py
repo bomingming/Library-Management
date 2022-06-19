@@ -20,7 +20,7 @@ def RentUser():
 
 def ReturnUser():
     Window.destroy()
-    BookSearchGUI.SearchWindow()
+    ReturnSearchGUI.SearchWindow()
 
 Window = Tk()
 
