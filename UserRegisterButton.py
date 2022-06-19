@@ -8,7 +8,7 @@ import math
 
 NowDay = datetime.today().strftime('%Y-%m-%d')         #당일 날짜 표시
 UserDf = pd.read_csv(r'.\UserList.csv')
-
+PutSex=True
 #회원 세부 정보 함수
 def UserInforwindow():
     Window = Tk()
@@ -26,10 +26,17 @@ def UserInforwindow():
     SexLabel = Label(Window, text = '성별', font = ('돋움체', 10))     # 성별
     SexLabel.place(x = 410, y = 115)
 
-    var = IntVar()                                                                      # 성별 라디오버튼
-    SexRadioButton1 = Radiobutton(Window, text = '남성', variable = var, value = 1)
+    def man():
+        global PutSex
+        PutSex=True
+
+    def woman():
+        global PutSex
+        PutSex=False
+
+    SexRadioButton1 = Radiobutton(Window, text = '남성', value=1,command=man)
     SexRadioButton1.place(x= 450, y = 115)
-    SexRadioButton2 = Radiobutton(Window, text = '여성', variable = var, value = 2)
+    SexRadioButton2 = Radiobutton(Window, text = '여성',value=2, command=woman)
     SexRadioButton2.place(x = 500, y = 115)
 
     year = [str(i) for i in range(1950, 2051)]
@@ -104,7 +111,7 @@ def UserInforwindow():
             AddUserDf = pd.DataFrame({'USER_NAME':[NameEnter.get()],        
          'USER_BIRTH':[YearCombo.get()+MonthCombo.get()+DayCombo.get()],
          'USER_PHONE':[phone],
-         'USER_SEX':[bool(var)],               #True : 남성 / False : 여성
+         'USER_SEX':[PutSex],               #True : 남성 / False : 여성
          'USER_MAIL':[MailEnter.get()+'@'+MailCombo.get()],
          'USER_OUT':[None],             #탈퇴일 디폴트 값 : None
          'USER_IN':[NowDay],        #등록일 디폴트 값 : 오늘 날짜

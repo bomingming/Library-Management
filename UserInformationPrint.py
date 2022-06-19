@@ -7,8 +7,10 @@ import pandas as pd
 from tkinter.filedialog import *
 import numpy as np
 
+PutSex=True
 #유저
 def UserInfowindow(PhoneNumber):
+
 
     UserDf = pd.read_csv(r'.\UserList.csv')
     RentDf = pd.read_csv('.\RentList.csv')
@@ -40,14 +42,22 @@ def UserInfowindow(PhoneNumber):
     SexLabel = Label(UIWindow, text = '성별', font = ('돋움체', 10))     # 성별
     SexLabel.place(x = 410, y = 115)
 
+    def man():
+        global PutSex
+        PutSex=True
+
+    def woman():
+        global PutSex
+        PutSex=False
+
     sexvar = StringVar()                                                                      # 성별 라디오버튼
-    SexRadioButton1 = Radiobutton(UIWindow, text = '남성', variable = sexvar, value = '남성')
+    SexRadioButton1 = Radiobutton(UIWindow, text = '남성', value=1,command=man)
     SexRadioButton1.place(x= 450, y = 115)
-    SexRadioButton2 = Radiobutton(UIWindow, text = '여성', variable = sexvar, value = '여성')
+    SexRadioButton2 = Radiobutton(UIWindow, text = '여성',value=2, command=woman)
     SexRadioButton2.place(x = 500, y = 115)
     if sex == True:
         SexRadioButton1.select()
-    else:
+    elif sex == False:
         SexRadioButton2.select()
 
 
@@ -154,13 +164,13 @@ def UserInfowindow(PhoneNumber):
 
     try:
         if math.isnan(pic):
-            ImageButton = Button(UIWindow, image = '', text = '저장된 이미지가\n삭제되었거나 없습니다.', command = SelectPic)         # 회원 이미지 추가버튼
+            ImageButton = Button(UIWindow, image = '', command = SelectPic)                          # 회원 이미지 추가버튼
     except(TypeError):
         try:
             photo = PhotoImage(file = pic, master = UIWindow)
             ImageButton = Button(UIWindow, image = photo, command = SelectPic)
         except:
-            ImageButton = Button(UIWindow, text = '저장된 이미지가\n삭제되었거나 없습니다.', command = SelectPic)
+            ImageButton = Button(UIWindow, text = '저장된 이미지가\n 삭제되었거나 없습니다.', command = SelectPic)
     ImageButton.place(x = 130, y = 80, width = 170, height = 200)
 
 
@@ -178,10 +188,8 @@ def UserInfowindow(PhoneNumber):
         phone = PhoneEnter1.get()+'-'+PhoneEnter2.get()+'-'+PhoneEnter3.get()
         answer = messagebox.askquestion('수정', '수정하시겠습니까?', master = UIWindow)
         if answer == 'yes':
-            if '' in [NameEnter.get(),PhoneEnter1.get(),PhoneEnter2.get(),PhoneEnter3.get(),MailEnter.get()]:
-                messagebox.showerror('오류', '올바른 정보를 입력하세요.  \n 빈칸을 모두 채워주십시오.', master = UIWindow)         
-            elif (len(PhoneEnter1.get()) != 3 or len(PhoneEnter2.get()) != 4 or len(PhoneEnter3.get()) != 4):
-                messagebox.showerror('입력오류', '전화번호 입력이 잘 못 되었습니다.', master = UIWindow)
+            if (len(PhoneEnter1.get()) != 3 or len(PhoneEnter2.get()) != 4 or len(PhoneEnter3.get()) != 4):
+                messagebox.showerror('입력오류', '전화번호 입력이 잘 못 되었습니다.')
             elif (phone != PN) and (phone == UserDf['USER_PHONE']).any():                             # 전화번호 중복확인
                 messagebox.showerror('중복', '중복된 전화번호입니다.', master = UIWindow)
             else:
@@ -191,15 +199,11 @@ def UserInfowindow(PhoneNumber):
                 elif (Month == 2 and Day>29) or ((Month == 4 or Month == 6 or Month == 9 or Month == 11) and Day>30):
                     messagebox.showerror('날짜 오류', '날짜가 형식에 맞지 않습니다.', master = UIWindow)
                 else:
-                    if sexvar.get() == 0:
-                        sex = True
-                    else:
-                        sex = False
                     mail = MailEnter.get()+'@'+MailCombo.get()
                     
                     birth = YearCombo.get()+MonthCombo.get()+DayCombo.get()
 
-                    UserDf.loc[UserDf['USER_PHONE'].str.contains(PN), ['USER_NAME','USER_BIRTH','USER_PHONE','USER_SEX','USER_MAIL']] = (NameEnter.get(),birth,phone,sex,mail)
+                    UserDf.loc[UserDf['USER_PHONE'].str.contains(PN), ['USER_NAME','USER_BIRTH','USER_PHONE','USER_SEX','USER_MAIL']] = (NameEnter.get(),birth,phone,PutSex,mail)
                     UserDf.to_csv('UserList.csv', index=False, encoding = 'utf-8')
                     
                     messagebox.showinfo('수정완료', '수정되었습니다.', master = UIWindow)
