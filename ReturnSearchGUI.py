@@ -45,13 +45,13 @@ def ReturnBotton():
     UserPhone = SelectBook[1]
 
     D=RentDf[RentDf['USER_PHONE']==UserPhone].index
-    RentDf.drop(D)
+    RentDf1=RentDf.drop(D)
     UserDf.loc[UserDf['USER_PHONE'].str.contains(UserPhone),['USER_RENT']]='미대여'
     BookDf.loc[BookDf['BOOK_TITLE'].str.contains(BookName),['BOOK_RENT']]='미대여'
 
     UserDf.to_csv('UserList.csv',index=False,encoding='utf-8')  #csv파일에 저장
     BookDf.to_csv('BookList.csv',index=False,encoding='utf-8')  #csv파일에 저장
-    RentDf.to_csv('RentList.csv',index=False,encoding='utf-8')  #csv파일에 저장
+    RentDf1.to_csv('RentList.csv',index=False,encoding='utf-8')  #csv파일에 저장
 
 
 def SearchWindow():
@@ -101,15 +101,15 @@ def SearchWindow():
     OutpuTreeview= Treeview(Window,columns=['대여자','전화번호','도서 제목','대여일','반납일'])
     OutpuTreeview.column('#0',width=0,anchor='e')
     OutpuTreeview.heading('#0',text='',anchor='center')
-    OutpuTreeview.column('#1',width=100,anchor='e')
+    OutpuTreeview.column('#1',width=50,anchor='e')
     OutpuTreeview.heading('#1',text='대여자',anchor='center')
-    OutpuTreeview.column('#2',width=120,anchor='e')
+    OutpuTreeview.column('#2',width=105,anchor='e')
     OutpuTreeview.heading('#2',text='전화번호',anchor='center')
-    OutpuTreeview.column('#3',width=160,anchor='e')
+    OutpuTreeview.column('#3',width=140,anchor='e')
     OutpuTreeview.heading('#3',text='도서 제목',anchor='center')
-    OutpuTreeview.column('#4',width=160,anchor='e')
+    OutpuTreeview.column('#4',width=120,anchor='e')
     OutpuTreeview.heading('#4',text='대여일',anchor='center')
-    OutpuTreeview.column('#5',width=160,anchor='e')
+    OutpuTreeview.column('#5',width=120,anchor='e')
     OutpuTreeview.heading('#5',text='반납일',anchor='center')
     OutpuTreeview.place(x=130, y=110)
 
