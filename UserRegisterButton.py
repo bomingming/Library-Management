@@ -90,11 +90,16 @@ def UserInforwindow():
     def AddUser():  #회원 등록 누를 시
         global UserDf
         phone = PhoneEnter1.get() + '-'+PhoneEnter2.get() + '-' + PhoneEnter3.get()
-        if (UserDf['USER_PHONE']==phone).any():
-            messagebox.showerror('중복된 회원', '중복된 회원입니다. \n (오류 : ISBN 중복)', master=Window)
-        elif '' in [NameEnter.get(), YearCombo.get(), MonthCombo.get(), DayCombo.get(), PhoneEnter1.get(), PhoneEnter2.get(), PhoneEnter3.get(), MailEnter.get(), MailCombo.get()]:
-            messagebox.showerror('등록 오류', '올바른 정보를 입력하세요.', master=Window)
-
+        if '' in [NameEnter.get(), YearCombo.get(), MonthCombo.get(), DayCombo.get(), PhoneEnter1.get(), PhoneEnter2.get(), PhoneEnter3.get(), MailEnter.get(), MailCombo.get()]:
+            messagebox.showerror('등록 오류', '올바른 정보를 입력하세요. \n 빈칸을 모두 채워주십시오.', master=Window)
+        elif (len(PhoneEnter1.get()) != 3 or len(PhoneEnter2.get()) != 4 or len(PhoneEnter3.get()) != 4):
+                messagebox.showerror('입력오류', '전화번호 입력이 잘 못 되었습니다.', master = Window)
+        elif (UserDf['USER_PHONE']==phone).any():
+            messagebox.showerror('중복된 회원', '중복된 회원입니다. \n (오류 : 전화번호 중복)', master=Window)
+        elif (int(YearCombo.get())%4 != 0 and int(MonthCombo.get()) == 2 and int(DayCombo.get()) > 28):
+            messagebox.showerror('날짜 오류', '날짜가 형식에 맞지 않습니다.', master = Window)    
+        elif (int(MonthCombo.get()) == 2 and int(DayCombo.get())>29) or ((int(MonthCombo.get()) == 4 or int(MonthCombo.get()) == 6 or int(MonthCombo.get()) == 9 or int(MonthCombo.get())== 11) and int(DayCombo.get())>30):
+            messagebox.showerror('날짜 오류', '날짜가 형식에 맞지 않습니다.', master = Window)
         else:
             AddUserDf = pd.DataFrame({'USER_NAME':[NameEnter.get()],        
          'USER_BIRTH':[YearCombo.get()+MonthCombo.get()+DayCombo.get()],

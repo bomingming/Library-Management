@@ -154,13 +154,13 @@ def UserInfowindow(PhoneNumber):
 
     try:
         if math.isnan(pic):
-            ImageButton = Button(UIWindow, image = '', command = SelectPic)                          # 회원 이미지 추가버튼
+            ImageButton = Button(UIWindow, image = '', text = '저장된 이미지가\n삭제되었거나 없습니다.', command = SelectPic)         # 회원 이미지 추가버튼
     except(TypeError):
         try:
             photo = PhotoImage(file = pic, master = UIWindow)
             ImageButton = Button(UIWindow, image = photo, command = SelectPic)
         except:
-            ImageButton = Button(UIWindow, text = '저장된 이미지가\n 삭제되었거나 없습니다.', command = SelectPic)
+            ImageButton = Button(UIWindow, text = '저장된 이미지가\n삭제되었거나 없습니다.', command = SelectPic)
     ImageButton.place(x = 130, y = 80, width = 170, height = 200)
 
 
@@ -178,8 +178,10 @@ def UserInfowindow(PhoneNumber):
         phone = PhoneEnter1.get()+'-'+PhoneEnter2.get()+'-'+PhoneEnter3.get()
         answer = messagebox.askquestion('수정', '수정하시겠습니까?', master = UIWindow)
         if answer == 'yes':
-            if (len(PhoneEnter1.get()) != 3 or len(PhoneEnter2.get()) != 4 or len(PhoneEnter3.get()) != 4):
-                messagebox.showerror('입력오류', '전화번호 입력이 잘 못 되었습니다.')
+            if '' in [NameEnter.get(),PhoneEnter1.get(),PhoneEnter2.get(),PhoneEnter3.get(),MailEnter.get()]:
+                messagebox.showerror('오류', '올바른 정보를 입력하세요.  \n 빈칸을 모두 채워주십시오.', master = UIWindow)         
+            elif (len(PhoneEnter1.get()) != 3 or len(PhoneEnter2.get()) != 4 or len(PhoneEnter3.get()) != 4):
+                messagebox.showerror('입력오류', '전화번호 입력이 잘 못 되었습니다.', master = UIWindow)
             elif (phone != PN) and (phone == UserDf['USER_PHONE']).any():                             # 전화번호 중복확인
                 messagebox.showerror('중복', '중복된 전화번호입니다.', master = UIWindow)
             else:
