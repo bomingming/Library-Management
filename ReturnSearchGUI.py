@@ -52,7 +52,6 @@ def ReturnBotton():
     SelectBook = OutpuTreeview.item(SelectBook1).get('values')
     BookName = SelectBook[2]
     D=OutpuTreeview.index(SelectBook1)
-    print('이오옹',D)
     UserPhone = SelectBook[1]
     UserName = SelectBook[0]
     TreeviewDrop()
