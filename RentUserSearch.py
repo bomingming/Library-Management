@@ -11,7 +11,6 @@ from datetime import datetime, timedelta
 NowDay = datetime.today().strftime('%Y-%m-%d')                          #오늘
 ReturnDay = (datetime.today()+timedelta(days=14)).strftime('%Y-%m-%d')  #반납예정일
 
-
 def ButtonClick(SelectBook, UIWindow, Window):
     RentDf = pd.read_csv('.\RentList.csv')
     UserDf = pd.read_csv(r'.\UserList.csv')

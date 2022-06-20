@@ -121,6 +121,10 @@ def BookInfowindow(SelectBook):
             
             elif(IsbnEnter.get() != isbnnum) and (IsbnEnter.get() == BookDf['BOOK_ISBN']).any():              #[중복체크 수정할 필요있음]
                 messagebox.showerror('중복', '중복된 ISBN 입니다.', master = BIWindow)
+
+            elif '' in [TitleEnter.get(),IsbnEnter.get(),AuthorEnter.get(), PubEnter.get(),
+                PriceEnter.get(), LinkEnter.get(), InforEnter.get(1.0, 'end-1c')]:
+                messagebox.showerror('등록 오류', '올바른 정보를 입력하세요.', master=BIWindow)  #등록 오류 메시지(누락)
                 
             else:
                 BookDf.loc[BookDf['BOOK_ISBN'].str.contains(isbnnum),['BOOK_TITLE','BOOK_ISBN','BOOK_AUTHOR','BOOK_PUB','BOOK_PRICE','BOOK_LINK','BOOK_INFOR']] = (TitleEnter.get(),IsbnEnter.get(),AuthorEnter.get(),PubEnter.get(),PriceEnter.get(),LinkEnter.get(),InforEnter.get(0.0,'end-1c'))
