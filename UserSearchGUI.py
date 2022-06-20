@@ -8,6 +8,10 @@ import UserInformationPrint
 import UserRegisterButton
 import pandas as pd
 
+def TreeviesDrop():
+    for i in OutpuTreeview.get_children(): # 트리뷰 입력된값 삭제
+        OutpuTreeview.delete(str(i))
+        
 def ButtonClick():
     SelectBook = OutpuTreeview.focus()  #트리뷰에서 선택한 회원
     SelectBook = OutpuTreeview.item(SelectBook).get('values')
@@ -15,9 +19,6 @@ def ButtonClick():
     TreeviesDrop()
     UserInformationPrint.UserInfowindow(SelectBook)
 
-def TreeviesDrop():
-    for i in OutpuTreeview.get_children(): # 트리뷰 입력된값 삭제
-        OutpuTreeview.delete(str(i))
 
 def SearchResult():                     # 검색기준 선택, 검색이름 입력후 검색 클릭시 커멘드
     TreeviesDrop()
