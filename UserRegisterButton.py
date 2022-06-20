@@ -5,14 +5,12 @@ import pandas as pd
 from datetime import datetime, timedelta
 from tkinter.filedialog import *
 import math
-from PIL import ImageTk
-from PIL import Image
 
 NowDay = datetime.today().strftime('%Y-%m-%d')         #당일 날짜 표시
+UserDf = pd.read_csv(r'.\UserList.csv')
 PutSex=True
 #회원 세부 정보 함수
 def UserInforwindow():
-    UserDf = pd.read_csv(r'.\UserList.csv')
     Window = Tk()
 
     Window.title('회원 세부 정보')
@@ -91,14 +89,12 @@ def UserInforwindow():
     pic = ''
 
     def SelectPic():             # 이미지 파일열기 함수
-        filename = askopenfilename(parent = Window, filetypes = (('JPG 파일', '*jpg'),('GIF 파일','*gif'),('모든파일','*.*')))                       # [취소시 사진사라지는거]
-        image = Image.open(filename)
-        image = image.resize((170,200))
-        photo = ImageTk.PhotoImage(image, master = Window)
+        filename = askopenfilename(parent = Window, filetypes = (('GIF 파일','*gif'),('모든파일','*.*')))                       # [취소시 사진사라지는거]
+        photo = PhotoImage(file=filename, master = Window)
         ImageButton.configure(image = photo)
         ImageButton.image = photo
         global pic
-        pic = filename
+        pic = ''
 
     ImageButton = Button(Window, text = '저장된 이미지가\n삭제되었거나 없습니다.', command = SelectPic)
     ImageButton.place(x = 130, y = 80, width = 170, height = 200)
@@ -122,10 +118,9 @@ def UserInforwindow():
          'USER_PHONE':[phone],
          'USER_SEX':[PutSex],               #True : 남성 / False : 여성
          'USER_MAIL':[MailEnter.get()+'@'+MailCombo.get()],
-         'USER_OUT':[None],             #탈퇴일 디폴트 값 : None
+         'USER_OUT':[' '],             #탈퇴일 디폴트 값 : 공백
          'USER_IN':[NowDay],        #등록일 디폴트 값 : 오늘 날짜
-         'USER_RENT':[0],           #대여 디폴트 값 : 미대여
-
+         'USER_RENT':[0],           #대여 디폴트 값 : 0
          'USER_PIC':[None]})            #사진 디폴트 값 : None
             if pic != '':
                 AddUserDf['USER_PIC'] = [pic]
@@ -136,7 +131,7 @@ def UserInforwindow():
     #버튼
     OkButton = Button(Window, text = '등록', command=AddUser)      # 등록 버튼
     OkButton.place(x = 155, y = 290, width = 50)
-    OutButton = Button(Window, text = '취소', command = Window.destroy)                       # 취소 버튼
+    OutButton = Button(Window, text = '취소')                       # 취소 버튼
     OutButton.place(x = 230, y = 290, width = 50)
 
 

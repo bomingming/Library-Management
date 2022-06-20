@@ -6,8 +6,6 @@ from datetime import datetime, timedelta
 import pandas as pd
 from tkinter.filedialog import *
 import numpy as np
-from PIL import ImageTk
-from PIL import Image
 
 PutSex=True
 #유저
@@ -155,10 +153,11 @@ def UserInfowindow(PhoneNumber):
 
 # 버튼
     def SelectPic():                                                           # 이미지 파일열기 함수
-        filename = askopenfilename(parent = UIWindow, filetypes = (('JPG 파일','*jpg'),('GIF 파일','*gif'),('모든파일','*.*')))
-        image = Image.open(filename)
-        image = image.resize((170,200))
-        photo = ImageTk.PhotoImage(image, master = UIWindow)
+        filename = askopenfilename(parent = UIWindow, filetypes = (('GIF 파일','*gif'),('모든파일','*.*')))
+        if filename == '':
+            photo = PhotoImage(file = pic, master = UIWindow)
+        else:
+            photo = PhotoImage(file = filename, master = UIWindow)
         ImageButton.configure(image = photo)
         ImageButton.image = photo
         UserDf.loc[UserDf['USER_PHONE'].str.contains(PN), ['USER_PIC']] = filename
@@ -168,9 +167,7 @@ def UserInfowindow(PhoneNumber):
             ImageButton = Button(UIWindow, image = '', command = SelectPic)                          # 회원 이미지 추가버튼
     except(TypeError):
         try:
-            image = Image.open(pic)
-            image = image.resize((170,200))
-            photo = ImageTk.PhotoImage(image, master = UIWindow)
+            photo = PhotoImage(file = pic, master = UIWindow)
             ImageButton = Button(UIWindow, image = photo, command = SelectPic)
         except:
             ImageButton = Button(UIWindow, text = '저장된 이미지가\n 삭제되었거나 없습니다.', command = SelectPic)
@@ -191,10 +188,8 @@ def UserInfowindow(PhoneNumber):
         phone = PhoneEnter1.get()+'-'+PhoneEnter2.get()+'-'+PhoneEnter3.get()
         answer = messagebox.askquestion('수정', '수정하시겠습니까?', master = UIWindow)
         if answer == 'yes':
-            if ((PhoneEnter1.get().isdigit() != True) or (PhoneEnter2.get().isdigit() != True) or (PhoneEnter3.get().isdigit() != True)):
-                messagebox.showerror('입력오류', '전화번호에 숫자만 입력해 주세요', master = UIWindow)
-            elif (len(PhoneEnter1.get()) != 3 or len(PhoneEnter2.get()) != 4 or len(PhoneEnter3.get()) != 4):
-                messagebox.showerror('입력오류', '전화번호 자릿수를 맞춰주세요.', master = UIWindow)
+            if (len(PhoneEnter1.get()) != 3 or len(PhoneEnter2.get()) != 4 or len(PhoneEnter3.get()) != 4):
+                messagebox.showerror('입력오류', '전화번호 입력이 잘 못 되었습니다.')
             elif (phone != PN) and (phone == UserDf['USER_PHONE']).any():                             # 전화번호 중복확인
                 messagebox.showerror('중복', '중복된 전화번호입니다.', master = UIWindow)
             else:
