@@ -90,7 +90,7 @@ def BookInfowindow():
             AddDf = pd.DataFrame({'BOOK_TITLE':[TitleEnter.get()],
                 'BOOK_ISBN':[IsbnEnter.get()],
                 'BOOK_AUTHOR':[AuthorEnter.get()],
-                'BOOK_PUB':[AuthorEnter.get()],
+                'BOOK_PUB':[PublishEnter.get()],
                 'BOOK_PRICE':[PriceEnter.get()],
                 'BOOK_LINK':[LinkEnter.get()],
                 'BOOK_INFOR':[BookInfomationEnter.get(1.0, 'end-1c')],     #임의로 설정한 저장값

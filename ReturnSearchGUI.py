@@ -59,7 +59,6 @@ def ReturnBotton():
     '\n책 정보 : '+BookName)  #대여 의사 묻기
     if answer == 'yes':
         RentDf=pd.read_csv(r'.\RentList.csv')# data에 읽은 값 저장
-        print(RentDf.loc[D])
         RentDf1=RentDf.drop(D)
 
         UserDf = UserDf.astype({'USER_RENT':int})
