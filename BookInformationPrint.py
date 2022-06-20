@@ -149,7 +149,7 @@ def BookInfowindow(SelectBook):
     def DeleteBook():
         answer = messagebox.askquestion('삭제 확인','도서를 삭제하시겠습니까?', master = BIWindow)
         if answer == 'yes':
-            if rent == 0:
+            if rent == '미대여':
                 DelIndex = BookDf[BookDf['BOOK_ISBN'] == isbnnum].index
                 BookDelDf = BookDf.drop(DelIndex)
                 BookDelDf.to_csv('BookList.csv', index=False, encoding = 'utf-8')
