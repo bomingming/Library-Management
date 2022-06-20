@@ -32,7 +32,7 @@ def SearchResult():                     # 검색기준 선택, 검색이름 입�
     for i in ResultSearch.index:
         PrintR=[]
         for j in ['BOOK_TITLE','BOOK_ISBN','BOOK_AUTHOR','BOOK_PUB']:
-            if ResultSearch.loc[i,'BOOK_RENT']!='대출 중':
+            if ResultSearch.loc[i,'BOOK_RENT']!='대여 중':
                 PrintR.append(ResultSearch.loc[i,j])
         OutpuTreeview.insert('','end',text=i,values=PrintR,iid=str(i))
 
@@ -42,7 +42,7 @@ def Search(InStandard,InSearch):
     BookDf=pd.read_csv(r'.\BookList.csv')# data에 읽은 값 저장
 
     for i in range(len(BookDf.index)):  
-        if BookDf.loc[i, 'BOOK_RENT']=='대출 중':
+        if BookDf.loc[i, 'BOOK_RENT']=='대여 중':
             BookDf = BookDf.drop(i)      #대여 중인 도서는 출력용 데이터프레임에서 제거
     
     if InStandard=="도서 명":                  # 도서 명 선택 시
