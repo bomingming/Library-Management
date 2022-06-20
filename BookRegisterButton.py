@@ -10,6 +10,7 @@ BookDf = pd.read_csv('BookList.csv')
 
 #도서 세부 정보 함수
 def BookInfowindow():
+    BookDf = pd.read_csv('BookList.csv')
 
     Window = Tk()
     Window.title('도서 세부 정보')
@@ -72,7 +73,7 @@ def BookInfowindow():
     
 
     def AddBook():  #도서 등록 버튼 누를 시
-        global BookDf
+        BookDf = pd.read_csv('BookList.csv')
         if (BookDf['BOOK_ISBN']==IsbnEnter.get()).any():
             messagebox.showerror('중복된 도서', '중복된 도서입니다. \n (오류 : ISBN 중복)', master=Window) #등록 오류 메시지(중복)
         elif '' in [TitleEnter.get(),IsbnEnter.get(),AuthorEnter.get(), PublishEnter.get(),
