@@ -11,17 +11,14 @@ UserDf=pd.read_csv(r'.\UserList.csv')# data에 읽은 값 저장
 RentDf=pd.read_csv(r'.\RentList.csv')# data에 읽은 값 저장
 BookDf=pd.read_csv(r'.\BookList.csv')# data에 읽은 값 저장
 
-def TreeviesDrop():
-    for i in OutpuTreeview.get_children(): # 트리뷰 입력된값 삭제
-        OutpuTreeview.delete(str(i))
-
 def SearchResult():                    # 검색기준 선택, 검색이름 입력후 검색 클릭시 커멘드
 
     UserDf=pd.read_csv(r'.\UserList.csv')# data에 읽은 값 저장
     RentDf=pd.read_csv(r'.\RentList.csv')# data에 읽은 값 저장
     BookDf=pd.read_csv(r'.\BookList.csv')# data에 읽은 값 저장
 
-    TreeviesDrop()
+    for i in OutpuTreeview.get_children(): # 트리뷰 입력된값 삭제
+        OutpuTreeview.delete(str(i))
 
     InStandard=Standard.get()           # 콤보박스의 입력값
     InSearch=SearchName.get()           # 검색창에 검색한 이름
@@ -47,27 +44,30 @@ def SearchResult():                    # 검색기준 선택, 검색이름 입�
             OutpuTreeview.insert('','end',text=i,values=PrintR,iid=str(i))
 
 def ReturnBotton():
+    UserDf=pd.read_csv(r'.\UserList.csv')# data에 읽은 값 저장
+
     SelectBook = OutpuTreeview.focus()  #트리뷰에서 선택한 도서
     SelectBook = OutpuTreeview.item(SelectBook).get('values')
     BookName = SelectBook[2]
-    BookISBN = BookDf.loc[BookDf['BOOK_TITLE'].str.contains(BookName),['BOOK_ISBN']]
     UserPhone = SelectBook[1]
     UserName = SelectBook[0]
-    TreeviesDrop()
 
     answer = messagebox.askquestion('반납완료','반납하시겠습니까?\n회원 정보 : '+UserName+
     '\n책 정보 : '+BookName)  #대여 의사 묻기
     if answer == 'yes':
-        DropIndex=RentDf[RentDf['BOOK_ISBN'] == BookISBN].index[0]
-        RentDf1=RentDf.drop(DropIndex)
+        D=RentDf[RentDf['USER_PHONE']==UserPhone].index
+        RentDf1=RentDf.drop(D)
 
-        UserDf.loc[UserDf['USER_PHONE'].str.contains(UserPhone),['USER_RENT']]=(
-            UserDf.loc[UserDf['USER_PHONE'].str.contains(UserPhone),['USER_RENT']]-1)
+        UserDf = UserDf.astype({'USER_RENT':int})
+        UserDf.loc[UserDf['USER_PHONE'].str.contains(UserPhone),['USER_RENT']] -= 1
+
         BookDf.loc[BookDf['BOOK_TITLE'].str.contains(BookName),['BOOK_RENT']]='미대여'
 
         UserDf.to_csv('UserList.csv',index=False,encoding='utf-8')  #csv파일에 저장
         BookDf.to_csv('BookList.csv',index=False,encoding='utf-8')  #csv파일에 저장
         RentDf1.to_csv('RentList.csv',index=False,encoding='utf-8')  #csv파일에 저장
+
+        messagebox.showinfo('반납완료', '반납이 완료되었습니다.')
 
 
 def SearchWindow():
@@ -131,11 +131,10 @@ def SearchWindow():
 
     #검색 버튼
     SearchBotton=Button(Window,text='⤶',command=SearchResult,width=2)
-    SearchBotton.place(x=670,y=80)
+    SearchBotton.place(x=669,y=79)
 
     #반납 버튼
     SearchBotton=Button(Window,text='반납',command=ReturnBotton)
     SearchBotton.place(x=587,y=340)
-    TreeviesDrop()
 
     Window.mainloop()
