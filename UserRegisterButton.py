@@ -7,10 +7,10 @@ from tkinter.filedialog import *
 import math
 
 NowDay = datetime.today().strftime('%Y-%m-%d')         #당일 날짜 표시
-UserDf = pd.read_csv(r'.\UserList.csv')
 PutSex=True
 #회원 세부 정보 함수
 def UserInforwindow():
+    UserDf = pd.read_csv(r'.\UserList.csv')
     Window = Tk()
 
     Window.title('회원 세부 정보')
