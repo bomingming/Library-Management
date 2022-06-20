@@ -12,13 +12,6 @@ NowDay = datetime.today().strftime('%Y-%m-%d')                          #오늘
 ReturnDay = (datetime.today()+timedelta(days=14)).strftime('%Y-%m-%d')  #반납예정일
 
 
-def DoubleClick(event):                         # 트리뷰 더블클릭 커멘드
-    SelectBook = OutpuTreeview.focus()  #트리뷰에서 선택한 회원
-    SelectBook = OutpuTreeview.item(SelectBook).get('values')
-    SelectBook = SelectBook[2]
-    UserInformationPrint.UserInfowindow(SelectBook)
-
-
 def ButtonClick(SelectBook, UIWindow, Window):
     RentDf = pd.read_csv('.\RentList.csv')
     UserDf = pd.read_csv(r'.\UserList.csv')
@@ -26,36 +19,39 @@ def ButtonClick(SelectBook, UIWindow, Window):
 
     SelectUser = OutpuTreeview.focus()  #트리뷰에서 선택한 회원
     SelectUser = OutpuTreeview.item(SelectUser).get('values')
+    
+    if SelectUser[4] != ' ':    #해당 회원이 탈퇴한 경우
+        messagebox.showinfo('대여자 오류', '탈퇴한 회원입니다', master=UIWindow)
+    else:
+        RentBookIndex = BookDf[BookDf['BOOK_ISBN'] == SelectBook].index[0]
 
-    RentBookIndex = BookDf[BookDf['BOOK_ISBN'] == SelectBook].index[0]
+        BookDf = BookDf.astype({'BOOK_ISBN' : 'str' })
+        UserDf = UserDf.astype({'USER_PHONE' : 'str' })
 
-    BookDf = BookDf.astype({'BOOK_ISBN' : 'str' })
-    UserDf = UserDf.astype({'USER_PHONE' : 'str' })
+        answer = messagebox.askquestion('대여 완료', '대여하시겠습니까?\n회원 정보 : '+SelectUser[0]+
+        '\n책 정보 : '+BookDf.loc[RentBookIndex,'BOOK_TITLE'])  #대여 의사 묻기
+        if answer == 'yes':
+            #대여 csv - 대여 도서 정보 추가
+            AddDf = pd.DataFrame({'BOOK_ISBN':[SelectBook],   
+            'USER_PHONE':[SelectUser[2]],
+            'RENT_DATE':[NowDay],
+            'RENT_REDATE':[ReturnDay]})
+            RentDf = pd.concat([RentDf, AddDf])         #등록 정보를 기존 데이터프레임에 합치기
+            RentDf.to_csv('RentList.csv',index=False,encoding='utf-8')  #csv파일에 저장
 
-    answer = messagebox.askquestion('대여 완료', '대여하시겠습니까?\n회원 정보 : '+SelectUser[0]+
-    '\n책 정보 : '+BookDf.loc[RentBookIndex,'BOOK_TITLE'])  #대여 의사 묻기
-    if answer == 'yes':
-        #대여 csv - 대여 도서 정보 추가
-        AddDf = pd.DataFrame({'BOOK_ISBN':[SelectBook],   
-        'USER_PHONE':[SelectUser[2]],
-        'RENT_DATE':[NowDay],
-        'RENT_REDATE':[ReturnDay]})
-        RentDf = pd.concat([RentDf, AddDf])         #등록 정보를 기존 데이터프레임에 합치기
-        RentDf.to_csv('RentList.csv',index=False,encoding='utf-8')  #csv파일에 저장
+            SelectBook = str(SelectBook)
+            
+            #도서 csv - 도서 대여 여부 변경
+            BookDf.loc[BookDf['BOOK_ISBN'].str.contains(SelectBook), ['BOOK_RENT']] = '대출 중'
+            BookDf.to_csv('BookList.csv', index = False, encoding = 'utf-8')
 
-        SelectBook = str(SelectBook)
-        
-        #도서 csv - 도서 대여 여부 변경
-        BookDf.loc[BookDf['BOOK_ISBN'].str.contains(SelectBook), ['BOOK_RENT']] = '대출 중'
-        BookDf.to_csv('BookList.csv', index = False, encoding = 'utf-8')
+            #회원 csv - 회원 대여 여부 변경
+            UserDf = UserDf.astype({'USER_RENT':int})
+            UserDf.loc[UserDf['USER_PHONE'].str.contains(SelectUser[2]), ['USER_RENT']] += 1    # +=1
+            UserDf.to_csv('UserList.csv', index = False, encoding = 'utf-8')
 
-        #회원 csv - 회원 대여 여부 변경
-        UserDf = UserDf.astype({'USER_RENT':int})
-        UserDf.loc[UserDf['USER_PHONE'].str.contains(SelectUser[2]), ['USER_RENT']] += 1    # +=1
-        UserDf.to_csv('UserList.csv', index = False, encoding = 'utf-8')
-
-        messagebox.showinfo('대여완료', '대여가 완료되었습니다.\n대여일 : '+NowDay+
-        '\n반납예정일 : '+ReturnDay, master=UIWindow)
+            messagebox.showinfo('대여완료', '대여가 완료되었습니다.\n대여일 : '+NowDay+
+            '\n반납예정일 : '+ReturnDay, master=UIWindow)
 
     UIWindow.destroy()  #회원 목록 창 제거
     Window.destroy()    #도서 세부 정보 창 제거
@@ -128,7 +124,6 @@ def SearchWindow(SelectBook, Window):
     OutpuTreeview.column('#5',width=90,anchor='e')
     OutpuTreeview.heading('#5',text='탈퇴일',anchor='center')
     OutpuTreeview.place(x=90, y=90)
-    OutpuTreeview.bind("<Double-Button-1>", DoubleClick)  # 더블클릭시 key 커멘드 실행
 
     #검색 버튼
     SearchBotton=Button(UIWindow,text="⤶",command=SearchResult,width=2)
