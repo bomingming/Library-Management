@@ -115,16 +115,20 @@ def BookInfowindow(SelectBook):
     def EditBook():
         answer = messagebox.askquestion('수정', '수정하시겠습니까?', master = BIWindow)
         if answer == 'yes':
-            #ISBN 문자열(숫자 외)등록 시 오류 처리        
-            if ((IsbnEnter.get().isdigit())!=True) | ((PriceEnter.get().isdigit())!=True):
-                messagebox.showerror('등록 오류', 'ISBN 또는 가격에 숫자를 입력해 주세요.', master=BIWindow)
+            if '' in [TitleEnter.get(),IsbnEnter.get(),AuthorEnter.get(), PubEnter.get(),
+                PriceEnter.get(), LinkEnter.get(), InforEnter.get(1.0, 'end-1c')]:
+                messagebox.showerror('등록 오류', '올바른 정보를 입력하세요.', master=BIWindow)  #등록 오류 메시지(누락)
             
+            elif ((IsbnEnter.get().isdigit())!=True) | ((PriceEnter.get().isdigit())!=True):        #ISBN 문자열(숫자 외)등록 시 오류 처리
+                messagebox.showerror('등록 오류', 'ISBN 또는 가격에 숫자를 입력해 주세요.', master=BIWindow)
+                
+            elif (len(IsbnEnter.get()) != 13):
+                messagebox.showerror('등록 오류', '13자리 ISBN를 입력하세요.', master = BIWindow) #등록 오류 메시지(잘못된 입력)
+                
             elif(IsbnEnter.get() != isbnnum) and (IsbnEnter.get() == BookDf['BOOK_ISBN']).any():              #[중복체크 수정할 필요있음]
                 messagebox.showerror('중복', '중복된 ISBN 입니다.', master = BIWindow)
 
-            elif '' in [TitleEnter.get(),IsbnEnter.get(),AuthorEnter.get(), PubEnter.get(),
-                PriceEnter.get(), LinkEnter.get(), InforEnter.get(1.0, 'end-1c')]:
-                messagebox.showerror('등록 오류', '올바른 정보를 입력하세요.', master=BIWindow)  #등록 오류 메시지(누락)
+            
                 
             else:
                 BookDf.loc[BookDf['BOOK_ISBN'].str.contains(isbnnum),['BOOK_TITLE','BOOK_ISBN','BOOK_AUTHOR','BOOK_PUB','BOOK_PRICE','BOOK_LINK','BOOK_INFOR']] = (TitleEnter.get(),IsbnEnter.get(),AuthorEnter.get(),PubEnter.get(),PriceEnter.get(),LinkEnter.get(),InforEnter.get(0.0,'end-1c'))

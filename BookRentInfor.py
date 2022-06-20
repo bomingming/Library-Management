@@ -4,6 +4,8 @@ import pandas as pd
 from tkinter import messagebox
 from tkinter.filedialog import *
 import RentUserSearch
+from PIL import ImageTk
+from PIL import Image
 
 #도서 세부 정보 함수
 def BookInfowindow(SelectBook):
@@ -74,17 +76,17 @@ def BookInfowindow(SelectBook):
     #도서 사진
     RentBookIndex = BookDf[BookDf['BOOK_ISBN'] == SelectBook].index[0]  #선택된 도서의 인덱스
 
-    if pd.isna(BookDf.loc[RentBookIndex, 'BOOK_PIC']):    #선택된 도서의 사진이 없으면
-        NonePhoto = Button(Window, text = '저장된 이미지가\n삭제되었거나 없습니다.')    #작동하지 않는 이미지 버튼
-        NonePhoto.place(x = 130, y = 80, width = 170, height = 200)
-
+        
+    if pd.isna(BookDf.loc[RentBookIndex, 'BOOK_PIC']) == True:    #선택된 도서의 사진이 없으면
+        photo = PhotoImage(master = Window)
     else:
         filename = BookDf.loc[RentBookIndex, 'BOOK_PIC']
-        print(filename)
-        photo = PhotoImage(file = filename)
+        image = Image.open(filename)
+        image = image.resize((170,200))
+        photo = ImageTk.PhotoImage(image, master = Window)
 
-        ImageLabel = Label(Window, image= photo)
-        ImageLabel.place(x = 130, y = 80, width = 170, height = 200)
+    ImageButton = Button(Window, image = photo)
+    ImageButton.place(x = 130, y = 80, width = 170, height = 200)
 
 
     def Borrower():     #대여자 버튼
