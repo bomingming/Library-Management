@@ -8,15 +8,23 @@ import UserInformationPrint
 import UserRegisterButton
 import pandas as pd
 
+<<<<<<< HEAD
+=======
+def TreeviesDrop():
+    for i in OutpuTreeview.get_children(): # 트리뷰 입력된값 삭제
+        OutpuTreeview.delete(str(i))
+        
+>>>>>>> origin/목록초기화
 def ButtonClick():
     SelectBook = OutpuTreeview.focus()  #트리뷰에서 선택한 회원
     SelectBook = OutpuTreeview.item(SelectBook).get('values')
     SelectBook = SelectBook[2]
+    TreeviesDrop()
     UserInformationPrint.UserInfowindow(SelectBook)
 
+
 def SearchResult():                     # 검색기준 선택, 검색이름 입력후 검색 클릭시 커멘드
-    for i in OutpuTreeview.get_children():
-        OutpuTreeview.delete(str(i))
+    TreeviesDrop()
     InStandard=Standard.get()           # 콤보박스의 입력값
     InSearch=SearchName.get()           # 검색창에 검색한 이름
     ResultSearch=(Search(InStandard,InSearch))
