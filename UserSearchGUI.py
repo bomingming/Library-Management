@@ -125,6 +125,6 @@ def SearchWindow():
 
     #검색 및 수정 버튼
     RegisterBotton=Button(Window,text='확인 및 수정',command=ButtonClick)
-    RegisterBotton.place(x=535,y=340)
+    RegisterBotton.place(x=555,y=340)
 
     Window.mainloop()

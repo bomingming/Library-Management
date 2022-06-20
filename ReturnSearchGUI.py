@@ -138,6 +138,6 @@ def SearchWindow():
 
     #반납 버튼
     SearchBotton=Button(Window,text='반납',command=ReturnBotton)
-    SearchBotton.place(x=587,y=340)
+    SearchBotton.place(x=581,y=340)
 
     Window.mainloop()
