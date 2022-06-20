@@ -11,14 +11,6 @@ from datetime import datetime, timedelta
 NowDay = datetime.today().strftime('%Y-%m-%d')                          #오늘
 ReturnDay = (datetime.today()+timedelta(days=14)).strftime('%Y-%m-%d')  #반납예정일
 
-
-def DoubleClick(event):                         # 트리뷰 더블클릭 커멘드
-    SelectBook = OutpuTreeview.focus()  #트리뷰에서 선택한 회원
-    SelectBook = OutpuTreeview.item(SelectBook).get('values')
-    SelectBook = SelectBook[2]
-    UserInformationPrint.UserInfowindow(SelectBook)
-
-
 def ButtonClick(SelectBook, UIWindow, Window):
     RentDf = pd.read_csv('.\RentList.csv')
     UserDf = pd.read_csv(r'.\UserList.csv')
@@ -128,7 +120,6 @@ def SearchWindow(SelectBook, Window):
     OutpuTreeview.column('#5',width=90,anchor='e')
     OutpuTreeview.heading('#5',text='탈퇴일',anchor='center')
     OutpuTreeview.place(x=90, y=90)
-    OutpuTreeview.bind("<Double-Button-1>", DoubleClick)  # 더블클릭시 key 커멘드 실행
 
     #검색 버튼
     SearchBotton=Button(UIWindow,text="⤶",command=SearchResult,width=2)

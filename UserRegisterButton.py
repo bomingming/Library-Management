@@ -40,6 +40,7 @@ def UserInforwindow():
     SexRadioButton1.place(x= 450, y = 115)
     SexRadioButton2 = Radiobutton(Window, text = '여성',value=2, command=woman)
     SexRadioButton2.place(x = 500, y = 115)
+    SexRadioButton1.select()
 
     year = [str(i) for i in range(1950, 2051)]
     month = [str(i).zfill(2) for i in range(1, 13)]
@@ -116,6 +117,7 @@ def UserInforwindow():
             messagebox.showerror('날짜 오류', '날짜가 형식에 맞지 않습니다.', master = Window)    
         elif (int(MonthCombo.get()) == 2 and int(DayCombo.get())>29) or ((int(MonthCombo.get()) == 4 or int(MonthCombo.get()) == 6 or int(MonthCombo.get()) == 9 or int(MonthCombo.get())== 11) and int(DayCombo.get())>30):
             messagebox.showerror('날짜 오류', '날짜가 형식에 맞지 않습니다.', master = Window)
+        
         else:
             AddUserDf = pd.DataFrame({'USER_NAME':[NameEnter.get()],        
          'USER_BIRTH':[YearCombo.get()+MonthCombo.get()+DayCombo.get()],
@@ -131,6 +133,7 @@ def UserInforwindow():
             UserDf = pd.concat([UserDf, AddUserDf])         #등록 정보를 기존 데이터프레임에 합치기
             UserDf.to_csv('UserList.csv',index=False,encoding='utf-8')  #csv파일에 저장
             messagebox.showinfo('등록 완료', '등록이 완료되었습니다.')  #등록 완료 메시지
+            Window.destroy()
 
     #버튼
     OkButton = Button(Window, text = '등록', command=AddUser)      # 등록 버튼

@@ -80,6 +80,7 @@ def BookInfowindow(SelectBook):
 
     else:
         filename = BookDf.loc[RentBookIndex, 'BOOK_PIC']
+        print(filename)
         photo = PhotoImage(file = filename)
 
         ImageLabel = Label(Window, image= photo)
@@ -87,7 +88,7 @@ def BookInfowindow(SelectBook):
 
 
     def Borrower():     #대여자 버튼
-        global RentDf
+        RentDf = pd.read_csv('.\RentList.csv')
         RentUserSearch.SearchWindow(SelectBook, Window)
         
 
