@@ -54,6 +54,8 @@ def BookInfowindow():
 
     BookInfomationEnter.place(x = 450, y = 290)
 
+    global pic
+    pic = ''
 
     def SelectPic():             # 이미지 파일열기 함수
         filename = askopenfilename(parent = Window, filetypes = (('JPG 파일','*jpg'),('GIF 파일','*gif'),('모든파일','*.*')))
@@ -62,6 +64,8 @@ def BookInfowindow():
         photo = ImageTk.PhotoImage(image, master = Window)
         ImageButton.configure(image = photo)
         ImageButton.image = photo
+        global pic
+        pic = filename
 
     ImageButton = Button(Window, text = '저장된 이미지가\n삭제되었거나 없습니다.', command = SelectPic)
     ImageButton.place(x = 130, y = 80, width = 170, height = 200)
@@ -89,6 +93,9 @@ def BookInfowindow():
                 'BOOK_LINK':[LinkEnter.get()],
                 'BOOK_INFOR':[BookInfomationEnter.get(1.0, 'end-1c')],     #임의로 설정한 저장값
                 'BOOK_PIC':[None]})
+            if pic != '':
+                AddDf['BOOK_PIC'] = [pic]
+                
             BookDf = pd.concat([BookDf, AddDf])         #등록 정보를 기존 데이터프레임에 합치기
 
             BookDf.to_csv('BookList.csv',index=False,encoding='utf-8')  #csv파일에 저장
