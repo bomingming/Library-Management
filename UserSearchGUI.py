@@ -27,6 +27,8 @@ def SearchResult():                     # 검색기준 선택, 검색이름 입�
                 PrintR.append('여성')
             elif ResultSearch.loc[i,j]==True:
                 PrintR.append('남성')
+            elif pd.isna(ResultSearch.loc[i,j]) == True:
+                PrintR.append('')
             else:
                 PrintR.append(ResultSearch.loc[i,j])
         OutpuTreeview.insert('','end',text=i,values=PrintR,iid=str(i))

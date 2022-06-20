@@ -87,6 +87,9 @@ def UserInforwindow():
     MailEnter.place(x = 450, y = 220)
     MailCombo.place(x = 550, y = 220)
 
+    global pic
+    pic = ''
+
     def SelectPic():             # 이미지 파일열기 함수
         filename = askopenfilename(parent = Window, filetypes = (('JPG 파일', '*jpg'),('GIF 파일','*gif'),('모든파일','*.*')))                       # [취소시 사진사라지는거]
         image = Image.open(filename)
@@ -94,6 +97,8 @@ def UserInforwindow():
         photo = ImageTk.PhotoImage(image, master = Window)
         ImageButton.configure(image = photo)
         ImageButton.image = photo
+        global pic
+        pic = filename
 
     ImageButton = Button(Window, text = '저장된 이미지가\n삭제되었거나 없습니다.', command = SelectPic)
     ImageButton.place(x = 130, y = 80, width = 170, height = 200)
@@ -122,6 +127,8 @@ def UserInforwindow():
          'USER_RENT':[0],           #대여 디폴트 값 : 미대여
 
          'USER_PIC':[None]})            #사진 디폴트 값 : None
+            if pic != '':
+                AddUserDf['USER_PIC'] = [pic]
             UserDf = pd.concat([UserDf, AddUserDf])         #등록 정보를 기존 데이터프레임에 합치기
             UserDf.to_csv('UserList.csv',index=False,encoding='utf-8')  #csv파일에 저장
             messagebox.showinfo('등록 완료', '등록이 완료되었습니다.')  #등록 완료 메시지
