@@ -191,8 +191,10 @@ def UserInfowindow(PhoneNumber):
         phone = PhoneEnter1.get()+'-'+PhoneEnter2.get()+'-'+PhoneEnter3.get()
         answer = messagebox.askquestion('수정', '수정하시겠습니까?', master = UIWindow)
         if answer == 'yes':
-            if (len(PhoneEnter1.get()) != 3 or len(PhoneEnter2.get()) != 4 or len(PhoneEnter3.get()) != 4):
-                messagebox.showerror('입력오류', '전화번호 입력이 잘 못 되었습니다.')
+            if ((PhoneEnter1.get().isdigit() != True) or (PhoneEnter2.get().isdigit() != True) or (PhoneEnter3.get().isdigit() != True)):
+                messagebox.showerror('입력오류', '전화번호에 숫자만 입력해 주세요', master = UIWindow)
+            elif (len(PhoneEnter1.get()) != 3 or len(PhoneEnter2.get()) != 4 or len(PhoneEnter3.get()) != 4):
+                messagebox.showerror('입력오류', '전화번호 자릿수를 맞춰주세요.', master = UIWindow)
             elif (phone != PN) and (phone == UserDf['USER_PHONE']).any():                             # 전화번호 중복확인
                 messagebox.showerror('중복', '중복된 전화번호입니다.', master = UIWindow)
             else:
