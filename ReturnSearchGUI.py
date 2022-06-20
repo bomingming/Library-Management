@@ -7,9 +7,6 @@ import ReturnSearchGUI
 import RentGUI
 import pandas as pd
 
-UserDf=pd.read_csv(r'.\UserList.csv')# data에 읽은 값 저장
-RentDf=pd.read_csv(r'.\RentList.csv')# data에 읽은 값 저장
-BookDf=pd.read_csv(r'.\BookList.csv')# data에 읽은 값 저장
 
 def TreeviewDrop():
     for i in OutpuTreeview.get_children(): # 트리뷰 입력된값 삭제
@@ -48,18 +45,22 @@ def SearchResult():                    # 검색기준 선택, 검색이름 입�
 
 def ReturnBotton():
     UserDf=pd.read_csv(r'.\UserList.csv')# data에 읽은 값 저장
+    RentDf=pd.read_csv(r'.\RentList.csv')# data에 읽은 값 저장
+    BookDf=pd.read_csv(r'.\BookList.csv')# data에 읽은 값 저장
 
-    SelectBook = OutpuTreeview.focus()  #트리뷰에서 선택한 도서
-    SelectBook = OutpuTreeview.item(SelectBook).get('values')
+    SelectBook1 = OutpuTreeview.focus()  #트리뷰에서 선택한 도서
+    SelectBook = OutpuTreeview.item(SelectBook1).get('values')
     BookName = SelectBook[2]
-    BookISBN = BookDf.loc[BookDf['BOOK_TITLE'].str.contains(BookName),['BOOK_ISBN']]
+    D=OutpuTreeview.index(SelectBook1)
+    print('이오옹',D)
     UserPhone = SelectBook[1]
     UserName = SelectBook[0]
-
+    TreeviewDrop()
     answer = messagebox.askquestion('반납완료','반납하시겠습니까?\n회원 정보 : '+UserName+
     '\n책 정보 : '+BookName)  #대여 의사 묻기
     if answer == 'yes':
-        D=RentDf[RentDf[['BOOK_ISBN','USER_PHONE']]==[BookISBN,UserPhone]].index
+        RentDf=pd.read_csv(r'.\RentList.csv')# data에 읽은 값 저장
+        print(RentDf.loc[D])
         RentDf1=RentDf.drop(D)
 
         UserDf = UserDf.astype({'USER_RENT':int})
