@@ -135,6 +135,7 @@ def BookInfowindow(SelectBook):
             BookDelDf = BookDf.drop(DelIndex)
             BookDelDf.to_csv('BookList.csv', index=False, encoding = 'utf-8')
             messagebox.showinfo('삭제완료', '도서가 삭제되었습니다.', master = BIWindow)
+            BIWindow.destroy()
             
     OutButton = Button(BIWindow, text = '삭제', command = DeleteBook)
     OutButton.place(x = 250, y = 290, width = 50)
