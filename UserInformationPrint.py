@@ -6,6 +6,8 @@ from datetime import datetime, timedelta
 import pandas as pd
 from tkinter.filedialog import *
 import numpy as np
+from PIL import ImageTk
+from PIL import Image
 
 PutSex=True
 #유저
@@ -153,11 +155,10 @@ def UserInfowindow(PhoneNumber):
 
 # 버튼
     def SelectPic():                                                           # 이미지 파일열기 함수
-        filename = askopenfilename(parent = UIWindow, filetypes = (('GIF 파일','*gif'),('모든파일','*.*')))
-        if filename == '':
-            photo = PhotoImage(file = pic, master = UIWindow)
-        else:
-            photo = PhotoImage(file = filename, master = UIWindow)
+        filename = askopenfilename(parent = UIWindow, filetypes = (('JPG 파일','*jpg'),('GIF 파일','*gif'),('모든파일','*.*')))
+        image = Image.open(filename)
+        image = image.resize((170,200))
+        photo = ImageTk.PhotoImage(image, master = UIWindow)
         ImageButton.configure(image = photo)
         ImageButton.image = photo
         UserDf.loc[UserDf['USER_PHONE'].str.contains(PN), ['USER_PIC']] = filename
@@ -167,7 +168,9 @@ def UserInfowindow(PhoneNumber):
             ImageButton = Button(UIWindow, image = '', command = SelectPic)                          # 회원 이미지 추가버튼
     except(TypeError):
         try:
-            photo = PhotoImage(file = pic, master = UIWindow)
+            image = Image.open(pic)
+            image = image.resize((170,200))
+            photo = ImageTk.PhotoImage(image, master = UIWindow)
             ImageButton = Button(UIWindow, image = photo, command = SelectPic)
         except:
             ImageButton = Button(UIWindow, text = '저장된 이미지가\n 삭제되었거나 없습니다.', command = SelectPic)

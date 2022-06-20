@@ -3,6 +3,8 @@ from tkinter.ttk import *
 from tkinter import messagebox
 import pandas as pd
 from tkinter.filedialog import *
+from PIL import ImageTk
+from PIL import Image
 
 BookDf = pd.read_csv('BookList.csv')
 
@@ -54,8 +56,10 @@ def BookInfowindow():
 
 
     def SelectPic():             # 이미지 파일열기 함수
-        filename = askopenfilename(parent = Window, filetypes = (('GIF 파일','*gif'),('모든파일','*.*')))         # [취소시 사진사라지는거]
-        photo = PhotoImage(file=filename, master = Window)
+        filename = askopenfilename(parent = Window, filetypes = (('JPG 파일','*jpg'),('GIF 파일','*gif'),('모든파일','*.*')))
+        image = Image.open(filename)
+        image = image.resize((170,200))
+        photo = ImageTk.PhotoImage(image, master = Window)
         ImageButton.configure(image = photo)
         ImageButton.image = photo
 
