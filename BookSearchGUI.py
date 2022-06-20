@@ -8,13 +8,6 @@ import BookInformationPrint
 import BookRegisterButton
 import pandas as pd
 
-
-def DoubleClick(event):                         # 트리뷰 더블클릭 커멘드
-    SelectBook = OutpuTreeview.focus()  #트리뷰에서 선택한 도서
-    SelectBook = OutpuTreeview.item(SelectBook).get('values')
-    SelectBook = SelectBook[1]
-    BookInformationPrint.BookInfowindow(SelectBook)
-
 def ButtonClick():
     SelectBook = OutpuTreeview.focus()  #트리뷰에서 선택한 도서
     SelectBook = OutpuTreeview.item(SelectBook).get('values')
@@ -107,7 +100,7 @@ def SearchWindow():
     OutpuTreeview.column('#4',width=80,anchor='e')
     OutpuTreeview.heading('#4',text='출판사',anchor='center')
     OutpuTreeview.place(x=130, y=110)
-    OutpuTreeview.bind("<Double-Button-1>", DoubleClick)  # 더블클릭시 key 커멘드 실행
+
 
     #등록 버튼
     RegisterBotton=Button(Window,text='등록',command=BookRegisterButton.BookInfowindow)
