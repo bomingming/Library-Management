@@ -1,5 +1,6 @@
 from tkinter import *
 from tkinter.ttk import *
+from tkinter import messagebox
 import UserSearchGUI
 import BookSearchGUI
 import ReturnSearchGUI
@@ -11,6 +12,10 @@ RentDf=pd.read_csv(r'.\RentList.csv')# data에 읽은 값 저장
 BookDf=pd.read_csv(r'.\BookList.csv')# data에 읽은 값 저장
 
 def SearchResult():                    # 검색기준 선택, 검색이름 입력후 검색 클릭시 커멘드
+
+    UserDf=pd.read_csv(r'.\UserList.csv')# data에 읽은 값 저장
+    RentDf=pd.read_csv(r'.\RentList.csv')# data에 읽은 값 저장
+    BookDf=pd.read_csv(r'.\BookList.csv')# data에 읽은 값 저장
 
     for i in OutpuTreeview.get_children(): # 트리뷰 입력된값 삭제
         OutpuTreeview.delete(str(i))
@@ -43,15 +48,19 @@ def ReturnBotton():
     SelectBook = OutpuTreeview.item(SelectBook).get('values')
     BookName = SelectBook[2]
     UserPhone = SelectBook[1]
+    UserName = SelectBook[0]
 
-    D=RentDf[RentDf['USER_PHONE']==UserPhone].index
-    RentDf1=RentDf.drop(D)
-    UserDf.loc[UserDf['USER_PHONE'].str.contains(UserPhone),['USER_RENT']]='미대여'
-    BookDf.loc[BookDf['BOOK_TITLE'].str.contains(BookName),['BOOK_RENT']]='미대여'
+    answer = messagebox.askquestion('반납완료','반납하시겠습니까?\n회원 정보 : '+UserName+
+    '\n책 정보 : '+BookName)  #대여 의사 묻기
+    if answer == 'yes':
+        D=RentDf[RentDf['USER_PHONE']==UserPhone].index
+        RentDf1=RentDf.drop(D)
+        UserDf.loc[UserDf['USER_PHONE'].str.contains(UserPhone),['USER_RENT']]='미대여'
+        BookDf.loc[BookDf['BOOK_TITLE'].str.contains(BookName),['BOOK_RENT']]='미대여'
 
-    UserDf.to_csv('UserList.csv',index=False,encoding='utf-8')  #csv파일에 저장
-    BookDf.to_csv('BookList.csv',index=False,encoding='utf-8')  #csv파일에 저장
-    RentDf1.to_csv('RentList.csv',index=False,encoding='utf-8')  #csv파일에 저장
+        UserDf.to_csv('UserList.csv',index=False,encoding='utf-8')  #csv파일에 저장
+        BookDf.to_csv('BookList.csv',index=False,encoding='utf-8')  #csv파일에 저장
+        RentDf1.to_csv('RentList.csv',index=False,encoding='utf-8')  #csv파일에 저장
 
 
 def SearchWindow():

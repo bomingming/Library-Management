@@ -3,6 +3,7 @@ from tkinter.ttk import *
 import UserSearchGUI
 import BookSearchGUI
 import RentGUI
+import ReturnSearchGUI
 import BookInformationPrint
 import BookRegisterButton
 import pandas as pd
@@ -70,7 +71,7 @@ def SearchWindow():
 
     def ReturnUser():
         Window.destroy()
-        BookSearchGUI.SearchWindow()
+        ReturnSearchGUI.SearchWindow()
 
     #-m----Entry: c2, r1------
     global SearchName

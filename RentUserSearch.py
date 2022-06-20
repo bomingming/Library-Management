@@ -36,7 +36,9 @@ def ButtonClick(SelectBook, UIWindow, Window):
         'RENT_DATE':[NowDay],
         'RENT_REDATE':[ReturnDay]})
         RentDf = pd.concat([RentDf, AddDf])         #등록 정보를 기존 데이터프레임에 합치기
+        BookDf.loc[RentBookIndex,'BOOK_RENT']='대여 중'
 
+        BookDf.to_csv('BookList.csv',index=False,encoding='utf-8')  #csv파일에 저장
         RentDf.to_csv('RentList.csv',index=False,encoding='utf-8')  #csv파일에 저장
 
         messagebox.showinfo('대여완료', '대여가 완료되었습니다.\n대여일 : '+NowDay+

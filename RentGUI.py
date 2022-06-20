@@ -6,6 +6,7 @@ from tkinter import messagebox
 import BookSearchGUI
 import UserSearchGUI
 import ReturnSearchGUI
+import RentGUI
 import BookInformationPrint
 import BookRentInfor
 import RentUserSearch
@@ -32,7 +33,8 @@ def SearchResult():                     # 검색기준 선택, 검색이름 입�
     for i in ResultSearch.index:
         PrintR=[]
         for j in ['BOOK_TITLE','BOOK_ISBN','BOOK_AUTHOR','BOOK_PUB']:
-            PrintR.append(ResultSearch.loc[i,j])
+            if ResultSearch.loc[i,'BOOK_RENT']!='대여 중':
+                PrintR.append(ResultSearch.loc[i,j])
         OutpuTreeview.insert('','end',text=i,values=PrintR,iid=str(i))
 
 
@@ -72,11 +74,11 @@ def SearchWindow():
 
     def RentUser():
         Window.destroy()
-        ReturnSearchGUI.SearchWindow()
+        RentGUI.SearchWindow()
 
     def ReturnUser():
         Window.destroy()
-        BookSearchGUI.SearchWindow()
+        ReturnSearchGUI.SearchWindow()
 
     #-m----Entry: c2, r1------
     global SearchName
