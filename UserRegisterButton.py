@@ -5,6 +5,8 @@ import pandas as pd
 from datetime import datetime, timedelta
 from tkinter.filedialog import *
 import math
+from PIL import ImageTk
+from PIL import Image
 
 NowDay = datetime.today().strftime('%Y-%m-%d')         #당일 날짜 표시
 UserDf = pd.read_csv(r'.\UserList.csv')
@@ -89,14 +91,16 @@ def UserInforwindow():
     pic = ''
 
     def SelectPic():             # 이미지 파일열기 함수
-        filename = askopenfilename(parent = Window, filetypes = (('GIF 파일','*gif'),('모든파일','*.*')))                       # [취소시 사진사라지는거]
-        photo = PhotoImage(file=filename, master = Window)
+        filename = askopenfilename(parent = Window, filetypes = (('JPG 파일', '*jpg'),('GIF 파일','*gif'),('모든파일','*.*')))                       # [취소시 사진사라지는거]
+        image = Image.open(filename)
+        image = image.resize((170,200))
+        photo = ImageTk.PhotoImage(image, master = Window)
         ImageButton.configure(image = photo)
         ImageButton.image = photo
         global pic
-        pic = ''
+        pic = filename
 
-    ImageButton = Button(Window, text = '저장된 이미지가\n삭제되었거나 없습니다.', command = SelectPic)
+    ImageButton = Button(Window, command = SelectPic)
     ImageButton.place(x = 130, y = 80, width = 170, height = 200)
 
     def AddUser():  #회원 등록 누를 시

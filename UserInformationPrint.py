@@ -6,6 +6,8 @@ from datetime import datetime, timedelta
 import pandas as pd
 from tkinter.filedialog import *
 import numpy as np
+from PIL import ImageTk
+from PIL import Image
 
 PutSex=True
 #유저
@@ -121,10 +123,10 @@ def UserInfowindow(PhoneNumber):
     OutLabel.place(x = 410, y = 255)
     OutEnter = Entry(UIWindow, width = 25)                                # 탈퇴 텍스트
     OutEnter.place(x = 450, y = 255)
-    try:
-        if math.isnan(out) == True:                 # True = nan => 가입중 / False = 탈퇴일
-            OutEnter.insert(0,'가입중')
-    except:
+    
+    if out == ' ':                 # True = nan => 가입중 / False = 탈퇴일
+        OutEnter.insert(0,'가입중')
+    else:
         OutEnter.insert(0,out)
     OutEnter.configure(state = 'readonly')
         
@@ -153,21 +155,22 @@ def UserInfowindow(PhoneNumber):
 
 # 버튼
     def SelectPic():                                                           # 이미지 파일열기 함수
-        filename = askopenfilename(parent = UIWindow, filetypes = (('GIF 파일','*gif'),('모든파일','*.*')))
-        if filename == '':
-            photo = PhotoImage(file = pic, master = UIWindow)
-        else:
-            photo = PhotoImage(file = filename, master = UIWindow)
+        filename = askopenfilename(parent = UIWindow, filetypes = (('JPG 파일','*jpg'),('GIF 파일','*gif'),('모든파일','*.*')))
+        image = Image.open(filename)
+        image = image.resize((170,200))
+        photo = ImageTk.PhotoImage(image, master = UIWindow)
         ImageButton.configure(image = photo)
         ImageButton.image = photo
         UserDf.loc[UserDf['USER_PHONE'].str.contains(PN), ['USER_PIC']] = filename
 
     try:
         if math.isnan(pic):
-            ImageButton = Button(UIWindow, image = '', command = SelectPic)                          # 회원 이미지 추가버튼
+            ImageButton = Button(UIWindow, command = SelectPic)                          # 회원 이미지 추가버튼
     except(TypeError):
         try:
-            photo = PhotoImage(file = pic, master = UIWindow)
+            image = Image.open(pic)
+            image = image.resize((170,200))
+            photo = ImageTk.PhotoImage(image, master = UIWindow)
             ImageButton = Button(UIWindow, image = photo, command = SelectPic)
         except:
             ImageButton = Button(UIWindow, text = '저장된 이미지가\n 삭제되었거나 없습니다.', command = SelectPic)
@@ -188,8 +191,10 @@ def UserInfowindow(PhoneNumber):
         phone = PhoneEnter1.get()+'-'+PhoneEnter2.get()+'-'+PhoneEnter3.get()
         answer = messagebox.askquestion('수정', '수정하시겠습니까?', master = UIWindow)
         if answer == 'yes':
-            if (len(PhoneEnter1.get()) != 3 or len(PhoneEnter2.get()) != 4 or len(PhoneEnter3.get()) != 4):
-                messagebox.showerror('입력오류', '전화번호 입력이 잘 못 되었습니다.')
+            if ((PhoneEnter1.get().isdigit() != True) or (PhoneEnter2.get().isdigit() != True) or (PhoneEnter3.get().isdigit() != True)):
+                messagebox.showerror('입력오류', '전화번호에 숫자만 입력해 주세요', master = UIWindow)
+            elif (len(PhoneEnter1.get()) != 3 or len(PhoneEnter2.get()) != 4 or len(PhoneEnter3.get()) != 4):
+                messagebox.showerror('입력오류', '전화번호 자릿수를 맞춰주세요.', master = UIWindow)
             elif (phone != PN) and (phone == UserDf['USER_PHONE']).any():                             # 전화번호 중복확인
                 messagebox.showerror('중복', '중복된 전화번호입니다.', master = UIWindow)
             else:
@@ -214,8 +219,7 @@ def UserInfowindow(PhoneNumber):
     EditButton.place(x = 190, y = 290, width = 50)
 
     def OutUser():                                                                  # 탈퇴버튼 누를시 실행 함수
-        try:
-            if math.isnan(out) == True:
+            if out == ' ':
                 if rent == 0:
                     answer = messagebox.askquestion('탈퇴', '탈퇴 하시겠습니까?', master = UIWindow)                                 # 탈퇴 확인 메세지창
                     if answer == 'yes':
@@ -226,9 +230,9 @@ def UserInfowindow(PhoneNumber):
                     else:
                         messagebox.showinfo('탈퇴 취소', '탈퇴를 취소하였습니다.', master = UIWindow)
                 else:
-                    messagebox.showerror('오류', '도서를 대여 중인 회원입니다.', master = UIWindow)    
-        except:
-            messagebox.showerror('오류', '이미 탈퇴한 회원입니다.', master = UIWindow)
+                    messagebox.showerror('오류', '도서를 대여 중인 회원입니다.', master = UIWindow)
+            else:
+                messagebox.showerror('오류', '이미 탈퇴한 회원입니다.', master = UIWindow)
 
     OutButton = Button(UIWindow, text = '탈퇴', command = OutUser)        # 탈퇴 버튼
     OutButton.place(x = 250, y = 290, width = 50)

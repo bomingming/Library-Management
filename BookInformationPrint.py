@@ -3,6 +3,8 @@ from tkinter import messagebox
 import pandas as pd
 import math
 from tkinter.filedialog import *
+from PIL import ImageTk
+from PIL import Image
 
 def BookInfowindow(SelectBook):
     BIWindow = Tk()
@@ -78,21 +80,28 @@ def BookInfowindow(SelectBook):
     # 버튼
 # 도서 이미지 버튼
     def SelectBookPic():
-        filename = askopenfilename(parent = BIWindow, filetypes = (('GIF 파일', '*gif'),('모든파일','*.*')))
-        photo = PhotoImage(file = filename, master = BIWindow)
+        filename = askopenfilename(parent = BIWindow, filetypes = (('JPG 파일','*jpg'),('GIF 파일','*gif'),('모든파일','*.*')))
+        image = Image.open(filename)
+        image = image.resize((170,200))
+        if filename == '':
+            photo = ImageTk.PhotoImage(image, master = BIWindow)
+        else:
+            photo = ImageTk.PhotoImage(image, master = BIWindow)
         ImageButton.configure(image = photo)
         ImageButton.image = photo
         BookDf.loc[BookDf['BOOK_ISBN'].str.contains(isbnnum), ['BOOK_PIC']] = filename
 
     try:
         if math.isnan(pic):
-            ImageButton = Button(BIWindow, text = '저장된 이미지가\n 삭제되었거나 없습니다.', command = SelectBookPic)
+            ImageButton = Button(BIWindow, command = SelectBookPic)
     except(TypeError):
         try:
-            photo = PhotoImage(file = pic, master = BIWindow)
+            image = Image.open(pic)
+            image = image.resize((170,200))
+            photo = ImageTk.PhotoImage(image, master = BIWindow)
             ImageButton = Button(BIWindow, image = photo, command = SelectBookPic)
         except:
-            ImageButton = Button(BIWindow, text = '저장된 이미지가\n 삭제되었거나 없습니다.', command = SelectBookPic)
+            ImageButton = Button(BIWindow, command = SelectBookPic)
     ImageButton.place(x = 130, y = 80, width = 170, height = 200)
 
 # 확인 버튼
@@ -122,6 +131,7 @@ def BookInfowindow(SelectBook):
                     RentDf.to_csv('RentList.csv', index = False, encoding = 'utf-8')
                 
                 messagebox.showinfo('수정완료', '수정되었습니다.', master = BIWindow)
+                BIWindow.destroy()
 
     EditButton = Button(BIWindow, text = '수정', command = EditBook)
     EditButton.place(x = 190, y = 290, width = 50)
