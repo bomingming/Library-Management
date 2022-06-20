@@ -115,7 +115,7 @@ def UserInforwindow():
          'USER_MAIL':[MailEnter.get()+'@'+MailCombo.get()],
          'USER_OUT':[None],             #탈퇴일 디폴트 값 : None
          'USER_IN':[NowDay],        #등록일 디폴트 값 : 오늘 날짜
-         'USER_RENT':['미대여'],           #대여 디폴트 값 : 미대여
+         'USER_RENT':['0'],           #대여 디폴트 값 : '0'
          'USER_PIC':[None]})            #사진 디폴트 값 : None
             UserDf = pd.concat([UserDf, AddUserDf])         #등록 정보를 기존 데이터프레임에 합치기
             UserDf.to_csv('UserList.csv',index=False,encoding='utf-8')  #csv파일에 저장

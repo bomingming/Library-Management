@@ -46,7 +46,7 @@ def ButtonClick(SelectBook, UIWindow, Window):
         SelectBook = str(SelectBook)
         
         #도서 csv - 도서 대여 여부 변경
-        BookDf.loc[BookDf['BOOK_ISBN'].str.contains(SelectBook), ['BOOK_RENT']] = '대출 중'
+        BookDf.loc[BookDf['BOOK_ISBN'].str.contains(SelectBook), ['BOOK_RENT']] = '대여 중'
         BookDf.to_csv('BookList.csv', index = False, encoding = 'utf-8')
 
         #회원 csv - 회원 대여 여부 변경
