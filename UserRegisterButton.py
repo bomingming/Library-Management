@@ -141,7 +141,7 @@ def UserInforwindow():
     #버튼
     OkButton = Button(Window, text = '등록', command=AddUser)      # 등록 버튼
     OkButton.place(x = 155, y = 290, width = 50)
-    OutButton = Button(Window, text = '취소')                       # 취소 버튼
+    OutButton = Button(Window, text = '취소', command=Window.destroy)                       # 취소 버튼
     OutButton.place(x = 230, y = 290, width = 50)
 
 
