@@ -43,7 +43,7 @@ def Search(InStandard,InSearch):
     BookDf=pd.read_csv(r'.\BookList.csv')# data에 읽은 값 저장
 
     for i in range(len(BookDf.index)):  
-        if BookDf.loc[i, 'BOOK_RENT']=='대여 중':
+        if BookDf.loc[i, 'BOOK_RENT']=='대출 중':
             BookDf = BookDf.drop(i)      #대여 중인 도서는 출력용 데이터프레임에서 제거
     
     if InStandard=="도서 명":                  # 도서 명 선택 시
