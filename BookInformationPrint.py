@@ -149,11 +149,15 @@ def BookInfowindow(SelectBook):
     def DeleteBook():
         answer = messagebox.askquestion('삭제 확인','도서를 삭제하시겠습니까?', master = BIWindow)
         if answer == 'yes':
-            DelIndex = BookDf[BookDf['BOOK_ISBN'] == isbnnum].index
-            BookDelDf = BookDf.drop(DelIndex)
-            BookDelDf.to_csv('BookList.csv', index=False, encoding = 'utf-8')
-            messagebox.showinfo('삭제완료', '도서가 삭제되었습니다.', master = BIWindow)
-            BIWindow.destroy()
+            if rent == 0:
+                DelIndex = BookDf[BookDf['BOOK_ISBN'] == isbnnum].index
+                BookDelDf = BookDf.drop(DelIndex)
+                BookDelDf.to_csv('BookList.csv', index=False, encoding = 'utf-8')
+                messagebox.showinfo('삭제완료', '도서가 삭제되었습니다.', master = BIWindow)
+                BIWindow.destroy()
+            else:
+                messagebox.showerror('삭제불가', '대여 중인 도서입니다(삭제불가)', master=BIWindow)
+                BIWindow.destroy()
             
     OutButton = Button(BIWindow, text = '삭제', command = DeleteBook)
     OutButton.place(x = 250, y = 290, width = 50)
