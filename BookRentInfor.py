@@ -71,14 +71,20 @@ def BookInfowindow(SelectBook):
 
     BookInfomationEnter.place(x = 450, y = 325)
 
-    def SelectPic():             # 이미지 파일열기 함수
-        filename = askopenfilename(parent = Window, filetypes = (('GIF 파일','*gif'),('모든파일','*.*')))                       # [취소시 사진사라지는거]
-        photo = PhotoImage(file=filename, master = Window)
-        ImageButton.configure(image = photo)
-        ImageButton.image = photo
+    #도서 사진
+    RentBookIndex = BookDf[BookDf['BOOK_ISBN'] == SelectBook].index[0]  #선택된 도서의 인덱스
 
-    ImageButton = Button(Window, text = '저장된 이미지가\n삭제되었거나 없습니다.', command = SelectPic)
-    ImageButton.place(x = 130, y = 80, width = 170, height = 200)
+    if pd.isna(BookDf.loc[RentBookIndex, 'BOOK_PIC']):    #선택된 도서의 사진이 없으면
+        NonePhoto = Button(Window, text = '저장된 이미지가\n삭제되었거나 없습니다.')    #작동하지 않는 이미지 버튼
+        NonePhoto.place(x = 130, y = 80, width = 170, height = 200)
+
+    else:
+        filename = BookDf.loc[RentBookIndex, 'BOOK_PIC']
+        photo = PhotoImage(file = filename)
+
+        ImageLabel = Label(Window, image= photo)
+        ImageLabel.place(x = 130, y = 80, width = 170, height = 200)
+
 
     def Borrower():     #대여자 버튼
         global RentDf

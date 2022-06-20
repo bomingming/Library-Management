@@ -118,7 +118,7 @@ def SearchWindow():
 
     #검색 버튼
     SearchBotton=Button(Window,text="⤶",command=SearchResult, width=2)
-    SearchBotton.place(x=621,y=79)
+    SearchBotton.place(x=620,y=79)
 
     #선택
     RegisterBotton=Button(Window,text='선택',command=ButtonClick)
