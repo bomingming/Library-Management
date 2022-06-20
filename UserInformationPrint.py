@@ -191,30 +191,36 @@ def UserInfowindow(PhoneNumber):
         phone = PhoneEnter1.get()+'-'+PhoneEnter2.get()+'-'+PhoneEnter3.get()
         answer = messagebox.askquestion('수정', '수정하시겠습니까?', master = UIWindow)
         if answer == 'yes':
-            if ((PhoneEnter1.get().isdigit() != True) or (PhoneEnter2.get().isdigit() != True) or (PhoneEnter3.get().isdigit() != True)):
-                messagebox.showerror('입력오류', '전화번호에 숫자만 입력해 주세요', master = UIWindow)
-            elif (len(PhoneEnter1.get()) != 3 or len(PhoneEnter2.get()) != 4 or len(PhoneEnter3.get()) != 4):
-                messagebox.showerror('입력오류', '전화번호 자릿수를 맞춰주세요.', master = UIWindow)
-            elif (phone != PN) and (phone == UserDf['USER_PHONE']).any():                             # 전화번호 중복확인
-                messagebox.showerror('중복', '중복된 전화번호입니다.', master = UIWindow)
-            elif '' in [NameEnter.get(),Year,Month,Day,phone,MailEnter.get()]:
-                messagebox.showerror('등록 오류', '빈칸을 입력하세요.', master=UIWindow)  #등록 오류 메시지(누락)
-            else:
-                if (Year%4 != 0 and Month == 2 and Day > 28):
-                    messagebox.showerror('날짜 오류', '날짜가 형식에 맞지 않습니다.', master = UIWindow)
-                
-                elif (Month == 2 and Day>29) or ((Month == 4 or Month == 6 or Month == 9 or Month == 11) and Day>30):
-                    messagebox.showerror('날짜 오류', '날짜가 형식에 맞지 않습니다.', master = UIWindow)
+            if rent==0:
+                if ((PhoneEnter1.get().isdigit() != True) or (PhoneEnter2.get().isdigit() != True) or (PhoneEnter3.get().isdigit() != True)):
+                    messagebox.showerror('입력오류', '전화번호에 숫자만 입력해 주세요', master = UIWindow)
+                elif (len(PhoneEnter1.get()) != 3 or len(PhoneEnter2.get()) != 4 or len(PhoneEnter3.get()) != 4):
+                    messagebox.showerror('입력오류', '전화번호 자릿수를 맞춰주세요.', master = UIWindow)
+                elif (phone != PN) and (phone == UserDf['USER_PHONE']).any():                             # 전화번호 중복확인
+                    messagebox.showerror('중복', '중복된 전화번호입니다.', master = UIWindow)
+                elif '' in [NameEnter.get(),Year,Month,Day,phone,MailEnter.get()]:
+                    messagebox.showerror('등록 오류', '빈칸을 입력하세요.', master=UIWindow)  #등록 오류 메시지(누락)
                 else:
-                    mail = MailEnter.get()+'@'+MailCombo.get()
+                    if (Year%4 != 0 and Month == 2 and Day > 28):
+                        messagebox.showerror('날짜 오류', '날짜가 형식에 맞지 않습니다.', master = UIWindow)
                     
-                    birth = YearCombo.get()+MonthCombo.get()+DayCombo.get()
+                    elif (Month == 2 and Day>29) or ((Month == 4 or Month == 6 or Month == 9 or Month == 11) and Day>30):
+                        messagebox.showerror('날짜 오류', '날짜가 형식에 맞지 않습니다.', master = UIWindow)
+                    else:
+                        mail = MailEnter.get()+'@'+MailCombo.get()
+                        
+                        birth = YearCombo.get()+MonthCombo.get()+DayCombo.get()
 
-                    UserDf.loc[UserDf['USER_PHONE'].str.contains(PN), ['USER_NAME','USER_BIRTH','USER_PHONE','USER_SEX','USER_MAIL']] = (NameEnter.get(),birth,phone,PutSex,mail)
-                    UserDf.to_csv('UserList.csv', index=False, encoding = 'utf-8')
-                    
-                    messagebox.showinfo('수정완료', '수정되었습니다.', master = UIWindow)
-                    UIWindow.destroy()
+                        UserDf.loc[UserDf['USER_PHONE'].str.contains(PN), ['USER_NAME','USER_BIRTH','USER_PHONE','USER_SEX','USER_MAIL']] = (NameEnter.get(),birth,phone,PutSex,mail)
+                        UserDf.to_csv('UserList.csv', index=False, encoding = 'utf-8')
+                        
+                        messagebox.showinfo('수정완료', '수정되었습니다.', master = UIWindow)
+                        UIWindow.destroy()
+            else:
+                messagebox.showerror('수정불가','대여 중인 회원입니다(수정불가)', master=UIWindow)
+                UIWindow.destroy()
+    
+
     
 
     EditButton = Button(UIWindow, text = '수정', command = EditUser)      # 수정 버튼
