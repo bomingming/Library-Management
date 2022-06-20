@@ -216,7 +216,7 @@ def UserInfowindow(PhoneNumber):
     def OutUser():                                                                  # 탈퇴버튼 누를시 실행 함수
         try:
             if math.isnan(out) == True:
-                if rent == False:
+                if rent == 0:
                     answer = messagebox.askquestion('탈퇴', '탈퇴 하시겠습니까?', master = UIWindow)                                 # 탈퇴 확인 메세지창
                     if answer == 'yes':
                         UserDf.loc[UserDf['USER_PHONE'].str.contains(PN),['USER_OUT']] = (datetime.today().strftime('%Y-%m-%d'))    # 확인시 데이터프레임에 탈퇴 날짜 저장

@@ -18,15 +18,14 @@ def TreeviewDrop():
 def DoubleClick(event):                         # 트리뷰 더블클릭 커멘드
     SelectBook = OutpuTreeview.focus()          #트리뷰에서 선택한 도서
     SelectBook = OutpuTreeview.item(SelectBook).get('values')
-    SelectBook = SelectBook[1]
-    BookInformationPrint.BookInfowindow(SelectBook)
     TreeviewDrop()
+    BookInformationPrint.BookInfowindow(SelectBook[1])
 
 def ButtonClick():
     SelectBook = OutpuTreeview.focus()  #트리뷰에서 선택한 도서
     SelectBook = OutpuTreeview.item(SelectBook).get('values')
-    BookRentInfor.BookInfowindow(SelectBook[1])
     TreeviewDrop()
+    BookRentInfor.BookInfowindow(SelectBook[1])
     
 
 def SearchResult():                     # 검색기준 선택, 검색이름 입력후 검색 클릭시 커멘드
@@ -35,10 +34,11 @@ def SearchResult():                     # 검색기준 선택, 검색이름 입�
     InStandard=Standard.get()           # 콤보박스의 입력값
     InSearch=SearchName.get()           # 검색창에 검색한 이름
     ResultSearch=(Search(InStandard,InSearch))
+
     for i in ResultSearch.index:
         PrintR=[]
         for j in ['BOOK_TITLE','BOOK_ISBN','BOOK_AUTHOR','BOOK_PUB']:
-            if ResultSearch.loc[i,'BOOK_RENT']!='대여 중':
+            if ResultSearch.loc[i,'BOOK_RENT']!='대출 중':
                 PrintR.append(ResultSearch.loc[i,j])
         OutpuTreeview.insert('','end',text=i,values=PrintR,iid=str(i))
 

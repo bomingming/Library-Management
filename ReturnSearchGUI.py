@@ -53,13 +53,13 @@ def ReturnBotton():
     BookISBN = BookDf.loc[BookDf['BOOK_TITLE'].str.contains(BookName),['BOOK_ISBN']]
     UserPhone = SelectBook[1]
     UserName = SelectBook[0]
+    TreeviesDrop()
 
     answer = messagebox.askquestion('반납완료','반납하시겠습니까?\n회원 정보 : '+UserName+
     '\n책 정보 : '+BookName)  #대여 의사 묻기
     if answer == 'yes':
         DropIndex=RentDf[RentDf['BOOK_ISBN'] == BookISBN].index[0]
-        print(DropIndex)
-        RentDf.drop(index=DropIndex, inplace=True)
+        RentDf1=RentDf.drop(DropIndex)
 
         UserDf.loc[UserDf['USER_PHONE'].str.contains(UserPhone),['USER_RENT']]=(
             UserDf.loc[UserDf['USER_PHONE'].str.contains(UserPhone),['USER_RENT']]-1)
@@ -67,7 +67,7 @@ def ReturnBotton():
 
         UserDf.to_csv('UserList.csv',index=False,encoding='utf-8')  #csv파일에 저장
         BookDf.to_csv('BookList.csv',index=False,encoding='utf-8')  #csv파일에 저장
-        RentDf.to_csv('RentList.csv',index=False,encoding='utf-8')  #csv파일에 저장
+        RentDf1.to_csv('RentList.csv',index=False,encoding='utf-8')  #csv파일에 저장
 
 
 def SearchWindow():
