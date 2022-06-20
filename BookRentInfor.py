@@ -45,7 +45,7 @@ def BookInfowindow(SelectBook):
     IsbnLabel.place(x = 410, y = 185)
     IsbnEnter = Entry(Window, width = 25)            # ISBN 텍스트
     IsbnEnter.place(x = 450, y = 185)
-    IsbnEnter.insert(0,OutputBook[2])
+    IsbnEnter.insert(0,OutputBook[1])
     IsbnEnter.configure(state = 'readonly')
 
     PriceLabel = Label(Window, text = '가격', font = ('돋움체', 10))       # 가격  

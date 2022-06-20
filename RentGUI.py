@@ -15,12 +15,6 @@ def TreeviewDrop():
     for i in OutpuTreeview.get_children():
         OutpuTreeview.delete(str(i))
 
-def DoubleClick(event):                         # 트리뷰 더블클릭 커멘드
-    SelectBook = OutpuTreeview.focus()          #트리뷰에서 선택한 도서
-    SelectBook = OutpuTreeview.item(SelectBook).get('values')
-    TreeviewDrop()
-    BookInformationPrint.BookInfowindow(SelectBook[1])
-
 def ButtonClick():
     SelectBook = OutpuTreeview.focus()  #트리뷰에서 선택한 도서
     SelectBook = OutpuTreeview.item(SelectBook).get('values')
@@ -119,7 +113,6 @@ def SearchWindow():
     OutpuTreeview.column('#4',width=80,anchor='e')
     OutpuTreeview.heading('#4',text='출판사',anchor='center')
     OutpuTreeview.place(x=130, y=110)
-    OutpuTreeview.bind("<Double-Button-1>", DoubleClick)  # 더블클릭시 key 커멘드 실행
 
     #검색 버튼
     SearchBotton=Button(Window,text="⤶",command=SearchResult, width=2)
