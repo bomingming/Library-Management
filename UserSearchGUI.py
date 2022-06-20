@@ -26,15 +26,15 @@ def SearchResult():                     # 검색기준 선택, 검색이름 입�
     ResultSearch=(Search(InStandard,InSearch))
     for i in ResultSearch.index:
         PrintR=[]
-        for j in ['USER_NAME','USER_BIRTH','USER_PHONE','USER_SEX','USER_OUT']:
-            if ResultSearch.loc[i,j]==False:
-                PrintR.append('여성')
-            elif ResultSearch.loc[i,j]==True:
-                PrintR.append('남성')
-            elif pd.isna(ResultSearch.loc[i,j]) == True:
-                PrintR.append('')
-            else:
-                PrintR.append(ResultSearch.loc[i,j])
+        PrintR.append(ResultSearch.loc[i,'USER_NAME'])
+        PrintR.append(ResultSearch.loc[i,'USER_BIRTH'])
+        PrintR.append(ResultSearch.loc[i,'USER_PHONE'])
+        if ResultSearch.loc[i,'USER_SEX']==False:
+            PrintR.append('여성')
+        elif ResultSearch.loc[i,'USER_SEX']==True:
+            PrintR.append('남성')
+        PrintR.append(ResultSearch.loc[i,'USER_OUT'])
+        PrintR.append(ResultSearch.loc[i,'USER_RENT'])
         OutpuTreeview.insert('','end',text=i,values=PrintR,iid=str(i))
     
 
@@ -98,19 +98,21 @@ def SearchWindow():
     Standard.place(x=130,y=80)
     #-m----Listbox: c2, r2----
     global OutpuTreeview
-    OutpuTreeview= Treeview(Window,columns=['회원 명','생일','전화번호','성별','탈퇴일'])
-    OutpuTreeview.column('#0',width=70,anchor='e')
-    OutpuTreeview.heading('#0',text='회원 번호',anchor='center')
+    OutpuTreeview= Treeview(Window,columns=['회원 명','생일','전화번호','성별','탈퇴일','대여수량'])
+    OutpuTreeview.column('#0',width=40,anchor='e')
+    OutpuTreeview.heading('#0',text='번호',anchor='center')
     OutpuTreeview.column('#1',width=80,anchor='e')
     OutpuTreeview.heading('#1',text='회원 명',anchor='center')
-    OutpuTreeview.column('#2',width=90,anchor='e')
+    OutpuTreeview.column('#2',width=75,anchor='e')
     OutpuTreeview.heading('#2',text='생일',anchor='center')
     OutpuTreeview.column('#3',width=110,anchor='e')
     OutpuTreeview.heading('#3',text='전화번호',anchor='center')
-    OutpuTreeview.column('#4',width=50,anchor='e')
+    OutpuTreeview.column('#4',width=45,anchor='e')
     OutpuTreeview.heading('#4',text='성별',anchor='center')
     OutpuTreeview.column('#5',width=90,anchor='e')
     OutpuTreeview.heading('#5',text='탈퇴일',anchor='center')
+    OutpuTreeview.column('#6',width=70,anchor='e')
+    OutpuTreeview.heading('#6',text='대여 수량',anchor='center')
     OutpuTreeview.place(x=130, y=110)
 
     #등록 버튼
