@@ -117,7 +117,7 @@ def BookInfowindow(SelectBook):
         if answer == 'yes':
             #ISBN 문자열(숫자 외)등록 시 오류 처리        
             if ((IsbnEnter.get().isdigit())!=True) | ((PriceEnter.get().isdigit())!=True):
-                messagebox.showerror('등록 오류', 'ISBN에 숫자를 입력해 주세요.', master=BIWindow)
+                messagebox.showerror('등록 오류', 'ISBN 또는 가격에 숫자를 입력해 주세요.', master=BIWindow)
             
             elif(IsbnEnter.get() != isbnnum) and (IsbnEnter.get() == BookDf['BOOK_ISBN']).any():              #[중복체크 수정할 필요있음]
                 messagebox.showerror('중복', '중복된 ISBN 입니다.', master = BIWindow)
