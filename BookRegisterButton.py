@@ -55,7 +55,7 @@ def BookInfowindow():
 
     def SelectPic():             # 이미지 파일열기 함수
         filename = askopenfilename(parent = Window, filetypes = (('GIF 파일','*gif'),('모든파일','*.*')))         # [취소시 사진사라지는거]
-        photo = PhotoImage(file = filename)
+        photo = PhotoImage(file=filename, master = Window)
         ImageButton.configure(image = photo)
         ImageButton.image = photo
 
@@ -74,6 +74,9 @@ def BookInfowindow():
         #ISBN 문자열(숫자 외)등록 시 오류 처리        
         elif ((IsbnEnter.get().isdigit())!=True) | ((PriceEnter.get().isdigit())!=True):
             messagebox.showerror('등록 오류', '올바른 정보를 입력하세요.', master=Window) #등록 오류 메시지(잘못된 입력)
+        #ISBN 자릿수 지정
+        if len(IsbnEnter.get())!=13:
+            messagebox.showerror('등록 오류', '올바른 정보를 입력하세요.(ISBN글자 수 오류)', master=Window) #등록오류메시지(조건충족X)
 
         else:
             AddDf = pd.DataFrame({'BOOK_TITLE':[TitleEnter.get()],
