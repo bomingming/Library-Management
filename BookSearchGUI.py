@@ -8,22 +8,19 @@ import BookInformationPrint
 import BookRegisterButton
 import pandas as pd
 
-
-def DoubleClick(event):                         # 트리뷰 더블클릭 커멘드
-    SelectBook = OutpuTreeview.focus()  #트리뷰에서 선택한 도서
-    SelectBook = OutpuTreeview.item(SelectBook).get('values')
-    SelectBook = SelectBook[1]
-    BookInformationPrint.BookInfowindow(SelectBook)
+def TreeviewDrop():
+    for i in OutpuTreeview.get_children():
+        OutpuTreeview.delete(str(i))
 
 def ButtonClick():
     SelectBook = OutpuTreeview.focus()  #트리뷰에서 선택한 도서
     SelectBook = OutpuTreeview.item(SelectBook).get('values')
     SelectBook = SelectBook[1]
+    TreeviewDrop()
     BookInformationPrint.BookInfowindow(SelectBook)
 
 def SearchResult():                     # 검색기준 선택, 검색이름 입력후 검색 클릭시 커멘드
-    for i in OutpuTreeview.get_children():
-        OutpuTreeview.delete(str(i))
+    TreeviewDrop()
     InStandard=Standard.get()           # 콤보박스의 입력값
     InSearch=SearchName.get()           # 검색창에 검색한 이름
     ResultSearch=(Search(InStandard,InSearch))
@@ -107,7 +104,6 @@ def SearchWindow():
     OutpuTreeview.column('#4',width=80,anchor='e')
     OutpuTreeview.heading('#4',text='출판사',anchor='center')
     OutpuTreeview.place(x=130, y=110)
-    OutpuTreeview.bind("<Double-Button-1>", DoubleClick)  # 더블클릭시 key 커멘드 실행
 
     #등록 버튼
     RegisterBotton=Button(Window,text='등록',command=BookRegisterButton.BookInfowindow)
