@@ -59,7 +59,7 @@ def Search(InStandard,InSearch):
 
 def SearchWindow():
     Window=Tk()
-    Window.title('도서 관리 프로그램')
+    Window.title('대여 관리 프로그램')
     Window.geometry("800x500")
     Window.resizable(width = FALSE, height = FALSE)         # 창 고정
 
