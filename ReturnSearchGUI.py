@@ -59,7 +59,7 @@ def ReturnBotton():
     if answer == 'yes':
         DropIndex=RentDf[RentDf['BOOK_ISBN'] == BookISBN].index[0]
         print(DropIndex)
-        RentDf1=RentDf.drop(DropIndex)
+        RentDf.drop(index=DropIndex, inplace=True)
 
         UserDf.loc[UserDf['USER_PHONE'].str.contains(UserPhone),['USER_RENT']]=(
             UserDf.loc[UserDf['USER_PHONE'].str.contains(UserPhone),['USER_RENT']]-1)
@@ -67,7 +67,7 @@ def ReturnBotton():
 
         UserDf.to_csv('UserList.csv',index=False,encoding='utf-8')  #csv파일에 저장
         BookDf.to_csv('BookList.csv',index=False,encoding='utf-8')  #csv파일에 저장
-        RentDf1.to_csv('RentList.csv',index=False,encoding='utf-8')  #csv파일에 저장
+        RentDf.to_csv('RentList.csv',index=False,encoding='utf-8')  #csv파일에 저장
 
 
 def SearchWindow():

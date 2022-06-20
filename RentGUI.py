@@ -11,22 +11,27 @@ import BookInformationPrint
 import BookRentInfor
 import RentUserSearch
 
+def TreeviewDrop():
+    for i in OutpuTreeview.get_children():
+        OutpuTreeview.delete(str(i))
 
 def DoubleClick(event):                         # 트리뷰 더블클릭 커멘드
     SelectBook = OutpuTreeview.focus()          #트리뷰에서 선택한 도서
     SelectBook = OutpuTreeview.item(SelectBook).get('values')
     SelectBook = SelectBook[1]
     BookInformationPrint.BookInfowindow(SelectBook)
+    TreeviewDrop()
 
 def ButtonClick():
     SelectBook = OutpuTreeview.focus()  #트리뷰에서 선택한 도서
     SelectBook = OutpuTreeview.item(SelectBook).get('values')
     BookRentInfor.BookInfowindow(SelectBook[1])
+    TreeviewDrop()
     
 
 def SearchResult():                     # 검색기준 선택, 검색이름 입력후 검색 클릭시 커멘드
-    for i in OutpuTreeview.get_children():
-        OutpuTreeview.delete(str(i))
+    TreeviewDrop()
+
     InStandard=Standard.get()           # 콤보박스의 입력값
     InSearch=SearchName.get()           # 검색창에 검색한 이름
     ResultSearch=(Search(InStandard,InSearch))

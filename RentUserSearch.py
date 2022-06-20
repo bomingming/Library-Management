@@ -50,7 +50,6 @@ def ButtonClick(SelectBook, UIWindow, Window):
 
         messagebox.showinfo('대여완료', '대여가 완료되었습니다.\n대여일 : '+NowDay+
         '\n반납예정일 : '+ReturnDay, master=UIWindow)
-        TreeviesDrop()
 
     UIWindow.destroy()  #회원 목록 창 제거
     Window.destroy()    #도서 세부 정보 창 제거
