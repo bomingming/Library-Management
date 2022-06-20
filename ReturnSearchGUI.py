@@ -11,15 +11,16 @@ UserDf=pd.read_csv(r'.\UserList.csv')# data에 읽은 값 저장
 RentDf=pd.read_csv(r'.\RentList.csv')# data에 읽은 값 저장
 BookDf=pd.read_csv(r'.\BookList.csv')# data에 읽은 값 저장
 
+def TreeviewDrop():
+    for i in OutpuTreeview.get_children(): # 트리뷰 입력된값 삭제
+        OutpuTreeview.delete(str(i))
 def SearchResult():                    # 검색기준 선택, 검색이름 입력후 검색 클릭시 커멘드
 
     UserDf=pd.read_csv(r'.\UserList.csv')# data에 읽은 값 저장
     RentDf=pd.read_csv(r'.\RentList.csv')# data에 읽은 값 저장
     BookDf=pd.read_csv(r'.\BookList.csv')# data에 읽은 값 저장
 
-    for i in OutpuTreeview.get_children(): # 트리뷰 입력된값 삭제
-        OutpuTreeview.delete(str(i))
-
+    TreeviewDrop()
     InStandard=Standard.get()           # 콤보박스의 입력값
     InSearch=SearchName.get()           # 검색창에 검색한 이름
 
@@ -51,7 +52,7 @@ def ReturnBotton():
     BookName = SelectBook[2]
     UserPhone = SelectBook[1]
     UserName = SelectBook[0]
-
+    TreeviewDrop()
     answer = messagebox.askquestion('반납완료','반납하시겠습니까?\n회원 정보 : '+UserName+
     '\n책 정보 : '+BookName)  #대여 의사 묻기
     if answer == 'yes':
