@@ -197,7 +197,7 @@ def UserInfowindow(PhoneNumber):
                 messagebox.showerror('입력오류', '전화번호 자릿수를 맞춰주세요.', master = UIWindow)
             elif (phone != PN) and (phone == UserDf['USER_PHONE']).any():                             # 전화번호 중복확인
                 messagebox.showerror('중복', '중복된 전화번호입니다.', master = UIWindow)
-            elif '' in [NameEnter.get(),Year,Month,Day,phone]:
+            elif '' in [NameEnter.get(),Year,Month,Day,phone,MailEnter.get()]:
                 messagebox.showerror('등록 오류', '빈칸을 입력하세요.', master=UIWindow)  #등록 오류 메시지(누락)
             else:
                 if (Year%4 != 0 and Month == 2 and Day > 28):
