@@ -5,6 +5,8 @@ import pandas as pd
 from datetime import datetime, timedelta
 from tkinter.filedialog import *
 import math
+from PIL import ImageTk
+from PIL import Image
 
 NowDay = datetime.today().strftime('%Y-%m-%d')         #당일 날짜 표시
 UserDf = pd.read_csv(r'.\UserList.csv')
@@ -86,8 +88,10 @@ def UserInforwindow():
     MailCombo.place(x = 550, y = 220)
 
     def SelectPic():             # 이미지 파일열기 함수
-        filename = askopenfilename(parent = Window, filetypes = (('GIF 파일','*gif'),('모든파일','*.*')))                       # [취소시 사진사라지는거]
-        photo = PhotoImage(file=filename, master = Window)
+        filename = askopenfilename(parent = Window, filetypes = (('JPG 파일', '*jpg'),('GIF 파일','*gif'),('모든파일','*.*')))                       # [취소시 사진사라지는거]
+        image = Image.open(filename)
+        image = image.resize((170,200))
+        photo = ImageTk.PhotoImage(image, master = Window)
         ImageButton.configure(image = photo)
         ImageButton.image = photo
 
@@ -125,7 +129,7 @@ def UserInforwindow():
     #버튼
     OkButton = Button(Window, text = '등록', command=AddUser)      # 등록 버튼
     OkButton.place(x = 155, y = 290, width = 50)
-    OutButton = Button(Window, text = '취소')                       # 취소 버튼
+    OutButton = Button(Window, text = '취소', command = Window.destroy)                       # 취소 버튼
     OutButton.place(x = 230, y = 290, width = 50)
 
 

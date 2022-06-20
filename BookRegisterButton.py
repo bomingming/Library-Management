@@ -3,6 +3,8 @@ from tkinter.ttk import *
 from tkinter import messagebox
 import pandas as pd
 from tkinter.filedialog import *
+from PIL import ImageTk
+from PIL import Image
 
 BookDf = pd.read_csv('BookList.csv')
 
@@ -54,8 +56,10 @@ def BookInfowindow():
 
 
     def SelectPic():             # 이미지 파일열기 함수
-        filename = askopenfilename(parent = Window, filetypes = (('GIF 파일','*gif'),('모든파일','*.*')))         # [취소시 사진사라지는거]
-        photo = PhotoImage(file=filename, master = Window)
+        filename = askopenfilename(parent = Window, filetypes = (('JPG 파일','*jpg'),('GIF 파일','*gif'),('모든파일','*.*')))
+        image = Image.open(filename)
+        image = image.resize((170,200))
+        photo = ImageTk.PhotoImage(image, master = Window)
         ImageButton.configure(image = photo)
         ImageButton.image = photo
 
@@ -68,14 +72,14 @@ def BookInfowindow():
         if (BookDf['BOOK_ISBN']==IsbnEnter.get()).any():
             messagebox.showerror('중복된 도서', '중복된 도서입니다. \n (오류 : ISBN 중복)', master=Window) #등록 오류 메시지(중복)
         elif '' in [TitleEnter.get(),IsbnEnter.get(),AuthorEnter.get(), PublishEnter.get(),
-            PriceEnter.get(), LinkEnter.get(), BookInfomationEnter.get(1.0, 50.50)]:
+            PriceEnter.get(), LinkEnter.get(), BookInfomationEnter.get(1.0, 'end-1c')]:
             messagebox.showerror('등록 오류', '올바른 정보를 입력하세요.', master=Window)  #등록 오류 메시지(누락)
             
         #ISBN 문자열(숫자 외)등록 시 오류 처리        
         elif ((IsbnEnter.get().isdigit())!=True) | ((PriceEnter.get().isdigit())!=True):
-            messagebox.showerror('등록 오류', '올바른 ISBN를 입력하세요.', master=Window) #등록 오류 메시지(잘못된 입력)
-        elif ((int(IsbnEnter.get())<1000000000000)|(int(IsbnEnter.get())>9999999999999)):
-            messagebox.showerror('등록 오류', '올바른 ISBN를 입력하세요.', master=Window) #등록 오류 메시지(잘못된 입력)
+            messagebox.showerror('등록 오류', 'ISBN 또는 가격을 숫자로 입력하세요.', master=Window) #등록 오류 메시지(잘못된 입력)
+        elif (len(IsbnEnter.get()) != 13):
+            messagebox.showerror('등록 오류', '13자리 ISBN를 입력하세요.', master=Window) #등록 오류 메시지(잘못된 입력)
         else:
             AddDf = pd.DataFrame({'BOOK_TITLE':[TitleEnter.get()],
                 'BOOK_ISBN':[IsbnEnter.get()],
@@ -83,7 +87,7 @@ def BookInfowindow():
                 'BOOK_PUB':[AuthorEnter.get()],
                 'BOOK_PRICE':[PriceEnter.get()],
                 'BOOK_LINK':[LinkEnter.get()],
-                'BOOK_INFOR':[BookInfomationEnter.get(1.0, 50.50)],     #임의로 설정한 저장값
+                'BOOK_INFOR':[BookInfomationEnter.get(1.0, 'end-1c')],     #임의로 설정한 저장값
                 'BOOK_PIC':[None]})
             BookDf = pd.concat([BookDf, AddDf])         #등록 정보를 기존 데이터프레임에 합치기
 

@@ -3,6 +3,8 @@ from tkinter import messagebox
 import pandas as pd
 import math
 from tkinter.filedialog import *
+from PIL import ImageTk
+from PIL import Image
 
 def BookInfowindow(SelectBook):
     BIWindow = Tk()
@@ -78,8 +80,13 @@ def BookInfowindow(SelectBook):
     # 버튼
 # 도서 이미지 버튼
     def SelectBookPic():
-        filename = askopenfilename(parent = BIWindow, filetypes = (('GIF 파일', '*gif'),('모든파일','*.*')))
-        photo = PhotoImage(file = filename, master = BIWindow)
+        filename = askopenfilename(parent = BIWindow, filetypes = (('JPG 파일','*jpg'),('GIF 파일','*gif'),('모든파일','*.*')))
+        image = Image.open(filename)
+        image = image.resize((170,200))
+        if filename == '':
+            photo = ImageTk.PhotoImage(image, master = BIWindow)
+        else:
+            photo = ImageTk.PhotoImage(image, master = BIWindow)
         ImageButton.configure(image = photo)
         ImageButton.image = photo
         BookDf.loc[BookDf['BOOK_ISBN'].str.contains(isbnnum), ['BOOK_PIC']] = filename
@@ -89,7 +96,9 @@ def BookInfowindow(SelectBook):
             ImageButton = Button(BIWindow, text = '저장된 이미지가\n 삭제되었거나 없습니다.', command = SelectBookPic)
     except(TypeError):
         try:
-            photo = PhotoImage(file = pic, master = BIWindow)
+            image = Image.open(pic)
+            image = image.resize((170,200))
+            photo = ImageTk.PhotoImage(image, master = BIWindow)
             ImageButton = Button(BIWindow, image = photo, command = SelectBookPic)
         except:
             ImageButton = Button(BIWindow, text = '저장된 이미지가\n 삭제되었거나 없습니다.', command = SelectBookPic)
@@ -108,7 +117,9 @@ def BookInfowindow(SelectBook):
         if answer == 'yes':
             #ISBN 문자열(숫자 외)등록 시 오류 처리        
             if ((IsbnEnter.get().isdigit())!=True) | ((PriceEnter.get().isdigit())!=True):
-                messagebox.showerror('등록 오류', 'ISBN에 숫자를 입력해 주세요.', master=BIWindow)
+                messagebox.showerror('등록 오류', 'ISBN 또는 가격을 숫자로 입력하세요.', master = BIWindow) #등록 오류 메시지(잘못된 입력)
+            elif (len(IsbnEnter.get()) != 13):
+                messagebox.showerror('등록 오류', '13자리 ISBN를 입력하세요.', master = BIWindow) #등록 오류 메시지(잘못된 입력)
             
             elif(IsbnEnter.get() != isbnnum) and (IsbnEnter.get() == BookDf['BOOK_ISBN']).any():              #[중복체크 수정할 필요있음]
                 messagebox.showerror('중복', '중복된 ISBN 입니다.', master = BIWindow)
@@ -122,6 +133,7 @@ def BookInfowindow(SelectBook):
                     RentDf.to_csv('RentList.csv', index = False, encoding = 'utf-8')
                 
                 messagebox.showinfo('수정완료', '수정되었습니다.', master = BIWindow)
+                BIWindow.destroy()
 
     EditButton = Button(BIWindow, text = '수정', command = EditBook)
     EditButton.place(x = 190, y = 290, width = 50)
